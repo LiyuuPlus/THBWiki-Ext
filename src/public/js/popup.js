@@ -161,7 +161,7 @@ var app = new Vue({
                     categoryname: topic[v.category] || msg[v.category] || "",
                     agentname: isUser[v.category] ? v.agent.name : "",
                     icon: v["*"].icon,
-                    iconurl:v["*"].iconUrl,
+                    iconurl: "https://thwiki.cc/" + v["*"].iconUrl,
                     header: v["*"].header,
                     body: v["*"].body,
                     date: dateFormat(v.timestamp.mw),
