@@ -1,6 +1,8 @@
 # Unofficial THBWiki Chrome Extension
 非官方的THBWiki Chrome扩展
-'''此为重构版'''
+
+`此为重构版`
+
 原版：[Chrome应用商店地址](https://chrome.google.com/webstore/detail/thbwiki-ext/calbmbmnknigdlkgioncbphnlelogplc)
 
 ## 重构内容
