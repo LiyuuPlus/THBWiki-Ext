@@ -1,0 +1,41 @@
+{
+  "name": "我的THBWiki",
+  "version": "1.0.0",
+  "description": "THBWiki的非官方扩展",
+  "manifest_version": 2,
+  "permissions": [
+    "contextMenus",
+    "tabs",
+    "cookies",
+    "*://thwiki.cc/*",
+    "notifications",
+    "alarms"
+  ],
+  "homepage_url": "https://github.com/whuihuan/THBWiki-Ext",
+  "background": {
+    "page": "./pages/background.html"
+  },
+  "browser_action": {
+    "default_title": "THBWiki",
+    "default_icon": "public/images/logo-32-bw.png",
+    "default_popup": "pages/popup.html"
+  },
+  "icons": {
+    "128": "public/images/logo-128.png"
+  },
+  "omnibox": {
+    "keyword": "thb"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://thwiki.cc/*"
+      ],
+      "js": ["./public/libs/jquery-3.3.1.min.js",
+        "./public/libs/vue.min.js",
+        "./public/js/ext.js"
+      ]
+    }
+  ],
+  "content_security_policy": "style-src 'self' 'unsafe-inline';script-src 'self' 'unsafe-eval'; object-src 'self' ;"
+}

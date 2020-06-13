@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+
+    <script src="../public/libs/jquery-3.3.1.min.js"></script>
+    <script src="../public/libs/vue.min.js"></script>
+    <link href="../public/libs/element-ui/element-ui.css" rel="stylesheet">
+    <script src="../public/libs/element-ui/element-ui.js"></script>
+
+    <script src="../public/js/common.js"></script>
+    <script src="../public/js/thb.js"></script>
+    <style>
+        .el-footer span+span:before {
+            content: "|\00a0";
+            color: black;
+        }
+
+        .buttonlist {
+            padding: 0 0 10px 0;
+        }
+    </style>
+</head>
+
+<body style="width: 400px">
+    <div id="app">
+        <el-row>
+            <el-col :span="24">
+                <div class="buttonlist">
+                    <el-button @Click="enterTHB()" type="info">THBWiki</el-button>
+                    <el-button @Click="enterTHB(true)" type="primary" v-text="UserName||'登录THBWiki'"></el-button>
+                    THB插件版本：{{Version}}
+                </div>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="24">
+                <el-input placeholder="请输入搜索关键词" v-model="Search" class="input-with-select"
+                    @keyup.enter.native="searchTHB">
+                    <el-button slot="append" icon="el-icon-search" @click="searchTHB"></el-button>
+                </el-input>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="24">
+                <el-tabs v-model="Tab" @tab-click="changeTab">
+                    <el-tab-pane label="未读消息" name="0">
+                        <div class="block">
+                            <el-card v-if="UnreadNotificationList.length<=0">
+                                暂无未读消息
+                            </el-card>
+                            <el-timeline v-else>
+                                <div class="buttonlist">
+                                    <el-button icon="el-icon-circle-check" @click="markAllRead" type="success">标记全部为已读
+                                    </el-button>
+                                </div>
+                                <el-timeline-item v-for="(Notification, index) in UnreadNotificationList" :key="index"
+                                    :timestamp="Notification.date" placement="top">
+                                    <el-card @click="Read(Notification.url)">
+                                        <div slot="header" class="clearfix">
+                                            <span v-text="Notification.type"></span>
+                                            <el-button size="medium" style="float: right; padding: 3px 0" type="text"
+                                                title="标记为已读" @click="markRead(Notification.id)"
+                                                icon="el-icon-circle-check">
+                                            </el-button>
+                                            <el-button size="medium" style="float: right; padding: 3px 0" type="text"
+                                                title="查看" @click="Read(Notification.url)" icon="el-icon-view">
+                                            </el-button>
+                                        </div>
+                                        <el-container>
+                                            <el-container>
+                                                <el-aside width="25px"><img
+                                                        :src="'../public/images/icon/'+Notification.icon+'.png'"
+                                                        :alt="Notification.icon" /></el-aside>
+                                                <el-container>
+                                                    <el-header v-html="Notification.header"></el-header>
+                                                    <el-main v-if="Notification.body" v-html="Notification.body">Main
+                                                    </el-main>
+                                                </el-container>
+                                            </el-container>
+                                            <el-footer height="30px">
+                                                <span v-text="Notification.categoryname"></span>
+                                                <span v-if="Notification.agentname">操作人：<el-link type="primary"
+                                                        @click="Read('http://thwiki.cc/用户:'+Notification.agentname)"
+                                                        v-text="Notification.agentname">
+                                                        </link></span>
+                                            </el-footer>
+                                        </el-container>
+                                    </el-card>
+                                </el-timeline-item>
+                            </el-timeline>
+                        </div>
+                    </el-tab-pane>
+                    <el-tab-pane label="已读提醒" name="1">
+                        <div class="block">
+                            <el-card v-if="RemindNotificationList.length<=0">
+                                暂无已读提醒
+                            </el-card>
+                            <el-timeline v-else>
+                                <el-timeline-item v-for="(Notification, index) in RemindNotificationList" :key="index"
+                                    :timestamp="Notification.date" placement="top">
+                                    <el-card>
+                                        <div slot="header" class="clearfix">
+                                            <span v-text="Notification.type"></span>
+                                            <el-button size="medium" style="float: right; padding: 3px 0" type="text"
+                                                title="查看" @click="Read(Notification.url)" icon="el-icon-view">
+                                            </el-button>
+                                        </div>
+                                        <el-container>
+                                            <el-container>
+                                                <el-aside width="25px"><img
+                                                        :src="'../public/images/icon/'+Notification.icon+'.png'"
+                                                        :alt="Notification.icon" /></el-aside>
+                                                <el-container>
+                                                    <el-header v-html="Notification.header"></el-header>
+                                                    <el-main v-if="Notification.body" v-html="Notification.body">Main
+                                                    </el-main>
+                                                </el-container>
+                                            </el-container>
+                                            <el-footer height="30px">
+                                                <span v-text="Notification.categoryname"></span>
+                                                <span v-if="Notification.agentname">操作人：<el-link type="primary"
+                                                        @click="Read('http://thwiki.cc/用户:'+Notification.agentname)"
+                                                        v-text="Notification.agentname">
+                                                        </link></span>
+                                            </el-footer>
+                                        </el-container>
+                                    </el-card>
+                                </el-timeline-item>
+                            </el-timeline>
+                        </div>
+                    </el-tab-pane>
+                    <el-tab-pane label="已读通知" name="2">
+                        <div class="block">
+                            <el-card v-if="MsgNotificationList.length<=0">
+                                暂无已读通知
+                            </el-card>
+                            <el-timeline v-else>
+                                <el-timeline-item v-for="(Notification, index) in MsgNotificationList" :key="index"
+                                    :timestamp="Notification.date" placement="top">
+                                    <el-card>
+                                        <div slot="header" class="clearfix">
+                                            <span v-text="Notification.type"></span>
+                                            <el-button size="medium" style="float: right; padding: 3px 0" type="text"
+                                                title="查看" @click="Read(Notification.url)" icon="el-icon-view">
+                                            </el-button>
+                                        </div>
+                                        <el-container>
+                                            <el-container>
+                                                <el-aside width="25px"><img
+                                                        :src="'../public/images/icon/'+Notification.icon+'.png'"
+                                                        :alt="Notification.icon" /></el-aside>
+                                                <el-container>
+                                                    <el-header v-html="Notification.header"></el-header>
+                                                    <el-main v-if="Notification.body" v-html="Notification.body">Main
+                                                    </el-main>
+                                                </el-container>
+                                            </el-container>
+                                            <el-footer height="30px">
+                                                <span v-text="Notification.categoryname"></span>
+                                                <span v-if="Notification.agentname">操作人：<el-link type="primary"
+                                                        @click="Read('http://thwiki.cc/用户:'+Notification.agentname)"
+                                                        v-text="Notification.agentname">
+                                                        </link></span>
+                                            </el-footer>
+                                        </el-container>
+                                    </el-card>
+                                </el-timeline-item>
+                            </el-timeline>
+                        </div>
+                    </el-tab-pane>
+                </el-tabs>
+            </el-col>
+        </el-row>
+    </div>
+    <script src="../public/js/popup.js"></script>
+</body>
+
+</html>
