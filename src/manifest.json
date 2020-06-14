@@ -1,6 +1,6 @@
 {
   "name": "我的THBWiki",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "THBWiki的非官方扩展",
   "manifest_version": 2,
   "permissions": [

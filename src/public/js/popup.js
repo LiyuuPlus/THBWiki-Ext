@@ -6,7 +6,7 @@ var app = new Vue({
             Search: '',
             Tab: "0",
             UserName: "",
-            loading: null,
+            loading: [null, null, null],
             UnreadNotificationList: [],
             RemindNotificationList: [],
             MsgNotificationList: []
@@ -22,20 +22,22 @@ var app = new Vue({
         });
     },
     methods: {
-        startLoading(obj) {
+        startLoading(obj, index) {
             if (!obj) {
                 obj = $("body")[0];
             }
-            this.loading = this.$loading({
+            this.loading[index] = this.$loading({
                 lock: true,
                 text: '少女祈祷中....',
                 spinner: 'el-icon-loading',
                 target: obj
             });
         },
-        stopLoading() {
-            this.loading.close();
-            this.loading = null;
+        stopLoading(index) {
+            if (this.loading[index]) {
+                this.loading[index].close();
+                this.loading[index] = null;
+            }
         },
         enterTHB(User) {
             if (User) {
@@ -60,9 +62,9 @@ var app = new Vue({
             }
         },
         getUnreadNotification() {
-            this.startLoading($("#pane-0")[0]);
+            this.startLoading($("#pane-0")[0], 0);
             checkUnreadNotification().then((res) => {
-                this.stopLoading();
+                this.stopLoading(0);
                 if (res && res.query && res.query.notifications) {
                     let notifications = res.query.notifications;
                     let count = parseInt(notifications.count);
@@ -78,12 +80,11 @@ var app = new Vue({
             });
         },
         getRemindNotification() {
-            this.startLoading($("#pane-1")[0]);
+            this.startLoading($("#pane-1")[0], 1);
             checkRemindNotification().then((res) => {
-                this.stopLoading();
+                this.stopLoading(1);
                 if (res && res.query && res.query.notifications) {
                     let notifications = res.query.notifications;
-                    var count = parseInt(notifications.count);
                     if (notifications.list.length <= 0) {
                         this.RemindNotificationList = [];
                     }
@@ -94,9 +95,9 @@ var app = new Vue({
             })
         },
         getMsgNotification() {
-            this.startLoading($("#pane-2")[0]);
+            this.startLoading($("#pane-2")[0], 2);
             checkMsgNotification().then((res) => {
-                this.stopLoading();
+                this.stopLoading(2);
                 if (res && res.query && res.query.notifications) {
                     let notifications = res.query.notifications;
                     if (notifications.list.length <= 0) {
