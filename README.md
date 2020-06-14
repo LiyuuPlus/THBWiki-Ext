@@ -4,6 +4,7 @@
 `此为重构版`
 
 原版：[Chrome应用商店地址](https://chrome.google.com/webstore/detail/thbwiki-ext/calbmbmnknigdlkgioncbphnlelogplc)
+新版：[Chrome应用商店地址](https://chrome.google.com/webstore/detail/%E6%88%91%E7%9A%84thbwiki/lnkednmkgfdplofejofihipleepenmcg)
 
 ## 重构内容
 * 替换Jquery渲染页面，改使用Vue渲染页面
