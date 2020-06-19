@@ -1,7 +1,8 @@
 {
-  "name": "我的THBWiki",
-  "version": "1.0.1",
-  "description": "THBWiki的非官方扩展",
+  "name": "__MSG_extName__",
+  "version": "1.0.5",
+  "default_locale": "zh_CN",
+  "description": "__MSG_extDescription__",
   "manifest_version": 2,
   "permissions": [
     "contextMenus",
@@ -31,7 +32,8 @@
       "matches": [
         "*://thwiki.cc/*"
       ],
-      "js": ["./public/libs/jquery-3.3.1.min.js",
+      "js": [
+        "./public/libs/jquery-3.3.1.min.js",
         "./public/libs/vue.min.js",
         "./public/js/ext.js"
       ]

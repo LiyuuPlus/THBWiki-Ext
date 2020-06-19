@@ -1,0 +1,112 @@
+{
+    "extName":{
+        "message":"My THBWiki",
+        "description":"Extension name"
+    },
+    "extDescription":{
+        "message":"a THBWiki's unofficial extension.",
+        "description":"Extension description"
+    },
+    "extVersion":{
+        "message":"THBWiki Ext Ver：",
+        "description":"Extension version"
+    },
+    "search":{
+        "message":"Enter search keywords",
+        "description":"Search"
+    },
+    "LoginTHB":{
+        "message":"Login to THBWiki",
+        "description":"Login"
+    },
+    "View":{
+        "message":"View",
+        "description":"View"
+    },
+    "markRead":{
+        "message":"Mark read",
+        "description":"Mark read"
+    },
+    "markAllRead":{
+        "message":"Mark all read",
+        "description":"Mark all read"
+    },
+    "topic":{
+        "message":"Alert",
+        "description":"Alert"
+    },
+    "msg":{
+        "message":"Message",
+        "description":"Message"
+    },
+    "Operator":{
+        "message":"Operator：",
+        "description":"Operator"
+    },
+    "NoInfo":{
+        "message":"No ",
+        "description":"No info"
+    },
+    "UnreadNotification":{
+        "message":"Unread",
+        "description":"Unread Notification"
+    },
+    "RemindNotification":{
+        "message":"Alert",
+        "description":"Alert"
+    },
+    "MsgNotification":{
+        "message":"Message",
+        "description":"Message"
+    },
+    "infoLoading":{
+        "message":"Loading....",
+        "description":"Info loading"
+    },
+    "NotificationTtile":{
+        "message":"Notification from THBWiki",
+        "description":"Browser notification title"
+    },
+    "NotificationBody":{
+        "message":"You have $count$ unread notifications.",
+        "description":"Browser notification body",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "0"
+            }
+        }
+    },
+    "userrights":{
+        "message":"Right Change",
+        "description":"Info category"
+    },
+    "socialrel":{
+        "message":"Friends",
+        "description":"Info category"
+    },
+    "articlelinked":{
+        "message":"Article Linked",
+        "description":"Info category"
+    },
+    "flowthread":{
+        "message":"Flow Thread",
+        "description":"Info category"
+    },
+    "flowdiscussion":{
+        "message":"Flow Discussion",
+        "description":"Info category"
+    },
+    "achiev":{
+        "message":"Achievement",
+        "description":"Info category"
+    },
+    "system":{
+        "message":"System",
+        "description":"Info category"
+    },
+    "edit":{
+        "message":"Edit",
+        "description":"Info category"
+    }
+}

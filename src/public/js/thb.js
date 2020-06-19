@@ -27,7 +27,7 @@ var checkUnreadNotificationNum = (username) => {
                 notformat: "model",
                 notlimit: 25,
                 notprop: 'count',
-                uselang: "zh",
+                uselang: Vlang,
                 notfilter: "!read"
             },
             dataType: 'json',
@@ -41,19 +41,19 @@ var checkUnreadNotificationNum = (username) => {
                             let count = res || 0;
                             if (count < ncount) {
                                 let options = {
-                                    body: "你有" + ncount + "条未读信息",
+                                    body: getLang("NotificationBody",[ncount]),
                                     icon: "../public/images/logo-128.png",
                                     tag: "THBWiki",
                                     renotify: true
                                 };
-                                new Notification("来自THBWiki的信息", options);
+                                new Notification(getLang("NotificationTtile"), options);
                             }
                             chrome.browserAction.setBadgeText({ text: String(ncount) });
                         });
                     }
                 }
             },
-            fail: () => {
+            error: () => {
             }
         });
     }
@@ -71,14 +71,14 @@ var checkUnreadNotification = () => {
                 notformat: "model",
                 notlimit: 25,
                 notprop: "list|count",
-                uselang: "zh",
+                uselang: Vlang,
                 notfilter: "!read"
             },
             dataType: 'json',
             success: (result) => {
                 res(result);
             },
-            fail: () => {
+            error: () => {
                 rej();
             }
         });
@@ -98,14 +98,14 @@ var checkRemindNotification = () => {
                 notformat: "model",
                 notlimit: 25,
                 notprop: "list|count",
-                uselang: "zh",
+                uselang: Vlang,
                 notfilter: "read"
             },
             dataType: 'json',
             success: (result) => {
                 res(result);
             },
-            fail: () => {
+            error: () => {
                 rej();
             }
         });
@@ -125,14 +125,14 @@ var checkMsgNotification = () => {
                 notformat: "model",
                 notlimit: 25,
                 notprop: "list|count",
-                uselang: "zh",
+                uselang: Vlang,
                 notfilter: "read"
             },
             dataType: 'json',
             success: (result) => {
                 res(result);
             },
-            fail: () => {
+            error: () => {
                 rej();
             }
         });
@@ -154,7 +154,7 @@ var getWIKIActionToken = () => {
                 let token = result.query.tokens.csrftoken;
                 res(token);
             },
-            fail: () => {
+            error: () => {
                 rej();
             }
         });
@@ -178,7 +178,7 @@ var markNotification = (list) => {
                 success: (result) => {
                     res(result);
                 },
-                fail: () => {
+                error: () => {
                     rej();
                 }
             });

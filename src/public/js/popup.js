@@ -22,13 +22,16 @@ var app = new Vue({
         });
     },
     methods: {
+        _t(name) {
+            return getLang(name);
+        },
         startLoading(obj, index) {
             if (!obj) {
                 obj = $("body")[0];
             }
             this.loading[index] = this.$loading({
                 lock: true,
-                text: '少女祈祷中....',
+                text: this._t("infoLoading"),
                 spinner: 'el-icon-loading',
                 target: obj
             });
@@ -77,6 +80,8 @@ var app = new Vue({
                         this.UnreadNotificationList = this.formatNotification(notifications.list);
                     }
                 }
+            }).catch(()=>{
+                this.stopLoading(0);
             });
         },
         getRemindNotification() {
@@ -92,7 +97,9 @@ var app = new Vue({
                         this.RemindNotificationList = this.formatNotification(notifications.list);
                     }
                 }
-            })
+            }).catch(()=>{
+                this.stopLoading(1);
+            });
         },
         getMsgNotification() {
             this.startLoading($("#pane-2")[0], 2);
@@ -107,6 +114,8 @@ var app = new Vue({
                         this.MsgNotificationList = this.formatNotification(notifications.list);
                     }
                 }
+            }).catch(()=>{
+                this.stopLoading(2);
             });
         },
         Read(url) {
@@ -135,32 +144,32 @@ var app = new Vue({
         },
         formatNotification(obj) {
             var topic = {
-                "user-rights": "权限变更",
-                "social-rel": "好友"
+                "user-rights": this._t("userrights"),
+                "social-rel": this._t("socialrel")
             };
             var msg = {
-                "article-linked": "页面链接",
-                "flowthread": "评论",
-                "flow-discussion": "讨论",
-                "achiev": "成就系统",
-                "system": "系统",
-                "system-noemail": "系统",
-                "thank-you-edit": "编辑"
+                "article-linked": this._t("articlelinked"),
+                "flowthread": this._t("flowthread"),
+                "flow-discussion": this._t("flowdiscussion"),
+                "achiev": this._t("achiev"),
+                "system": this._t("system"),
+                "system-noemail": this._t("system"),
+                "thank-you-edit": this._t("edit")
             };
-            var isUser = {
-                "user-rights": "权限变更",
-                "social-rel": "好友",
-                "article-linked": "页面链接",
-                "flowthread": "评论",
-                "flow-discussion": "讨论"
-            };
+            var isUser = [
+                "user-rights",
+                "social-rel",
+                "article-linked",
+                "flowthread",
+                "flow-discussion"
+            ];
             return obj.map((v => {
                 return {
                     id: v.id,
                     category: v.category,
-                    type: topic[v.category] ? "提醒" : (msg[v.category] ? "通知" : ""),
+                    type: topic[v.category] ? this._t('topic') : (msg[v.category] ? this._t('msg') : ""),
                     categoryname: topic[v.category] || msg[v.category] || "",
-                    agentname: isUser[v.category] ? v.agent.name : "",
+                    agentname: isUser.indexOf(v.category) >= 0 ? v.agent.name : "",
                     icon: v["*"].icon,
                     iconurl: "https://thwiki.cc/" + v["*"].iconUrl,
                     header: v["*"].header,

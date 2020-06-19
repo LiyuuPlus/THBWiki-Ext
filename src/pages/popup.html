@@ -29,14 +29,14 @@
             <el-col :span="24">
                 <div class="buttonlist">
                     <el-button @Click="enterTHB()" type="info">THBWiki</el-button>
-                    <el-button @Click="enterTHB(true)" type="primary" v-text="UserName||'登录THBWiki'"></el-button>
-                    THB插件版本：{{Version}}
+                    <el-button @Click="enterTHB(true)" type="primary" v-text="UserName||_t('LoginTHB')"></el-button>
+                    {{_t('extVersion')+Version}}
                 </div>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="24">
-                <el-input placeholder="请输入搜索关键词" v-model="Search" class="input-with-select"
+                <el-input :placeholder="_t('search')" v-model="Search" class="input-with-select"
                     @keyup.enter.native="searchTHB">
                     <el-button slot="append" icon="el-icon-search" @click="searchTHB"></el-button>
                 </el-input>
@@ -45,14 +45,14 @@
         <el-row>
             <el-col :span="24">
                 <el-tabs v-model="Tab" @tab-click="changeTab">
-                    <el-tab-pane label="未读消息" name="0">
+                    <el-tab-pane :label="_t('UnreadNotification')" name="0">
                         <div class="block">
                             <el-card v-if="UnreadNotificationList.length<=0">
-                                暂无未读消息
+                                {{_t('NoInfo')+_t('UnreadNotification')}}
                             </el-card>
                             <el-timeline v-else>
                                 <div class="buttonlist">
-                                    <el-button icon="el-icon-circle-check" @click="markAllRead" type="success">标记全部为已读
+                                    <el-button icon="el-icon-circle-check" @click="markAllRead" type="success">{{_t('markAllRead')}}
                                     </el-button>
                                 </div>
                                 <el-timeline-item v-for="(Notification, index) in UnreadNotificationList" :key="index"
@@ -61,11 +61,11 @@
                                         <div slot="header" class="clearfix">
                                             <span v-text="Notification.type"></span>
                                             <el-button size="medium" style="float: right; padding: 3px 0" type="text"
-                                                title="标记为已读" @click="markRead(Notification.id)"
+                                                :title="_t('markRead')" @click="markRead(Notification.id)"
                                                 icon="el-icon-circle-check">
                                             </el-button>
                                             <el-button size="medium" style="float: right; padding: 3px 0" type="text"
-                                                title="查看" @click="Read(Notification.url)" icon="el-icon-view">
+                                                :title="_t('View')" @click="Read(Notification.url)" icon="el-icon-view">
                                             </el-button>
                                         </div>
                                         <el-container>
@@ -81,7 +81,7 @@
                                             </el-container>
                                             <el-footer height="auto">
                                                 <span v-text="Notification.categoryname"></span>
-                                                <span v-if="Notification.agentname">操作人：<el-link type="primary"
+                                                <span v-if="Notification.agentname">{{_t('Operator')}}<el-link type="primary"
                                                         @click="Read('http://thwiki.cc/用户:'+Notification.agentname)"
                                                         v-text="Notification.agentname">
                                                         </link></span>
@@ -92,10 +92,10 @@
                             </el-timeline>
                         </div>
                     </el-tab-pane>
-                    <el-tab-pane label="已读提醒" name="1">
+                    <el-tab-pane :label="_t('RemindNotification')" name="1">
                         <div class="block">
                             <el-card v-if="RemindNotificationList.length<=0">
-                                暂无已读提醒
+                                {{_t('NoInfo')+_t('RemindNotification')}}
                             </el-card>
                             <el-timeline v-else>
                                 <el-timeline-item v-for="(Notification, index) in RemindNotificationList" :key="index"
@@ -104,7 +104,7 @@
                                         <div slot="header" class="clearfix">
                                             <span v-text="Notification.type"></span>
                                             <el-button size="medium" style="float: right; padding: 3px 0" type="text"
-                                                title="查看" @click="Read(Notification.url)" icon="el-icon-view">
+                                                :title="_t('View')" @click="Read(Notification.url)" icon="el-icon-view">
                                             </el-button>
                                         </div>
                                         <el-container>
@@ -120,7 +120,7 @@
                                             </el-container>
                                             <el-footer height="auto">
                                                 <span v-text="Notification.categoryname"></span>
-                                                <span v-if="Notification.agentname">操作人：<el-link type="primary"
+                                                <span v-if="Notification.agentname">{{_t('Operator')}}<el-link type="primary"
                                                         @click="Read('http://thwiki.cc/用户:'+Notification.agentname)"
                                                         v-text="Notification.agentname">
                                                         </link></span>
@@ -131,10 +131,10 @@
                             </el-timeline>
                         </div>
                     </el-tab-pane>
-                    <el-tab-pane label="已读通知" name="2">
+                    <el-tab-pane :label="_t('MsgNotification')" name="2">
                         <div class="block">
                             <el-card v-if="MsgNotificationList.length<=0">
-                                暂无已读通知
+                                {{_t('NoInfo')+_t('MsgNotification')}}
                             </el-card>
                             <el-timeline v-else>
                                 <el-timeline-item v-for="(Notification, index) in MsgNotificationList" :key="index"
@@ -143,7 +143,7 @@
                                         <div slot="header" class="clearfix">
                                             <span v-text="Notification.type"></span>
                                             <el-button size="medium" style="float: right; padding: 3px 0" type="text"
-                                                title="查看" @click="Read(Notification.url)" icon="el-icon-view">
+                                                :title="_t('View')" @click="Read(Notification.url)" icon="el-icon-view">
                                             </el-button>
                                         </div>
                                         <el-container>
@@ -159,7 +159,7 @@
                                             </el-container>
                                             <el-footer height="auto">
                                                 <span v-text="Notification.categoryname"></span>
-                                                <span v-if="Notification.agentname">操作人：<el-link type="primary"
+                                                <span v-if="Notification.agentname">{{_t('Operator')}}<el-link type="primary"
                                                         @click="Read('http://thwiki.cc/用户:'+Notification.agentname)"
                                                         v-text="Notification.agentname">
                                                         </link></span>
