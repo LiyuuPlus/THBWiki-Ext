@@ -20,10 +20,29 @@
         .buttonlist {
             padding: 0 0 10px 0;
         }
+
+        .thb-suggest li {
+            line-height: normal;
+            padding: 7px;
+        }
+
+        .thb-suggest .name {
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
+        .thb-suggest .content {
+            font-size: 12px;
+            color: #b4b4b4;
+        }
+
+        .thb-suggest .highlighted .content {
+            color: #ddd;
+        }
     </style>
 </head>
 
-<body style="width: 400px">
+<body style="width: 400px; height: 400px;">
     <div id="app">
         <el-row>
             <el-col :span="24">
@@ -34,12 +53,26 @@
                 </div>
             </el-col>
         </el-row>
-        <el-row>
+        <!-- <el-row>
             <el-col :span="24">
                 <el-input :placeholder="_t('search')" v-model="Search" class="input-with-select"
                     @keyup.enter.native="searchTHB">
                     <el-button slot="append" icon="el-icon-search" @click="searchTHB"></el-button>
                 </el-input>
+            </el-col>
+        </el-row> -->
+        <el-row>
+            <el-col :span="24">
+                <el-autocomplete :placeholder="_t('search')" popper-class="thb-suggest" v-model="Search"
+                    style="width: 100%;" @keyup.enter.native="searchTHB" :fetch-suggestions="searchTHBSuggest"
+                    :trigger-on-focus="false" @select="searchSelect">
+                    <el-button slot="append" icon="el-icon-search" @click="searchTHB">
+                    </el-button>
+                    <template slot-scope="{ item }">
+                        <div class="name">{{ item.name }}</div>
+                        <span class="content">{{ item.content }}</span>
+                    </template>
+                </el-autocomplete>
             </el-col>
         </el-row>
         <el-row>
@@ -52,7 +85,8 @@
                             </el-card>
                             <el-timeline v-else>
                                 <div class="buttonlist">
-                                    <el-button icon="el-icon-circle-check" @click="markAllRead" type="success">{{_t('markAllRead')}}
+                                    <el-button icon="el-icon-circle-check" @click="markAllRead" type="success">
+                                        {{_t('markAllRead')}}
                                     </el-button>
                                 </div>
                                 <el-timeline-item v-for="(Notification, index) in UnreadNotificationList" :key="index"
@@ -70,8 +104,7 @@
                                         </div>
                                         <el-container>
                                             <el-container>
-                                                <el-aside width="25px"><img
-                                                        :src="Notification.iconurl" width="24px"
+                                                <el-aside width="25px"><img :src="Notification.iconurl" width="24px"
                                                         :alt="Notification.icon" /></el-aside>
                                                 <el-container>
                                                     <el-header height="auto" v-html="Notification.header"></el-header>
@@ -81,7 +114,8 @@
                                             </el-container>
                                             <el-footer height="auto">
                                                 <span v-text="Notification.categoryname"></span>
-                                                <span v-if="Notification.agentname">{{_t('Operator')}}<el-link type="primary"
+                                                <span v-if="Notification.agentname">{{_t('Operator')}}<el-link
+                                                        type="primary"
                                                         @click="Read('http://thwiki.cc/用户:'+Notification.agentname)"
                                                         v-text="Notification.agentname">
                                                         </link></span>
@@ -109,8 +143,7 @@
                                         </div>
                                         <el-container>
                                             <el-container>
-                                                <el-aside width="25px"><img
-                                                        :src="Notification.iconurl" width="24px"
+                                                <el-aside width="25px"><img :src="Notification.iconurl" width="24px"
                                                         :alt="Notification.icon" /></el-aside>
                                                 <el-container>
                                                     <el-header height="auto" v-html="Notification.header"></el-header>
@@ -120,7 +153,8 @@
                                             </el-container>
                                             <el-footer height="auto">
                                                 <span v-text="Notification.categoryname"></span>
-                                                <span v-if="Notification.agentname">{{_t('Operator')}}<el-link type="primary"
+                                                <span v-if="Notification.agentname">{{_t('Operator')}}<el-link
+                                                        type="primary"
                                                         @click="Read('http://thwiki.cc/用户:'+Notification.agentname)"
                                                         v-text="Notification.agentname">
                                                         </link></span>
@@ -148,8 +182,7 @@
                                         </div>
                                         <el-container>
                                             <el-container>
-                                                <el-aside width="25px"><img
-                                                        :src="Notification.iconurl" width="24px"
+                                                <el-aside width="25px"><img :src="Notification.iconurl" width="24px"
                                                         :alt="Notification.icon" /></el-aside>
                                                 <el-container>
                                                     <el-header height="auto" v-html="Notification.header"></el-header>
@@ -159,7 +192,8 @@
                                             </el-container>
                                             <el-footer height="auto">
                                                 <span v-text="Notification.categoryname"></span>
-                                                <span v-if="Notification.agentname">{{_t('Operator')}}<el-link type="primary"
+                                                <span v-if="Notification.agentname">{{_t('Operator')}}<el-link
+                                                        type="primary"
                                                         @click="Read('http://thwiki.cc/用户:'+Notification.agentname)"
                                                         v-text="Notification.agentname">
                                                         </link></span>

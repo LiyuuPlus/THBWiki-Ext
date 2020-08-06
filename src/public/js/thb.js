@@ -187,3 +187,37 @@ var markNotification = (list) => {
         })
     });
 }
+
+var searchSuggest = (key) => {
+    return new Promise((res, rej) => {
+        $.ajax({
+            url: 'https://thwiki.cc/api.php',
+            data: {
+                action: "opensearch",
+                format: "json",
+                formatversion: 2,
+                redirects: "display",
+                search: key,
+                namespace: '0|2|4|8|10|12|102|108|200|506|508|512',
+                limit: 12,
+                suggest: true,
+            },
+            dataType: 'json',
+            success: (result) => {
+                let nresult=[];
+                let resultKey = result[0];
+                let resultName = result[1];
+                let resultContent = result[2];
+                let resultUrl = result[3];
+                resultName.map((v,i)=>{
+                  var info={name:resultName[i], content:resultContent[i], url:resultUrl[i]};
+                  nresult.push(info)
+                });
+                res(nresult);
+            },
+            error: () => {
+                rej([]);
+            }
+        });
+    });
+}

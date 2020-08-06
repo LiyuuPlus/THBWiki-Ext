@@ -80,7 +80,7 @@ var app = new Vue({
                         this.UnreadNotificationList = this.formatNotification(notifications.list);
                     }
                 }
-            }).catch(()=>{
+            }).catch(() => {
                 this.stopLoading(0);
             });
         },
@@ -97,7 +97,7 @@ var app = new Vue({
                         this.RemindNotificationList = this.formatNotification(notifications.list);
                     }
                 }
-            }).catch(()=>{
+            }).catch(() => {
                 this.stopLoading(1);
             });
         },
@@ -114,7 +114,7 @@ var app = new Vue({
                         this.MsgNotificationList = this.formatNotification(notifications.list);
                     }
                 }
-            }).catch(()=>{
+            }).catch(() => {
                 this.stopLoading(2);
             });
         },
@@ -181,6 +181,17 @@ var app = new Vue({
         },
         searchTHB() {
             createTab(`https://thwiki.cc/index.php?search=${encodeURIComponent(this.Search)}&fulltext=1`);
+        },
+        searchTHBSuggest(querystring, cb) {
+            if (querystring) {
+                searchSuggest(querystring).then((res) => {
+                    return cb(res);
+                });
+            }
+            return cb([]);
+        },
+        searchSelect(item) {
+            createTab(item.url);
         }
     }
 });
