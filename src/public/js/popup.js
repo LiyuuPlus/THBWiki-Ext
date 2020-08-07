@@ -188,7 +188,7 @@ var app = new Vue({
             })).sort((v1, v2) => v1.date < v2.date ? 1 : -1);
         },
         searchTHB() {
-            createTab(`https://thwiki.cc/index.php?search=${encodeURIComponent(this.Search)}&go=前往`);
+            createTab(`https://thwiki.cc/index.php?search=${encodeURIComponent(this.Search)}&go=1`);
         },
         searchTHBSuggest(querystring, cb) {
             searchSuggest(querystring).then((res) => {
