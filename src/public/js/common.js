@@ -50,7 +50,7 @@ var timestampFormat = (timestamp) => {
     }
     return fmt;
   }
-  return new Date(parseInt(timestamp) * 1000).Format("yyyy年MM月dd日");
+  return new Date(parseInt(timestamp) * 1000).Format("yyyy-MM-dd");
 }
 
 var getLang = (name, arg) => {

@@ -1,107 +1,135 @@
 {
-    "extName":{
-        "message":"我的THBWiki",
-        "description":"扩展名称"
+    "extName": {
+        "message": "我的THBWiki",
+        "description": "扩展名称"
     },
-    "extDescription":{
-        "message":"THBWiki的非官方扩展",
-        "description":"扩展说明"
+    "extDescription": {
+        "message": "THBWiki的非官方扩展",
+        "description": "扩展说明"
     },
-    "extVersion":{
-        "message":"THBWiki扩展版本：",
-        "description":"扩展版本"
+    "extVersion": {
+        "message": "THBWiki扩展版本：",
+        "description": "扩展版本"
     },
-    "search":{
-        "message":"请输入搜索关键词",
-        "description":"搜索提示"
+    "search": {
+        "message": "请输入搜索关键词",
+        "description": "搜索提示"
     },
-    "menuSearch":{
-        "message":"在THBWiki上搜索\"%s\"",
-        "description":"菜单搜索"
+    "menuSearch": {
+        "message": "在THBWiki上搜索\"%s\"",
+        "description": "菜单搜索"
     },
-    "menuGo":{
-        "message":"访问THBWiki上的\"%s\"",
-        "description":"菜单跳转"
+    "menuGo": {
+        "message": "访问THBWiki上的\"%s\"",
+        "description": "菜单跳转"
     },
-    "LoginTHB":{
-        "message":"登录THBWiki",
-        "description":"登录"
+    "LoginTHB": {
+        "message": "登录THBWiki",
+        "description": "登录"
     },
-    "View":{
-        "message":"查看",
-        "description":"查看"
+    "View": {
+        "message": "查看",
+        "description": "查看"
     },
-    "markRead":{
-        "message":"标记已读",
-        "description":"标记已读"
+    "markRead": {
+        "message": "标记已读",
+        "description": "标记已读"
     },
-    "markAllRead":{
-        "message":"标记全部已读",
-        "description":"标记全部已读"
+    "markAllRead": {
+        "message": "标记全部已读",
+        "description": "标记全部已读"
     },
-    "topic":{
-        "message":"提醒",
-        "description":"提醒"
+    "topic": {
+        "message": "提醒",
+        "description": "提醒"
     },
-    "msg":{
-        "message":"通知",
-        "description":"通知"
+    "msg": {
+        "message": "通知",
+        "description": "通知"
     },
-    "Operator":{
-        "message":"操作人：",
-        "description":"操作人"
+    "Operator": {
+        "message": "操作人：",
+        "description": "操作人"
     },
-    "NoInfo":{
-        "message":"暂无",
-        "description":"暂无信息"
+    "NoInfo": {
+        "message": "暂无",
+        "description": "暂无信息"
     },
-    "UnreadNotification":{
-        "message":"未读消息",
-        "description":"未读消息"
+    "UnreadNotification": {
+        "message": "未读消息",
+        "description": "未读消息"
     },
-    "RemindNotification":{
-        "message":"已读提醒",
-        "description":"已读提醒"
+    "RemindNotification": {
+        "message": "已读提醒",
+        "description": "已读提醒"
     },
-    "MsgNotification":{
-        "message":"已读通知",
-        "description":"已读通知"
+    "MsgNotification": {
+        "message": "已读通知",
+        "description": "已读通知"
     },
-    "infoLoading":{
-        "message":"少女祈祷中....",
-        "description":"信息加载"
+    "infoLoading": {
+        "message": "少女祈祷中....",
+        "description": "信息加载"
     },
-    "OrigMusic":{
-        "message":"原曲查询",
-        "description":"原曲查询"
+    "OrigMusic": {
+        "message": "原曲查询",
+        "description": "原曲查询"
     },
-    "OrigMusicSearch":{
-        "message":"请输入原曲原名或译名",
-        "description":"原曲输入提示"
+    "OrigMusicSearch": {
+        "message": "请输入原曲原名或译名",
+        "description": "原曲输入提示"
     },
-    "OrigMusicName":{
-        "message":"原曲名称",
-        "description":"原曲原名"
+    "OrigMusicName": {
+        "message": "原曲名称",
+        "description": "原曲原名"
     },
-    "OrigMusicTranName":{
-        "message":"原曲译名",
-        "description":"原曲译名"
+    "OrigMusicTranName": {
+        "message": "原曲译名",
+        "description": "原曲译名"
     },
-    "OrigMusicGame":{
-        "message":"首发游戏",
-        "description":"原曲首发作品"
+    "OrigMusicGame": {
+        "message": "首发游戏",
+        "description": "原曲首发作品"
     },
-    "OrigMusicDate":{
-        "message":"首发日期",
-        "description":"原曲首发日期"
+    "OrigMusicDate": {
+        "message": "首发日期",
+        "description": "原曲首发日期"
     },
-    "NotificationTtile":{
-        "message":"来自THBWiki的信息",
-        "description":"浏览器通知标题"
+    "Options": {
+        "message": "设置",
+        "description": "设置"
     },
-    "NotificationBody":{
-        "message":"你有$count$条未读信息",
-        "description":"浏览器通知内容",
+    "SWBackground": {
+        "message": "背景图",
+        "description": "背景图"
+    },
+    "SWCustomBackground": {
+        "message": "自定义背景图",
+        "description": "自定义背景图"
+    },
+    "CustomBGUrl": {
+        "message": "自定义背景图地址",
+        "description": "自定义背景图地址"
+    },
+    "SWTag": {
+        "message": "标签",
+        "description": "标签"
+    },
+    "SWNetease": {
+        "message": "网易云音乐歌词",
+        "description": "网易云音乐歌词"
+    },
+    "SaveOptions": {
+        "message": "保存设置",
+        "description": "保存设置"
+    },
+    "NotificationTtile": {
+        "message": "来自THBWiki的信息",
+        "description": "浏览器通知标题"
+    },
+    "NotificationBody": {
+        "message": "你有$count$条未读信息",
+        "description": "浏览器通知内容",
         "placeholders": {
             "count": {
                 "content": "$1",
@@ -109,36 +137,36 @@
             }
         }
     },
-    "userrights":{
-        "message":"权限变更",
-        "description":"信息分类"
+    "userrights": {
+        "message": "权限变更",
+        "description": "信息分类"
     },
-    "socialrel":{
-        "message":"好友",
-        "description":"信息分类"
+    "socialrel": {
+        "message": "好友",
+        "description": "信息分类"
     },
-    "articlelinked":{
-        "message":"页面链接",
-        "description":"信息分类"
+    "articlelinked": {
+        "message": "页面链接",
+        "description": "信息分类"
     },
-    "flowthread":{
-        "message":"评论",
-        "description":"信息分类"
+    "flowthread": {
+        "message": "评论",
+        "description": "信息分类"
     },
-    "flowdiscussion":{
-        "message":"讨论",
-        "description":"信息分类"
+    "flowdiscussion": {
+        "message": "讨论",
+        "description": "信息分类"
     },
-    "achiev":{
-        "message":"成就",
-        "description":"信息分类"
+    "achiev": {
+        "message": "成就",
+        "description": "信息分类"
     },
-    "system":{
-        "message":"系统",
-        "description":"信息分类"
+    "system": {
+        "message": "系统",
+        "description": "信息分类"
     },
-    "edit":{
-        "message":"编辑",
-        "description":"信息分类"
+    "edit": {
+        "message": "编辑",
+        "description": "信息分类"
     }
 }

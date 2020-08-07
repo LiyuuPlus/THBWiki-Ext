@@ -95,6 +95,34 @@
         "message":"Date",
         "description":"Original music release date"
     },
+    "Options": {
+        "message": "Options",
+        "description": "Options"
+    },
+    "SWBackground": {
+        "message": "Background",
+        "description": "Background"
+    },
+    "SWCustomBackground": {
+        "message": "Custom Background",
+        "description": "Custom Background"
+    },
+    "CustomBGUrl": {
+        "message": "Custom Background Url",
+        "description": "Custom Background Url"
+    },
+    "SWTag": {
+        "message": "Tag",
+        "description": "Tag"
+    },
+    "SWNetease": {
+        "message": "Netease Music Lyric",
+        "description": "Netease Music Lyric"
+    },
+    "SaveOptions": {
+        "message": "Save Options",
+        "description": "Save Options"
+    },
     "NotificationTtile":{
         "message":"Notification from THBWiki",
         "description":"Browser notification title"

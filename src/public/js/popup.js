@@ -13,14 +13,36 @@ var app = new Vue({
             OrigMusic: '',
             OrigMusicInfo: {
                 Name: '',
-                Url:'',
+                Url: '',
                 TranName: '',
                 Game: '',
-                Date:''
+                Date: ''
+            },
+            Options: {
+                background: true,
+                custombackground: false,
+                custombgurl: '',
+                tag: true,
+                netease: false
             }
         };
     },
     created() {
+        chrome.storage.local.get(['options'], (res) => {
+            if (res.options.background !== "undefined" || res.options.background !== null) {
+                this.Options.background = res.options.background;
+            }
+            if (res.options.custombackground !== "undefined" || res.options.custombackground !== null) {
+                this.Options.custombackground = res.options.custombackground;
+            }
+            this.Options.custombgurl = res.options.custombgurl || '';
+            if (res.options.tag !== "undefined" || res.options.tag !== null) {
+                this.Options.tag = res.options.tag;
+            }
+            if (res.options.netease !== "undefined" || res.options.netease !== null) {
+                this.Options.netease = res.options.netease;
+            }
+        });
         $.get(chrome.extension.getURL('manifest.json'), (info) => {
             this.Version = info.version;
         }, 'json');
@@ -205,20 +227,28 @@ var app = new Vue({
         searchOrigMusic() {
             searchOrigMusic(this.OrigMusic).then((res) => {
                 if (res && typeof (res) == 'object') {
-                    this.OrigMusicInfo.Name=res.printouts.原曲名称.join();
-                    this.OrigMusicInfo.Url=res.fullurl;
-                    this.OrigMusicInfo.TranName=res.printouts.原曲译名.join();
-                    this.OrigMusicInfo.Game=res.printouts.原曲首发作品.join();
-                    this.OrigMusicInfo.Date=res.printouts.原曲首发日期[0]?timestampFormat(res.printouts.原曲首发日期[0].timestamp):'';
+                    this.OrigMusicInfo.Name = res.printouts.原曲名称.join();
+                    this.OrigMusicInfo.Url = res.fullurl;
+                    this.OrigMusicInfo.TranName = res.printouts.原曲译名.join();
+                    this.OrigMusicInfo.Game = res.printouts.原曲首发作品.join();
+                    this.OrigMusicInfo.Date = res.printouts.原曲首发日期[0] ? timestampFormat(res.printouts.原曲首发日期[0].timestamp) : '';
                 }
-                else
-                {
-                    this.OrigMusicInfo.Name='';
-                    this.OrigMusicInfo.Url='';
-                    this.OrigMusicInfo.TranName='';
-                    this.OrigMusicInfo.Game='';
-                    this.OrigMusicInfo.Date='';
+                else {
+                    this.OrigMusicInfo.Name = '';
+                    this.OrigMusicInfo.Url = '';
+                    this.OrigMusicInfo.TranName = '';
+                    this.OrigMusicInfo.Game = '';
+                    this.OrigMusicInfo.Date = '';
                 }
+            });
+        },
+        saveOptions() {
+            var that = this;
+            chrome.storage.local.set({ 'options': that.Options }, () => {
+                this.$message({
+                    message: "保存成功！",
+                    type: 'success'
+                });
             });
         }
     }
