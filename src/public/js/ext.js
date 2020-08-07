@@ -174,7 +174,7 @@ $().ready(() => {
                     setcharbg("shikieiki", "png");
                     break;
                 case "东风谷早苗":
-                    setcharbg("sanae");
+                    setcharbg("sanae", "png");
                     break;
                 case "古明地恋":
                     setcharbg("koishi");
