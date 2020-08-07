@@ -1,5 +1,5 @@
 chrome.contextMenus.create({
-    "title": "在THBWiki上搜索\"%s\"",
+    "title": getLang("menuSearch"),
     "contexts": ["selection"],
     "onclick": (info) => {
         createTab(`https://thwiki.cc/index.php?search=${encodeURIComponent(info.selectionText)}&fulltext=1`);
@@ -8,10 +8,10 @@ chrome.contextMenus.create({
 });
 
 chrome.contextMenus.create({
-    "title": "访问THBWiki上的\"%s\"",
+    "title": getLang("menuGo"),
     "contexts": ["selection"],
     "onclick": (info) => {
-        createTab(`https://thwiki.cc/${encodeURIComponent(info.selectionText)}`);
+        createTab(`https://thwiki.cc/${encodeURIComponent(info.selectionText)}&go=1`);
 
     }
 });

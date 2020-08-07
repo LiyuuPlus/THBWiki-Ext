@@ -9,7 +9,15 @@ var app = new Vue({
             loading: [null, null, null],
             UnreadNotificationList: [],
             RemindNotificationList: [],
-            MsgNotificationList: []
+            MsgNotificationList: [],
+            OrigMusic: '',
+            OrigMusicInfo: {
+                Name: '',
+                Url:'',
+                TranName: '',
+                Game: '',
+                Date:''
+            }
         };
     },
     created() {
@@ -180,18 +188,38 @@ var app = new Vue({
             })).sort((v1, v2) => v1.date < v2.date ? 1 : -1);
         },
         searchTHB() {
-            createTab(`https://thwiki.cc/index.php?search=${encodeURIComponent(this.Search)}&fulltext=1`);
+            createTab(`https://thwiki.cc/index.php?search=${encodeURIComponent(this.Search)}&go=前往`);
         },
         searchTHBSuggest(querystring, cb) {
-            if (querystring) {
-                searchSuggest(querystring).then((res) => {
-                    return cb(res);
-                });
-            }
-            return cb([]);
+            searchSuggest(querystring).then((res) => {
+                res = res.map((v) => {
+                    v.name = v.name.replace(new RegExp(querystring, "gi"), `<font color='#f2b040'>$&</font>`);
+                    return v;
+                })
+                return cb(res);
+            });
         },
         searchSelect(item) {
             createTab(item.url);
+        },
+        searchOrigMusic() {
+            searchOrigMusic(this.OrigMusic).then((res) => {
+                if (res && typeof (res) == 'object') {
+                    this.OrigMusicInfo.Name=res.printouts.原曲名称.join();
+                    this.OrigMusicInfo.Url=res.fullurl;
+                    this.OrigMusicInfo.TranName=res.printouts.原曲译名.join();
+                    this.OrigMusicInfo.Game=res.printouts.原曲首发作品.join();
+                    this.OrigMusicInfo.Date=res.printouts.原曲首发日期[0]?timestampFormat(res.printouts.原曲首发日期[0].timestamp):'';
+                }
+                else
+                {
+                    this.OrigMusicInfo.Name='';
+                    this.OrigMusicInfo.Url='';
+                    this.OrigMusicInfo.TranName='';
+                    this.OrigMusicInfo.Game='';
+                    this.OrigMusicInfo.Date='';
+                }
+            });
         }
     }
 });

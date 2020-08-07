@@ -35,10 +35,6 @@
             font-size: 12px;
             color: #b4b4b4;
         }
-
-        .thb-suggest .highlighted .content {
-            color: #ddd;
-        }
     </style>
 </head>
 
@@ -53,24 +49,16 @@
                 </div>
             </el-col>
         </el-row>
-        <!-- <el-row>
-            <el-col :span="24">
-                <el-input :placeholder="_t('search')" v-model="Search" class="input-with-select"
-                    @keyup.enter.native="searchTHB">
-                    <el-button slot="append" icon="el-icon-search" @click="searchTHB"></el-button>
-                </el-input>
-            </el-col>
-        </el-row> -->
         <el-row>
             <el-col :span="24">
                 <el-autocomplete :placeholder="_t('search')" popper-class="thb-suggest" v-model="Search"
                     style="width: 100%;" @keyup.enter.native="searchTHB" :fetch-suggestions="searchTHBSuggest"
-                    :trigger-on-focus="false" @select="searchSelect">
+                    :trigger-on-focus="false" @select="searchSelect" :highlight-first-item="true">
                     <el-button slot="append" icon="el-icon-search" @click="searchTHB">
                     </el-button>
-                    <template slot-scope="{ item }">
-                        <div class="name">{{ item.name }}</div>
-                        <span class="content">{{ item.content }}</span>
+                    <template slot-scope="{item}">
+                        <div class="name" v-html="item.name"></div>
+                        <span class="content" v-text="item.content"></span>
                     </template>
                 </el-autocomplete>
             </el-col>
@@ -204,7 +192,30 @@
                             </el-timeline>
                         </div>
                     </el-tab-pane>
-                </el-tabs>
+                    <el-tab-pane :label="_t('OrigMusic')" name="3">
+                        <el-row>
+                            <el-col :span="24">
+                                <el-input :placeholder="_t('OrigMusicSearch')" v-model="OrigMusic"
+                                    class="input-with-select" @keyup.enter.native="searchOrigMusic">
+                                    <el-button slot="append" icon="el-icon-search" @click="searchOrigMusic"></el-button>
+                                </el-input>
+                            </el-col>
+                        </el-row>
+                        <el-card class="box-card">
+                            <div class="text item">
+                                <span style="font-size:14px;vertical-align: middle;">{{_t('OrigMusicName')}}：</span><el-link type="primary" :href="OrigMusicInfo.Url" target="_blank">{{OrigMusicInfo.Name}}</el-link>
+                              </div>
+                              <div class="text item">
+                                <span style="font-size:14px;vertical-align: middle;">{{_t('OrigMusicTranName')}}：{{OrigMusicInfo.TranName}}</span>
+                              </div>
+                              <div class="text item">
+                                <span style="font-size:14px;vertical-align: middle;">{{_t('OrigMusicGame')}}：</span><el-link type="primary" :href="'https://thwiki.cc/'+OrigMusicInfo.Game" target="_blank" v-text="OrigMusicInfo.Game?'《'+OrigMusicInfo.Game+'》':''"></el-link>
+                              </div>
+                              <div class="text item">
+                                <span style="font-size:14px;vertical-align: middle;">{{_t('OrigMusicDate')}}：{{OrigMusicInfo.Date}}</span>
+                              </div>
+                        </el-card>
+                    </el-tab-pane>
             </el-col>
         </el-row>
     </div>

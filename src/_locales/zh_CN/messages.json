@@ -15,6 +15,14 @@
         "message":"请输入搜索关键词",
         "description":"搜索提示"
     },
+    "menuSearch":{
+        "message":"在THBWiki上搜索\"%s\"",
+        "description":"菜单搜索"
+    },
+    "menuGo":{
+        "message":"访问THBWiki上的\"%s\"",
+        "description":"菜单跳转"
+    },
     "LoginTHB":{
         "message":"登录THBWiki",
         "description":"登录"
@@ -62,6 +70,30 @@
     "infoLoading":{
         "message":"少女祈祷中....",
         "description":"信息加载"
+    },
+    "OrigMusic":{
+        "message":"原曲查询",
+        "description":"原曲查询"
+    },
+    "OrigMusicSearch":{
+        "message":"请输入原曲原名或译名",
+        "description":"原曲输入提示"
+    },
+    "OrigMusicName":{
+        "message":"原曲名称",
+        "description":"原曲原名"
+    },
+    "OrigMusicTranName":{
+        "message":"原曲译名",
+        "description":"原曲译名"
+    },
+    "OrigMusicGame":{
+        "message":"首发游戏",
+        "description":"原曲首发作品"
+    },
+    "OrigMusicDate":{
+        "message":"首发日期",
+        "description":"原曲首发日期"
     },
     "NotificationTtile":{
         "message":"来自THBWiki的信息",

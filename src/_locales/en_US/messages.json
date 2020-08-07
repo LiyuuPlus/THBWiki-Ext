@@ -15,6 +15,14 @@
         "message":"Enter search keywords",
         "description":"Search"
     },
+    "menuSearch":{
+        "message":"Search \"%s\" in THBWiki",
+        "description":"Menu's search"
+    },
+    "menuGo":{
+        "message":"Go to \"%s\" in THBWiki",
+        "description":"Menu's go to"
+    },
     "LoginTHB":{
         "message":"Login to THBWiki",
         "description":"Login"
@@ -62,6 +70,30 @@
     "infoLoading":{
         "message":"Loading....",
         "description":"Info loading"
+    },
+    "OrigMusic":{
+        "message":"Original Music",
+        "description":"OrigMusic search"
+    },
+    "OrigMusicSearch":{
+        "message":"Enter OrigMusic name or tranname",
+        "description":"Original music input prompt"
+    },
+    "OrigMusicName":{
+        "message":"OrigMusic Name",
+        "description":"Original music name"
+    },
+    "OrigMusicTranName":{
+        "message":"OrigMusic Translate Name",
+        "description":"Original music translate name"
+    },
+    "OrigMusicGame":{
+        "message":"Game",
+        "description":"Original music release game"
+    },
+    "OrigMusicDate":{
+        "message":"Date",
+        "description":"Original music release date"
     },
     "NotificationTtile":{
         "message":"Notification from THBWiki",

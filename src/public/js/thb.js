@@ -221,3 +221,34 @@ var searchSuggest = (key) => {
         });
     });
 }
+
+var searchOrigMusic = (key) => {
+    return new Promise((res, rej) => {
+        $.ajax({
+            url: 'https://thwiki.cc/api.php',
+            data: {
+                action: "ask",
+                format: "json",
+                formatversion: 2,
+                uselang: Vlang,
+                query: `[[${key.replace(/ /g, "_")}]]|?原曲名称|?原曲译名|?原曲首发作品|?原曲首发日期`
+            },
+            dataType: 'json',
+            success: (result) => {
+                let nresult={};
+                if(result.error)
+                {
+                    return rej();
+                }
+                if(typeof(result.query.results) == 'object')
+                {
+                    nresult=result.query.results[Object.keys(result.query.results)[0]];
+                }
+                res(nresult);
+            },
+            error: () => {
+                rej();
+            }
+        });
+    });
+}
