@@ -1,6 +1,6 @@
 {
   "name": "__MSG_extName__",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "default_locale": "zh_CN",
   "description": "__MSG_extDescription__",
   "manifest_version": 2,
@@ -32,9 +32,14 @@
       "matches": [
         "*://thwiki.cc/*"
       ],
+      "css": [
+        "./public/libs/element-ui/element-ui.css"
+      ],
       "js": [
         "./public/libs/jquery-3.3.1.min.js",
         "./public/libs/vue.min.js",
+        "./public/libs/element-ui/element-ui.js",
+        "./public/js/common.js",
         "./public/js/ext.js"
       ]
     }

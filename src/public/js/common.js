@@ -56,3 +56,15 @@ var timestampFormat = (timestamp) => {
 var getLang = (name, arg) => {
   return (arg ? chrome.i18n.getMessage(name, arg) : chrome.i18n.getMessage(name)) || '';
 }
+
+var copyToClipboardText = (txt) => {
+  const el = document.createElement("textarea");
+  el.value = txt;
+  el.setAttribute("readonly", "readonly");
+  document.body.appendChild(el);
+  el.select();
+  el.setSelectionRange(0, 99999);
+  let res = document.execCommand("copy");
+  document.body.removeChild(el);
+  return res;
+}
