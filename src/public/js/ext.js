@@ -77,7 +77,9 @@ var setbg = () => {
 
 var setcharbg = (charname, ext = "jpg") => {
     setbg();
-    loadCssCode(`.${charname}{background-image:url(${chrome.extension.getURL(`/public/images/char/${charname}.${ext}`)})!important;}`);
+    loadCssCode(`.${charname}{
+    background-image:url(${chrome.extension.getURL(`/public/images/char/${charname}.${ext}`)})!important;
+    }`);
     $("html").addClass(`mainbg ${charname}`);
 }
 
@@ -138,6 +140,12 @@ $().ready(() => {
                     break;
                 case "琪露诺":
                     setcharbg("cirno");
+                    break;
+                case "小恶魔":
+                    setcharbg("koakuma");
+                    break;
+                case "帕秋莉·诺蕾姬":
+                    setcharbg("patchouli");
                     break;
                 case "蕾米莉亚·斯卡蕾特":
                     setcharbg("remilia");
