@@ -97,7 +97,7 @@ chrome.storage.local.get(['options'], (res) => {
 $().ready(() => {
     if (background && $("body").hasClass("skin-unicorn")) {
         if (custombackground) {
-            setthbextbg(custombgurl || "https://img.paulzzh.tech/touhou/random");
+            setthbextbg(custombgurl || `${apiurl}thbext.php`);
         }
         else {
             //根据词条判断背景
