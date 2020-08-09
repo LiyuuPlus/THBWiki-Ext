@@ -75,16 +75,10 @@ var setbg = () => {
     loadCssCode(css);
 }
 
-var setcharbg = (charname, ext = "jpg") => {
+var setthbextbg = (url) => {
     setbg();
-    loadCssCode(`.${charname}{background-image:url(${chrome.extension.getURL(`/public/images/char/${charname}.${ext}`)})!important;}`);
-    $("html").addClass(`mainbg ${charname}`);
-}
-
-var setrandombg = (url) => {
-    setbg();
-    loadCssCode(`.randombg{background-image:url(${url})!important;}`);
-    $("html").addClass(`mainbg randombg`);
+    loadCssCode(`.thbextbg{background-image:url(${url})!important;}`);
+    $("html").addClass(`mainbg thbextbg`);
 }
 var background;
 var custombackground;
@@ -103,92 +97,12 @@ chrome.storage.local.get(['options'], (res) => {
 $().ready(() => {
     if (background && $("body").hasClass("skin-unicorn")) {
         if (custombackground) {
-            setrandombg(custombgurl || "https://img.paulzzh.tech/touhou/random");
+            setthbextbg(custombgurl || "https://img.paulzzh.tech/touhou/random");
         }
         else {
             //根据词条判断背景
             var word = $("#firstHeading").text();
-            switch (word) {
-                case "博丽灵梦（旧作角色）":
-                    setcharbg("reimuold");
-                    break;
-                case "雾雨魔理沙（旧作角色）":
-                    setcharbg("marisaold");
-                    break;
-                case "魅魔":
-                    setcharbg("mima");
-                    break;
-                case "艾丽":
-                    setcharbg("elly");
-                    break;
-                case "幽香":
-                    setcharbg("yuka");
-                    break;
-                case "爱丽丝（旧作角色）":
-                    setcharbg("alice");
-                    break;
-                case "神绮":
-                    setcharbg("shinki");
-                    break;
-                case "博丽灵梦":
-                    setcharbg("reimu");
-                    break;
-                case "雾雨魔理沙":
-                    setcharbg("marisa");
-                    break;
-                case "琪露诺":
-                    setcharbg("cirno");
-                    break;
-                case "蕾米莉亚·斯卡蕾特":
-                    setcharbg("remilia");
-                    break;
-                case "芙兰朵露·斯卡蕾特":
-                    setcharbg("flandre");
-                    break;
-                case "爱丽丝·玛格特洛依德":
-                    setcharbg("alicem");
-                    break;
-                case "魂魄妖梦":
-                    setcharbg("youmu", "png");
-                    break;
-                case "西行寺幽幽子":
-                    setcharbg("yuyuko", "png");
-                    break;
-                case "八云紫":
-                    setcharbg("yukari");
-                    break;
-                case "宇佐见莲子":
-                case "玛艾露贝莉·赫恩":
-                    setcharbg("renko-merry","png");
-                    break;
-                case "伊吹萃香":
-                    setcharbg("suika");
-                    break;
-                case "因幡天为 / 因幡帝":
-                    setcharbg("tewi");
-                    break;
-                case "铃仙·优昙华院·因幡":
-                    setcharbg("reisen");
-                    break;
-                case "四季映姬·夜摩仙那度":
-                    setcharbg("shikieiki", "png");
-                    break;
-                case "东风谷早苗":
-                    setcharbg("sanae", "png");
-                    break;
-                case "古明地恋":
-                    setcharbg("koishi");
-                    break;
-                case "今泉影狼":
-                    setcharbg("kagerou");
-                    break;
-                case "奥野田美宵":
-                    setcharbg("miyoi", "png");
-                    break;
-                default:
-                    setrandombg("https://img.paulzzh.tech/touhou/random");
-                    break;
-            }
+            setthbextbg(`${apiurl}thbext.php?char=${word}`);
         }
     }
 
