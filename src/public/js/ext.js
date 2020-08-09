@@ -205,42 +205,50 @@ $().ready(() => {
                 understate = $(".understate").text().replace(/\（|）/g, '');
                 $(".understate").remove();
             }
-            else {
-                if ($(".page-content-header.doujin-album").length > 0) {
-                    understate = "同人专辑";
-                }
-                else if ($(".page-content-header.music").length > 0) {
-                    understate = "原作音乐";
-                }
-                else if ($(".page-content-header.circle").length > 0) {
-                    understate = "同人社团";
-                }
-                else if ($(".page-content-header.doujin-character").length > 0) {
-                    understate = "二次同人角色";
-                }
-                else if ($(".page-content-header.character").length > 0) {
-                    understate = "新作角色";
-                }
-                else if ($(".page-content-header.past-character").length > 0) {
-                    understate = "旧作角色";
-                }
+            if ($(".searchaux").length > 0) {
+                understate = $(".searchaux").attr("title");
+            }
+            var parseState = (name) => {
+                var arr = {
+                    "社团": "同人社团",
+                    "人物": "现实人物",
+                    "展会": "同人展会",
+                    "角色": "新作角色",
+                    "小说": "官方小说",
+                    "漫画": "官方漫画",
+                };
+                return arr[name] || name;
             }
             if (understate) {
                 var type = "";
+                understate = parseState(understate);
                 switch (understate) {
                     case "同人专辑":
                     case "同人视频":
+                    case "同人软件":
+                    case "同人志":
+                    case "商业游戏":
+                    case "周边":
                         type = "primary";
                         break;
                     case "同人社团":
+                    case "现实人物":
+                    case "同人展会":
                         type = "success";
-                        break;
-                    case "人物":
-                    case "二次同人角色":
-                        type = "info";
                         break;
                     case "新作角色":
                     case "旧作角色":
+                    case "同人角色":
+                    case "相关角色":
+                        type = "info";
+                        break;
+                    case "弹幕游戏":
+                    case "格斗游戏":
+                    case "原曲":
+                    case "官方小说":
+                    case "官方漫画":
+                        type = "danger";
+                        break;
                     default:
                         type = "warning";
                         break;
