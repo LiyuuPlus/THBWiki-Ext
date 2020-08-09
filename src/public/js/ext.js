@@ -48,19 +48,19 @@ var setbg = () => {
     }
     
     #mw-panel{
-        --foreground-color-high:#ffffffb9!important;
+        --foreground-color-high:#ffffffcc!important;
     }
     #mw-panel .portal{
         background-color:#ffffff00!important;
     }
     
     #p-personal,#footer{
-        background-color: #ffffffb9!important;
+        background-color: #ffffffcc!important;
     }
     
     #content
     {
-        background-color: #ffffffb9;
+        background-color: #ffffffcc;
     }
     
     .portal ul>li
