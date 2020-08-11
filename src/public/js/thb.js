@@ -46,7 +46,10 @@ var checkUnreadNotificationNum = (username) => {
                                     tag: "THBWiki",
                                     renotify: true
                                 };
-                                new Notification(getLang("NotificationTtile"), options);
+                                var notification = new Notification(getLang("NotificationTtile"), options);
+                                notification.onclick = function(){
+                                  createTab("https://thwiki.cc/%E7%89%B9%E6%AE%8A:%E9%80%9A%E7%9F%A5");
+                                }
                             }
                             chrome.browserAction.setBadgeText({ text: String(ncount) });
                         });
