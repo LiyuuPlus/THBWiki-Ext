@@ -79,6 +79,10 @@
         "message": "years",
         "description": "years"
     },
+    "CalendarRelease": {
+        "message": "release",
+        "description": "release"
+    },
     "OrigMusic":{
         "message":"Original Music",
         "description":"OrigMusic search"
@@ -130,6 +134,10 @@
     "SaveOptions": {
         "message": "Save Options",
         "description": "Save Options"
+    },
+    "SaveYes":{
+        "message": "Save Options Successful！",
+        "description": "Save Options Successful！"
     },
     "NotificationTtile":{
         "message":"Notification from THBWiki",

@@ -250,7 +250,7 @@ var app = new Vue({
             var that = this;
             chrome.storage.local.set({ 'options': that.Options }, () => {
                 this.$message({
-                    message: "保存成功！",
+                    message: this._t('SaveYes'),
                     type: 'success'
                 });
             });
@@ -268,12 +268,12 @@ var app = new Vue({
             var samedaylist = daylist.filter((v) => v.date != day);
             if (firstdaylist.length > 0) {
                 firstdaylist.forEach((v) => {
-                    str += `${v.name} 发布<br>`
+                    str += `${v.name} ${this._t('CalendarRelease')}<br>`
                 });
             }
             if (samedaylist.length > 0) {
                 samedaylist.forEach((v) => {
-                    str += `${v.name} ${new Date(day).getFullYear() - new Date(v.date).getFullYear()}周年<br>`
+                    str += `${v.name} ${new Date(day).getFullYear() - new Date(v.date).getFullYear()} ${this._t('CalendarYear')}<br>`
                 });
             }
             return str;

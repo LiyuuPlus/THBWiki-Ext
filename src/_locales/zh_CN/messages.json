@@ -79,6 +79,10 @@
         "message": "周年",
         "description": "周年"
     },
+    "CalendarRelease": {
+        "message": "发布",
+        "description": "发布"
+    },
     "OrigMusic": {
         "message": "原曲查询",
         "description": "原曲查询"
@@ -130,6 +134,10 @@
     "SaveOptions": {
         "message": "保存设置",
         "description": "保存设置"
+    },
+    "SaveYes":{
+        "message": "保存成功！",
+        "description": "保存成功！"
     },
     "NotificationTtile": {
         "message": "来自THBWiki的信息",
