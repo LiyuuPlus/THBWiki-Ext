@@ -71,6 +71,14 @@
         "message":"Loading....",
         "description":"Info loading"
     },
+    "Calendar": {
+        "message": "Calendar",
+        "description": "Calendar"
+    },
+    "CalendarYear": {
+        "message": "years",
+        "description": "years"
+    },
     "OrigMusic":{
         "message":"Original Music",
         "description":"OrigMusic search"

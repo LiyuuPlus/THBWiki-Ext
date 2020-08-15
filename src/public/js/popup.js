@@ -10,6 +10,7 @@ var app = new Vue({
             UnreadNotificationList: [],
             RemindNotificationList: [],
             MsgNotificationList: [],
+            DateList: [],
             OrigMusic: '',
             OrigMusicInfo: {
                 Name: '',
@@ -49,6 +50,9 @@ var app = new Vue({
         checkLogin((res) => {
             this.UserName = decodeURIComponent(res).replace('+', ' ');
             this.getUnreadNotification();
+        });
+        getProjectRelaseDate().then((res) => {
+            this.DateList = res;
         });
     },
     methods: {
@@ -250,6 +254,29 @@ var app = new Vue({
                     type: 'success'
                 });
             });
+        },
+        getStarDay(day) {
+            return this.DateList.filter((v) => {
+                var nday = day.split('-').slice(1).join('-');
+                var nv = v.date.split('-').slice(1).join('-');
+                return v.date == day || (v.date <= day && nday == nv);
+            });
+        },
+        dateContent(daylist, day) {
+            var str = "";
+            var firstdaylist = daylist.filter((v) => v.date == day);
+            var samedaylist = daylist.filter((v) => v.date != day);
+            if (firstdaylist.length > 0) {
+                firstdaylist.forEach((v) => {
+                    str += `${v.name} 发布<br>`
+                });
+            }
+            if (samedaylist.length > 0) {
+                samedaylist.forEach((v) => {
+                    str += `${v.name} ${new Date(day).getFullYear() - new Date(v.date).getFullYear()}周年<br>`
+                });
+            }
+            return str;
         }
     }
 });

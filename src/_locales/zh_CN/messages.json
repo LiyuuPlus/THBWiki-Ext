@@ -71,6 +71,14 @@
         "message": "少女祈祷中....",
         "description": "信息加载"
     },
+    "Calendar": {
+        "message": "日历",
+        "description": "日历"
+    },
+    "CalendarYear": {
+        "message": "周年",
+        "description": "周年"
+    },
     "OrigMusic": {
         "message": "原曲查询",
         "description": "原曲查询"

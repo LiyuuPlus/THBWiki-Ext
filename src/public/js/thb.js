@@ -41,14 +41,14 @@ var checkUnreadNotificationNum = (username) => {
                             let count = res || 0;
                             if (count < ncount) {
                                 let options = {
-                                    body: getLang("NotificationBody",[ncount]),
+                                    body: getLang("NotificationBody", [ncount]),
                                     icon: "../public/images/logo-128.png",
                                     tag: "THBWiki",
                                     renotify: true
                                 };
                                 var notification = new Notification(getLang("NotificationTtile"), options);
-                                notification.onclick = function(){
-                                  createTab("https://thwiki.cc/%E7%89%B9%E6%AE%8A:%E9%80%9A%E7%9F%A5");
+                                notification.onclick = function () {
+                                    createTab("https://thwiki.cc/%E7%89%B9%E6%AE%8A:%E9%80%9A%E7%9F%A5");
                                 }
                             }
                             chrome.browserAction.setBadgeText({ text: String(ncount) });
@@ -185,7 +185,7 @@ var markNotification = (list) => {
                     rej();
                 }
             });
-        }).catch(()=>{
+        }).catch(() => {
             rej();
         })
     });
@@ -207,14 +207,14 @@ var searchSuggest = (key) => {
             },
             dataType: 'json',
             success: (result) => {
-                let nresult=[];
+                let nresult = [];
                 let resultKey = result[0];
                 let resultName = result[1];
                 let resultContent = result[2];
                 let resultUrl = result[3];
-                resultName.map((v,i)=>{
-                  var info={name:resultName[i], content:resultContent[i], url:resultUrl[i]};
-                  nresult.push(info)
+                resultName.map((v, i) => {
+                    var info = { name: resultName[i], content: resultContent[i], url: resultUrl[i] };
+                    nresult.push(info)
                 });
                 res(nresult);
             },
@@ -238,14 +238,47 @@ var searchOrigMusic = (key) => {
             },
             dataType: 'json',
             success: (result) => {
-                let nresult={};
-                if(result.error)
-                {
+                let nresult = {};
+                if (result.error) {
                     return rej();
                 }
-                if(typeof(result.query.results) == 'object')
-                {
-                    nresult=result.query.results[Object.keys(result.query.results)[0]];
+                if (typeof (result.query.results) == 'object') {
+                    nresult = result.query.results[Object.keys(result.query.results)[0]];
+                }
+                res(nresult);
+            },
+            error: () => {
+                rej();
+            }
+        });
+    });
+}
+
+var getProjectRelaseDate = () => {
+    return new Promise((res, rej) => {
+        $.ajax({
+            url: 'https://thwiki.cc/api.php',
+            data: {
+                action: "ask",
+                format: "json",
+                formatversion: 2,
+                uselang: Vlang,
+                query: `[[分类:官方游戏]]|?发售日期|sort=发售日期|order=asc`
+            },
+            dataType: 'json',
+            success: (result) => {
+                let nresult = [];
+                if (result.error) {
+                    return rej();
+                }
+                if (typeof (result.query.results) == 'object') {
+                    var keys = Object.keys(result.query.results);
+                    for (var i = 0; i < keys.length; i++) {
+                        var item = result.query.results[keys[i]];
+                        var name = item.fulltext;
+                        var date = item.printouts.发售日期[0] ? timestampFormat(item.printouts.发售日期[0].timestamp) : '';
+                        nresult.push({ name, date, type: "release" });
+                    }
                 }
                 res(nresult);
             },
