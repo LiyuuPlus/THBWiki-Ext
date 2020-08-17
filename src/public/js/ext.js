@@ -80,18 +80,20 @@ var setthbextbg = (url) => {
     loadCssCode(`.thbextbg{background-image:url(${url})!important;}`);
     $("html").addClass(`mainbg thbextbg`);
 }
-var background;
-var custombackground;
-var custombgurl;
-var tag;
-var netease;
+var background = true;
+var custombackground = false;
+var custombgurl = "";
+var tag = true;
+var netease = false;
 
 chrome.storage.local.get(['options'], (res) => {
-    background = res.options.background;
-    custombackground = res.options.custombackground;
-    custombgurl = res.options.custombgurl;
-    tag = res.options.tag;
-    netease = res.options.netease;
+    if (res.options) {
+        background = res.options.background;
+        custombackground = res.options.custombackground;
+        custombgurl = res.options.custombgurl;
+        tag = res.options.tag;
+        netease = res.options.netease;
+    }
 });
 
 $().ready(() => {
@@ -126,38 +128,60 @@ $().ready(() => {
 
     //修改页面
     if (editstatus) {
+        var fundiv = "";
         //歌词修改
         if (lyricstatus) {
             if (netease) {
-                var subtitle = title.substring("歌词:".length);
-                var groupname = (subtitle.indexOf("（") > 0) ? subtitle.substring(subtitle.indexOf("（") + 1, subtitle.length - "）".length) : "";
-                var songname = subtitle.replace("（" + groupname + "）", "");
+                let subtitle = title.substring("歌词:".length);
+                let groupname = (subtitle.indexOf("（") > 0) ? subtitle.substring(subtitle.indexOf("（") + 1, subtitle.length - "）".length) : "";
+                let songname = subtitle.replace("（" + groupname + "）", "");
                 //添加网易云音乐歌词获取
-                $(".mw-editform").before($("<div id='netease'><pre><el-button type='info' @click='getNetLyric'>网易云歌词获取</el-button><el-card class='box-card' v-if='songs.length>0'><div v-for='song in songs'>{{song.name}}　<strong>{{song.album.name}}</strong>　<el-button type='success' @click='clickSong(song.id)' size='mini'>选择</el-button></div></el-card><transition name='el-fade-in-linear'><div v-if='lyricUrl'><iframe id='lyricframe' allowTransparency='true' style='background-color:#66ccff;width:100%' :src=\"lyricUrl\"></iframe><el-button type='danger' @click='closeNetLyric'>关闭</el-button></div></transition></pre></div>"));
-                new Vue({
-                    el: "#netease",
-                    data() {
-                        return {
-                            lyricUrl: '',
-                            songs: []
-                        }
-                    },
-                    methods: {
-                        getNetLyric() {
-                            $.get(apiurl + "netname.php?limit=3&name=" + songname + "+" + groupname, (res) => {
-                                this.songs = res.result.songs;
-                            });
-                        },
-                        clickSong(id) {
-                            this.lyricUrl = apiurl + "netlyric.php?id=" + id;
-                        },
-                        closeNetLyric() {
-                            this.lyricUrl = "";
-                        },
-                    }
-                });
+                fundiv += `<pre><el-button type="info" @click="getNetLyric('${songname}','${groupname}')">网易云歌词获取</el-button><el-card class="box-card" v-if="songs.length>0"><div v-for="song in songs">{{song.name}}　<strong>{{song.album.name}}</strong>　<el-button type="success" @click="clickSong(song.id)" size="mini">选择</el-button></div></el-card><transition name="el-fade-in-linear"><div v-if="lyricUrl"><iframe id="lyricframe" allowTransparency="true" style="background-color:#66ccff;width:100%" :src="lyricUrl"></iframe><el-button type="danger" @click="closeNetLyric">关闭</el-button></div></transition></pre>`;
             }
         }
+        // fundiv += `<pre><el-button type="info" :disabled="text?false:'disabled'" @click="loadTmpText(true)">加载草稿</el-button><el-button type="primary" @click="saveTmpText">保存草稿</el-button> 上一次保存草稿时间：{{lasttime}}</pre>`
+        var div = `<div id='ext-editform'>${fundiv}</div>`;
+        $(".mw-editform").before($(div));
+        new Vue({
+            el: "#ext-editform",
+            data() {
+                return {
+                    lyricUrl: '',
+                    songs: [],
+                    text: '',
+                    // lasttime: null
+                }
+            },
+            created() {
+                // this.lasttime = new Date(localStorage.getItem(`${title}-time`) || null).Format("yyyy-MM-dd hh:mm:ss");
+                // this.loadTmpText();
+            },
+            methods: {
+                getNetLyric(songname, groupname) {
+                    $.get(apiurl + "netname.php?limit=5&name=" + songname + "+" + groupname, (res) => {
+                        this.songs = res.result.songs;
+                    });
+                },
+                clickSong(id) {
+                    this.lyricUrl = apiurl + "netlyric.php?id=" + id;
+                },
+                closeNetLyric() {
+                    this.lyricUrl = "";
+                },
+                // loadTmpText(apply) {
+                //     this.text = localStorage.getItem(title) || '';
+                //     if (apply) {
+                //         $("#wpTextbox1").val(this.text);
+                //     }
+                // },
+                // saveTmpText() {
+                //     this.text = $("#wpTextbox1").text();
+                //     localStorage.setItem(title, this.text);
+                //     this.lasttime = new Date();
+                //     localStorage.setItem(`${title}-time`, this.lasttime);
+                // }
+            }
+        });
     }
     else {
         //短链替换
@@ -187,6 +211,7 @@ $().ready(() => {
                         if (res) {
                             this.$message({
                                 message: "复制短链接成功！",
+                                duration: 0,
                                 type: 'success'
                             });
                         }

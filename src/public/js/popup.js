@@ -30,17 +30,11 @@ var app = new Vue({
     },
     created() {
         chrome.storage.local.get(['options'], (res) => {
-            if (res.options.background !== "undefined" || res.options.background !== null) {
+            if (res.options) {
                 this.Options.background = res.options.background;
-            }
-            if (res.options.custombackground !== "undefined" || res.options.custombackground !== null) {
+                this.Options.custombgurl = res.options.custombgurl || '';
                 this.Options.custombackground = res.options.custombackground;
-            }
-            this.Options.custombgurl = res.options.custombgurl || '';
-            if (res.options.tag !== "undefined" || res.options.tag !== null) {
                 this.Options.tag = res.options.tag;
-            }
-            if (res.options.netease !== "undefined" || res.options.netease !== null) {
                 this.Options.netease = res.options.netease;
             }
         });
