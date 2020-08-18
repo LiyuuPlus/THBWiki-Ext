@@ -206,7 +206,7 @@ $().ready(() => {
                 },
                 methods: {
                     copySortLink() {
-                        var link = `${window.location.protocol}\\\\${window.location.host}\\${this.sortlink}`;
+                        var link = `${window.location.protocol}//${window.location.host}${this.sortlink}`;
                         var res = copyToClipboardText(link);
                         if (res) {
                             this.$message({
