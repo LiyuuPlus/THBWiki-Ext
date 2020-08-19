@@ -211,8 +211,8 @@ $().ready(() => {
                         if (res) {
                             this.$message({
                                 message: "复制短链接成功！",
-                                duration: 0,
-                                type: 'success'
+                                type: 'success',
+                                showClose: true
                             });
                         }
                         else {
