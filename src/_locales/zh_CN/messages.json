@@ -131,6 +131,10 @@
         "message": "网易云音乐歌词",
         "description": "网易云音乐歌词"
     },
+    "SWAPlayer": {
+        "message": "专辑页使用APlayer播放网易云音乐",
+        "description": "专辑页使用APlayer播放网易云音乐"
+    },
     "SaveOptions": {
         "message": "保存设置",
         "description": "保存设置"
