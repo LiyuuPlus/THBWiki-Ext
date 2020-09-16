@@ -24,7 +24,7 @@ var title = decodeURI(QueryString.GetValue("title"));
 var editstatus = (action == "edit") ? true : false;
 var lyricstatus = (title.indexOf("歌词:") >= 0) ? true : false;
 
-var apiurl = "https://www.alicem.top/KamiAPI/";
+var apiurl = "https://www.alicem.top/KamiAPI/THBExt/";
 
 var loadCssCode = (code) => {
     var style = document.createElement('style');
@@ -85,6 +85,7 @@ var custombackground = false;
 var custombgurl = "";
 var tag = true;
 var netease = false;
+var aplayer = false;
 
 chrome.storage.local.get(['options'], (res) => {
     if (res.options) {
@@ -93,18 +94,20 @@ chrome.storage.local.get(['options'], (res) => {
         custombgurl = res.options.custombgurl;
         tag = res.options.tag;
         netease = res.options.netease;
+        aplayer = res.options.aplayer;
     }
 });
 
 $().ready(() => {
     if (background && $("body").hasClass("skin-unicorn")) {
+        var defurl = `${apiurl}Background.php`;
         if (custombackground) {
-            setthbextbg(custombgurl || `${apiurl}thbext.php`);
+            setthbextbg(custombgurl || defurl);
         }
         else {
             //根据词条判断背景
             var word = $("#firstHeading").text().replace(/ /g, "_");
-            setthbextbg(`${apiurl}thbext.php?char=${word}`);
+            setthbextbg(`${defurl}?char=${word}`);
         }
     }
 
@@ -158,12 +161,14 @@ $().ready(() => {
             },
             methods: {
                 getNetLyric(songname, groupname) {
-                    $.get(apiurl + "netname.php?limit=5&name=" + songname + "+" + groupname, (res) => {
-                        this.songs = res.result.songs;
+                    $.get(`${apiurl}NetSearch.php?limit=5&name=${songname}+${groupname}`, (res) => {
+                        if (res.code == 200) {
+                            this.songs = res.result.songs;
+                        }
                     });
                 },
                 clickSong(id) {
-                    this.lyricUrl = apiurl + "netlyric.php?id=" + id;
+                    this.lyricUrl = `${apiurl}NetLyric.php?id=${id}&format=thb`;
                 },
                 closeNetLyric() {
                     this.lyricUrl = "";
@@ -286,6 +291,89 @@ $().ready(() => {
 
                 }
             });
+        }
+
+        if (aplayer) {
+            var understate = $(".searchaux").attr("title");
+            if (understate == "同人专辑") {
+                var circle = "";
+                var album = "";
+                $(".doujininfo tr").each((i, v) => {
+                    let circleflag = false;
+                    let albumflag = false;
+                    $(v).children().each((i1, v1) => {
+                        let label = $(v1).text();
+                        if (albumflag && !album) {
+                            album = label.trim();
+                        }
+                        else if (circleflag && !circle) {
+                            circle = label.trim();
+                        }
+                        if (label == "名称") {
+                            albumflag = true;
+                        }
+                        else if (label == "制作方") {
+                            circleflag = true;
+                        }
+                    });
+                });
+                if (album && circle) {
+                    $(".musicTable").attr("id", "musicapp");
+                    $(".musicTable tr").eq(0).before($(`<tr v-show="songs.length > 0"><td colspan="4"><div id="aplayer"></td></tr>`));
+                    // $(".musicTable .title").each((i, v) => {
+                    //     var name = $(v).text();
+                    //     $(v).find(".thcsearchlinks").before($(`<el-button type="success" size="mini" v-show="songs.filter(v => v.name == '${name}').length > 0">点击播放</el-button>`));
+                    // });
+                    new Vue({
+                        el: "#musicapp",
+                        data() {
+                            return {
+                                songs: [],
+                                aplayer: null
+                            };
+                        },
+                        watch: {
+                            songs(newval, oldval) {
+                                if (newval.length > 0) {
+                                    var musics = [];
+                                    newval.forEach((v, i) => {
+                                        musics.push({
+                                            title: v.name,
+                                            artist: v.ar[0].name,
+                                            cover: v.al.picUrl,
+                                            url: `http://music.163.com/song/media/outer/url?id=${v.id}.mp3`,
+                                            lrc: `${apiurl}NetLyric.php?id=${v.id}`
+                                        });
+                                    });
+                                    this.aplayer = new APlayer({
+                                        container: $("#aplayer")[0],
+                                        listFolded: false,
+                                        fixed: false,
+                                        audio: musics,
+                                        lrcType: 3,
+                                        mini: false
+                                    });
+                                }
+                                else {
+                                    this.aplayer = null;
+                                }
+                            }
+                        },
+                        created() {
+                            this.getNetMusic();
+                        },
+                        methods: {
+                            getNetMusic() {
+                                $.get(`${apiurl}NetAlbum.php?name=${album}&ar=${circle}`, (res) => {
+                                    if (res.code == 200) {
+                                        this.songs = res.songs;
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
+            }
         }
     }
 });

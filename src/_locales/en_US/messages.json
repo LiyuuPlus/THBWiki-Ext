@@ -131,6 +131,10 @@
         "message": "Netease Music Lyric",
         "description": "Netease Music Lyric"
     },
+    "SWAPlayer": {
+        "message": "Album Use APlayer Play Netease Music",
+        "description": "Album Use APlayer Play Music From Netease"
+    },
     "SaveOptions": {
         "message": "Save Options",
         "description": "Save Options"

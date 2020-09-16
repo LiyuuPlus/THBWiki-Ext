@@ -24,7 +24,8 @@ var app = new Vue({
                 custombackground: false,
                 custombgurl: '',
                 tag: true,
-                netease: false
+                netease: false,
+                aplayer: false
             }
         };
     },
@@ -36,6 +37,7 @@ var app = new Vue({
                 this.Options.custombackground = res.options.custombackground;
                 this.Options.tag = res.options.tag;
                 this.Options.netease = res.options.netease;
+                this.Options.aplayer = res.options.aplayer;
             }
         });
         $.get(chrome.extension.getURL('manifest.json'), (info) => {
