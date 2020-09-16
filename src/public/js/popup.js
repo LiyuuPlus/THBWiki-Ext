@@ -42,7 +42,7 @@ var app = new Vue({
             this.Version = info.version;
         }, 'json');
         checkLogin((res) => {
-            this.UserName = decodeURIComponent(res).replace('+', ' ');
+            this.UserName = decodeURIComponent(res).replace(/\+/g, " ");
             this.getUnreadNotification();
         });
         getProjectRelaseDate().then((res) => {
