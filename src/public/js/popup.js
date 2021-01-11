@@ -51,7 +51,7 @@ var app = new Vue({
             this.Version = info.version;
         }, 'json');
         checkLogin((res) => {
-            this.UserName = res ? decodeURIComponent(res).replace('+', ' ') : null;
+            this.UserName = res ? decodeURIComponent(res).replace(/\+/g, " ") : null;
             this.getUnreadNotification();
         });
         getCustomerBanner().then((res) => {

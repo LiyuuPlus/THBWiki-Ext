@@ -110,7 +110,7 @@ $().ready(() => {
         }
         else {
             //根据词条判断背景
-            var word = $("#firstHeading").text();
+            var word = $("#firstHeading").text().replace(/ /g, "_");
             setthbextbg(`${defurl}?char=${word}`);
         }
     }
