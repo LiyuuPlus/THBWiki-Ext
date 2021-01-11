@@ -123,8 +123,11 @@ $().ready(() => {
             url = custombnop;
         }
         if (url) {
-            loadCssCode("#siteNotice{text-shadow: #252525 -1px -1px 1px, #252525 1px -1px 1px, #252525 -1px 1px 1px, #252525 1px 1px 1px;color: #CBA461;}");
-            loadCssCode(`.page-首页 div#content.mw-body{background-image:url(${url})!important;}`)
+            if($("#ca-nstab-main").text()=='首页')
+            {
+                loadCssCode("#siteNotice{text-shadow: #252525 -1px -1px 1px, #252525 1px -1px 1px, #252525 -1px 1px 1px, #252525 1px 1px 1px;color: #CBA461;}");
+                loadCssCode(`.page-首页 div#content.mw-body{background-image:url(${url})!important;}`)
+            }
         }
     }
 
@@ -248,9 +251,9 @@ $().ready(() => {
         if (tag) {
             //修改歧义分类
             var understate = "";
-            if ($(".understate").length > 0) {
-                understate = $(".understate").text().replace(/\（|）/g, '');
-                $(".understate").remove();
+            if ($("#firstHeading .understate").length > 0) {
+                understate = $("#firstHeading .understate").text().replace(/\（|）/g, '');
+                $("#firstHeading .understate").remove();
             }
             if ($(".searchaux").length > 0) {
                 understate = $(".searchaux").attr("title");
