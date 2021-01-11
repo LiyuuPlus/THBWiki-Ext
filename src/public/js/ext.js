@@ -24,8 +24,6 @@ var title = decodeURI(QueryString.GetValue("title"));
 var editstatus = (action == "edit") ? true : false;
 var lyricstatus = (title.indexOf("歌词:") >= 0) ? true : false;
 
-var apiurl = "https://www.alicem.top/KamiAPI/THBExt/";
-
 var loadCssCode = (code) => {
     var style = document.createElement('style');
     style.type = 'text/css';
@@ -86,21 +84,27 @@ var custombgurl = "";
 var tag = true;
 var netease = false;
 var aplayer = false;
+var custombanner = false;
+var custombnop = "";
+var custombnurl = "";
 
 chrome.storage.local.get(['options'], (res) => {
     if (res.options) {
-        background = res.options.background;
-        custombackground = res.options.custombackground;
-        custombgurl = res.options.custombgurl;
+        background = res.options.background || true;
+        custombackground = res.options.custombackground || false;
+        custombgurl = res.options.custombgurl || '';
         tag = res.options.tag;
         netease = res.options.netease;
         aplayer = res.options.aplayer;
+        custombanner = res.options.custombanner || false;
+        custombnop = res.options.custombnop || '';
+        custombnurl = res.options.custombnurl || '';
     }
 });
 
 $().ready(() => {
     if (background && $("body").hasClass("skin-unicorn")) {
-        var defurl = `${apiurl}Background.php`;
+        let defurl = `${apiurl}Background.php`;
         if (custombackground) {
             setthbextbg(custombgurl || defurl);
         }
@@ -108,6 +112,19 @@ $().ready(() => {
             //根据词条判断背景
             var word = $("#firstHeading").text();
             setthbextbg(`${defurl}?char=${word}`);
+        }
+    }
+    if (custombanner) {
+        let url = "";
+        if (custombnop == "customer") {
+            url = custombnurl;
+        }
+        else {
+            url = custombnop;
+        }
+        if (url) {
+            loadCssCode("#siteNotice{text-shadow: #252525 -1px -1px 1px, #252525 1px -1px 1px, #252525 -1px 1px 1px, #252525 1px 1px 1px;color: #CBA461;}");
+            loadCssCode(`.page-首页 div#content.mw-body{background-image:url(${url})!important;}`)
         }
     }
 

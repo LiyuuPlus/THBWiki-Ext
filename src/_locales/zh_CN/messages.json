@@ -123,6 +123,14 @@
         "message": "自定义背景图地址",
         "description": "自定义背景图地址"
     },
+    "SWCustomBanner": {
+        "message": "自定义头图",
+        "description": "自定义头图"
+    },
+    "CustomBNUrl": {
+        "message": "自定义头图地址",
+        "description": "自定义头图地址"
+    },
     "SWTag": {
         "message": "标签",
         "description": "标签"

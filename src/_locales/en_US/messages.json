@@ -123,6 +123,14 @@
         "message": "Custom Background Url",
         "description": "Custom Background Url"
     },
+    "SWCustomBanner": {
+        "message": "Custom Banner",
+        "description": "Custom Banner"
+    },
+    "CustomBNUrl": {
+        "message": "Custom Banner Url",
+        "description": "Custom Banner Url"
+    },
     "SWTag": {
         "message": "Tag",
         "description": "Tag"

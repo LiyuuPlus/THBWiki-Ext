@@ -18,7 +18,7 @@ var checkLogin = (cb) => {
 var checkUnreadNotificationNum = (username) => {
     if (username !== null) {
         $.ajax({
-            url: 'https://thwiki.cc/api.php',
+            url: CsiteApiUrl,
             data: {
                 action: 'query',
                 format: 'json',
@@ -57,6 +57,7 @@ var checkUnreadNotificationNum = (username) => {
                 }
             },
             error: () => {
+                rej();
             }
         });
     }
@@ -91,7 +92,7 @@ var checkUnreadNotification = () => {
 var checkRemindNotification = () => {
     return new Promise((res, rej) => {
         $.ajax({
-            url: 'https://thwiki.cc/api.php',
+            url: CsiteApiUrl,
             data: {
                 action: "query",
                 format: "json",
@@ -118,7 +119,7 @@ var checkRemindNotification = () => {
 var checkMsgNotification = () => {
     return new Promise((res, rej) => {
         $.ajax({
-            url: 'https://thwiki.cc/api.php',
+            url: CsiteApiUrl,
             data: {
                 action: "query",
                 format: "json",
@@ -145,7 +146,7 @@ var checkMsgNotification = () => {
 var getWIKIActionToken = () => {
     return new Promise((res, rej) => {
         $.ajax({
-            url: 'https://thwiki.cc/api.php',
+            url: CsiteApiUrl,
             data: {
                 action: "query",
                 format: "json",
@@ -168,7 +169,7 @@ var markNotification = (list) => {
     return new Promise((res, rej) => {
         getWIKIActionToken().then((token) => {
             $.ajax({
-                url: 'https://thwiki.cc/api.php',
+                url: CsiteApiUrl,
                 type: "POST",
                 data: {
                     action: "echomarkread",
@@ -194,7 +195,7 @@ var markNotification = (list) => {
 var searchSuggest = (key) => {
     return new Promise((res, rej) => {
         $.ajax({
-            url: 'https://thwiki.cc/api.php',
+            url: CsiteApiUrl,
             data: {
                 action: "opensearch",
                 format: "json",
@@ -228,7 +229,7 @@ var searchSuggest = (key) => {
 var searchOrigMusic = (key) => {
     return new Promise((res, rej) => {
         $.ajax({
-            url: 'https://thwiki.cc/api.php',
+            url: CsiteApiUrl,
             data: {
                 action: "ask",
                 format: "json",
@@ -257,7 +258,7 @@ var searchOrigMusic = (key) => {
 var getProjectRelaseDate = () => {
     return new Promise((res, rej) => {
         $.ajax({
-            url: 'https://thwiki.cc/api.php',
+            url: CsiteApiUrl,
             data: {
                 action: "ask",
                 format: "json",

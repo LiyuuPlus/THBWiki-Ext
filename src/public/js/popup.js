@@ -19,13 +19,17 @@ var app = new Vue({
                 Game: '',
                 Date: ''
             },
+            Banners: [],
             Options: {
                 background: true,
                 custombackground: false,
                 custombgurl: '',
                 tag: true,
                 netease: false,
-                aplayer: false
+                aplayer: false,
+                custombanner: false,
+                custombnop: '',
+                custombnurl: ''
             }
         };
     },
@@ -38,21 +42,29 @@ var app = new Vue({
                 this.Options.tag = res.options.tag;
                 this.Options.netease = res.options.netease;
                 this.Options.aplayer = res.options.aplayer;
+                this.Options.custombnop = res.options.custombnop || '';
+                this.Options.custombnurl = res.options.custombnurl || '';
+                this.Options.custombanner = res.options.custombanner;
             }
         });
         $.get(chrome.extension.getURL('manifest.json'), (info) => {
             this.Version = info.version;
         }, 'json');
         checkLogin((res) => {
-            this.UserName = decodeURIComponent(res).replace('+', ' ');
+            this.UserName = res ? decodeURIComponent(res).replace('+', ' ') : null;
             this.getUnreadNotification();
+        });
+        getCustomerBanner().then((res) => {
+            var nres = [{ name: '默认头图', value: '' }, { name: '自定义', value: 'customer' }];
+            nres = nres.concat(res);
+            this.Banners = nres;
         });
         getProjectRelaseDate().then((res) => {
             this.DateList = res;
         });
     },
     methods: {
-        _t(name) {
+        T(name) {
             return getLang(name);
         },
         startLoading(obj, index) {
@@ -61,7 +73,7 @@ var app = new Vue({
             }
             this.loading[index] = this.$loading({
                 lock: true,
-                text: this._t("infoLoading"),
+                text: this.T("infoLoading"),
                 spinner: 'el-icon-loading',
                 target: obj
             });
@@ -174,17 +186,17 @@ var app = new Vue({
         },
         formatNotification(obj) {
             var topic = {
-                "user-rights": this._t("userrights"),
-                "social-rel": this._t("socialrel")
+                "user-rights": this.T("userrights"),
+                "social-rel": this.T("socialrel")
             };
             var msg = {
-                "article-linked": this._t("articlelinked"),
-                "flowthread": this._t("flowthread"),
-                "flow-discussion": this._t("flowdiscussion"),
-                "achiev": this._t("achiev"),
-                "system": this._t("system"),
-                "system-noemail": this._t("system"),
-                "thank-you-edit": this._t("edit")
+                "article-linked": this.T("articlelinked"),
+                "flowthread": this.T("flowthread"),
+                "flow-discussion": this.T("flowdiscussion"),
+                "achiev": this.T("achiev"),
+                "system": this.T("system"),
+                "system-noemail": this.T("system"),
+                "thank-you-edit": this.T("edit")
             };
             var isUser = [
                 "user-rights",
@@ -197,7 +209,7 @@ var app = new Vue({
                 return {
                     id: v.id,
                     category: v.category,
-                    type: topic[v.category] ? this._t('topic') : (msg[v.category] ? this._t('msg') : ""),
+                    type: topic[v.category] ? this.T('topic') : (msg[v.category] ? this.T('msg') : ""),
                     categoryname: topic[v.category] || msg[v.category] || "",
                     agentname: isUser.indexOf(v.category) >= 0 ? v.agent.name : "",
                     icon: v["*"].icon,
@@ -246,7 +258,7 @@ var app = new Vue({
             var that = this;
             chrome.storage.local.set({ 'options': that.Options }, () => {
                 this.$message({
-                    message: this._t('SaveYes'),
+                    message: this.T('SaveYes'),
                     type: 'success'
                 });
             });
@@ -264,12 +276,12 @@ var app = new Vue({
             var samedaylist = daylist.filter((v) => v.date != day);
             if (firstdaylist.length > 0) {
                 firstdaylist.forEach((v) => {
-                    str += `${v.name} ${this._t('CalendarRelease')}<br>`
+                    str += `${v.name} ${this.T('CalendarRelease')}<br>`
                 });
             }
             if (samedaylist.length > 0) {
                 samedaylist.forEach((v) => {
-                    str += `${v.name} ${new Date(day).getFullYear() - new Date(v.date).getFullYear()} ${this._t('CalendarYear')}<br>`
+                    str += `${v.name} ${new Date(day).getFullYear() - new Date(v.date).getFullYear()} ${this.T('CalendarYear')}<br>`
                 });
             }
             return str;
