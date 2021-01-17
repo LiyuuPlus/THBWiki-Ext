@@ -90,13 +90,13 @@ var custombnurl = "";
 
 chrome.storage.local.get(['options'], (res) => {
     if (res.options) {
-        background = res.options.background || true;
-        custombackground = res.options.custombackground || false;
+        background = res.options.background;
+        custombackground = res.options.custombackground;
         custombgurl = res.options.custombgurl || '';
         tag = res.options.tag;
         netease = res.options.netease;
         aplayer = res.options.aplayer;
-        custombanner = res.options.custombanner || false;
+        custombanner = res.options.custombanner;
         custombnop = res.options.custombnop || '';
         custombnurl = res.options.custombnurl || '';
     }
@@ -123,8 +123,7 @@ $().ready(() => {
             url = custombnop;
         }
         if (url) {
-            if($("#ca-nstab-main").text()=='首页')
-            {
+            if ($("#ca-nstab-main").text() == '首页') {
                 loadCssCode("#siteNotice{text-shadow: #252525 -1px -1px 1px, #252525 1px -1px 1px, #252525 -1px 1px 1px, #252525 1px 1px 1px;color: #CBA461;}");
                 loadCssCode(`.page-首页 div#content.mw-body{background-image:url(${url})!important;}`)
             }
