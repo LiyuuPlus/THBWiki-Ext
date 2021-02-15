@@ -1,0 +1,244 @@
+{
+    "extName":{
+        "message":"私のTHBWiki",
+        "description":"拡張子名"
+    },
+    "extDescription":{
+        "message":"THBWikiの非公式の拡張。 ",
+        "description":"拡張機能の説明"
+    },
+    "extVersion":{
+        "message":"バージョン ：",
+        "description":"拡張バージョン"
+    },
+    "search":{
+        "message":"検索キーワードを入力してください ",
+        "description":"検索"
+    },
+    "menuSearch":{
+        "message":"THBWikiで「%s」を検索 ",
+        "description":"メニュー検索"
+    },
+    "menuGo":{
+        "message":"THBWikiの「%s」にジャンプします ",
+        "description":"メニュージャンプ "
+    },
+    "LoginTHB":{
+        "message":"THBWikiにログイン",
+        "description":"にログイン"
+    },
+    "RegTime": {
+        "message": "登録時間 ：",
+        "description": "登録時間"
+    },
+    "EditCount": {
+        "message": "編集数 ：",
+        "description": "編集数"
+    },
+    "Group": {
+        "message": "ユーザーグループ ：",
+        "description": "ユーザーグループ "
+    },
+    "View":{
+        "message":"見る",
+        "description":"見る"
+    },
+    "markRead":{
+        "message":"既読マーク",
+        "description":"既読マーク"
+    },
+    "markAllRead":{
+        "message":"すべて既読にする",
+        "description":"すべて既読にする"
+    },
+    "topic":{
+        "message":"アラート",
+        "description":"アラート"
+    },
+    "msg":{
+        "message":"メッセージ",
+        "description":"メッセージ"
+    },
+    "Operator":{
+        "message":"オペレーター：",
+        "description":"オペレーター"
+    },
+    "NoInfo":{
+        "message":"記録なし",
+        "description":"No info"
+    },
+    "UnreadNotification":{
+        "message":"未読通知",
+        "description":"未読通知"
+    },
+    "RemindNotification":{
+        "message":"アラート",
+        "description":"既読アラート"
+    },
+    "MsgNotification":{
+        "message":"メッセージ",
+        "description":"既読メッセージ"
+    },
+    "infoLoading":{
+        "message":"少女祈祷中 ....",
+        "description":"読み込み中"
+    },
+    "Calendar": {
+        "message": "カレンダー",
+        "description": "カレンダー"
+    },
+    "CalendarYear": {
+        "message": "年",
+        "description": "年"
+    },
+    "CalendarRelease": {
+        "message": "発売",
+        "description": "発売"
+    },
+    "OrigMusic":{
+        "message":"原曲",
+        "description":"原曲検索"
+    },
+    "OrigMusicSearch":{
+        "message":"原曲の名前または翻訳を入力してください",
+        "description":"原曲入力プロンプト"
+    },
+    "OrigMusicName":{
+        "message":"原曲の名前",
+        "description":"原曲の名前"
+    },
+    "OrigMusicTranName":{
+        "message":"原曲の翻訳された名前",
+        "description":"原曲の翻訳された名前"
+    },
+    "OrigMusicGame":{
+        "message":"ゲーム",
+        "description":"音楽はゲームに属しています "
+    },
+    "OrigMusicDate":{
+        "message":"日付",
+        "description":"音楽のリリース時間"
+    },
+    "Options": {
+        "message": "オプション",
+        "description": "オプション"
+    },
+    "SWBackground": {
+        "message": "背景",
+        "description": "背景"
+    },
+    "SWCustomBackground": {
+        "message": "カスタム背景",
+        "description": "カスタム背景 "
+    },
+    "CustomBGUrl": {
+        "message": "カスタム背景 Url",
+        "description": "カスタム背景 Url"
+    },
+    "SWCustomBanner": {
+        "message": "カスタムバナー",
+        "description": "カスタムバナー"
+    },
+    "CustomBNUrl": {
+        "message": "カスタムバナーUrl",
+        "description": "カスタムバナーUrl"
+    },
+    "SWTag": {
+        "message": "ラベル",
+        "description": "ラベル"
+    },
+    "SWNetease": {
+        "message": "網易雲音楽の歌詞",
+        "description": "網易雲音楽の歌詞"
+    },
+    "SWAPlayer": {
+        "message": "アルバムページはAPlayerを使用して網易雲音楽を再生します",
+        "description": "アルバムページはAPlayerを使用して網易雲音楽を再生します"
+    },
+    "SaveOptions": {
+        "message": "オプションの保存",
+        "description": "オプションの保存"
+    },
+    "SaveYes":{
+        "message": "オプションの保存に成功しました！ ",
+        "description": "オプションの保存に成功しました！ "
+    },
+    "NotificationTtile":{
+        "message":"THBWikiからの通知",
+        "description":"ブラウザ通知タイトル"
+    },
+    "NotificationBody":{
+        "message":"未読の通知が$count$つあります。 ",
+        "description":"ブラウザ通知本文",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "0"
+            }
+        }
+    },
+    "userrights":{
+        "message":"権限の変更",
+        "description":"情報分類"
+    },
+    "socialrel":{
+        "message":"友達",
+        "description":"情報分類"
+    },
+    "articlelinked":{
+        "message":"このページへリンクしているすべてのページ",
+        "description":"情報分類"
+    },
+    "flowthread":{
+        "message":"フロースレッド",
+        "description":"情報分類"
+    },
+    "flowdiscussion":{
+        "message":"フローディスカッション",
+        "description":"情報分類"
+    },
+    "achiev":{
+        "message":"成果",
+        "description":"情報分類"
+    },
+    "system":{
+        "message":"システム",
+        "description":"情報分類"
+    },
+    "edit":{
+        "message":"編集",
+        "description":"情報分類"
+    },
+    "right_user": {
+        "message": "少女",
+        "description": "ユーザーグループ "
+    },
+    "right_autoconfirmed": {
+        "message": "自動的に認定された少女",
+        "description": "ユーザーグループ "
+    },
+    "right_preconfirm": {
+        "message": "勤勉な少女 ",
+        "description": "ユーザーグループ "
+    },
+    "right_confirm": {
+        "message": "認定された少女",
+        "description": "ユーザーグループ "
+    },
+    "right_textop": {
+        "message": "テキスト管理姫",
+        "description": "ユーザーグループ "
+    },
+    "right_sysop": {
+        "message": "管理姫",
+        "description": "ユーザーグループ "
+    },
+    "right_bureaucrat": {
+        "message": "権限姫",
+        "description": "ユーザーグループ "
+    },
+    "right_bot": {
+        "message": "メイドロボット",
+        "description": "ユーザーグループ "
+    }
+}

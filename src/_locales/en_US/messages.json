@@ -8,7 +8,7 @@
         "description":"Extension description"
     },
     "extVersion":{
-        "message":"THBWiki Ext Ver：",
+        "message":"Ver: ",
         "description":"Extension version"
     },
     "search":{
@@ -27,6 +27,18 @@
         "message":"Login to THBWiki",
         "description":"Login"
     },
+    "RegTime": {
+        "message": "Register Time: ",
+        "description": "Register Time"
+    },
+    "EditCount": {
+        "message": "Edit Count: ",
+        "description": "Edit Count"
+    },
+    "Group": {
+        "message": "User Group: ",
+        "description": "User Group"
+    },
     "View":{
         "message":"View",
         "description":"View"
@@ -36,8 +48,8 @@
         "description":"Mark read"
     },
     "markAllRead":{
-        "message":"Mark all read",
-        "description":"Mark all read"
+        "message":"Mark all as read",
+        "description":"Mark all as read"
     },
     "topic":{
         "message":"Alert",
@@ -48,11 +60,11 @@
         "description":"Message"
     },
     "Operator":{
-        "message":"Operator：",
+        "message":"Operator: ",
         "description":"Operator"
     },
     "NoInfo":{
-        "message":"No ",
+        "message":"No info ",
         "description":"No info"
     },
     "UnreadNotification":{
@@ -199,34 +211,34 @@
     },
     "right_user": {
         "message": "User",
-        "description": "User Rights"
+        "description": "User Groups"
     },
     "right_autoconfirmed": {
         "message": "Auto Confirmed User",
-        "description": "User Rights"
+        "description": "User Groups"
     },
     "right_preconfirm": {
         "message": "Preconfirm",
-        "description": "User Rights"
+        "description": "User Groups"
     },
     "right_confirm": {
         "message": "Confirm",
-        "description": "User Rights"
+        "description": "User Groups"
     },
     "right_textop": {
         "message": "Textop",
-        "description": "User Rights"
+        "description": "User Groups"
     },
     "right_sysop": {
         "message": "Administrator",
-        "description": "User Rights"
+        "description": "User Groups"
     },
     "right_bureaucrat": {
         "message": "Bureaucrat",
-        "description": "User Rights"
+        "description": "User Groups"
     },
     "right_bot": {
         "message": "Bot",
-        "description": "User Rights"
+        "description": "User Groups"
     }
 }
