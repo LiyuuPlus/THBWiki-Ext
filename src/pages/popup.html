@@ -77,9 +77,9 @@
                         </el-col>
                         <el-col :span="10">
                             <div class="grid-content" id="userextinfo" style="margin-top: -0.8rem;">
-                                <p>注册时间：{{UserInfo.registrationdate}}</p>
-                                <p>用户组：{{UserInfo.group}}</p>
-                                <p>编辑数：{{UserInfo.editcount}}</p>
+                                <p>{{T('RegTime')}}{{UserInfo.registrationdate}}</p>
+                                <p>{{T('Group')}}{{UserInfo.group}}</p>
+                                <p>{{T('EditCount')}}{{UserInfo.editcount}}</p>
                             </div>
                         </el-col>
                     </template>
@@ -113,7 +113,7 @@
                     <el-tab-pane :label="T('UnreadNotification')" name="0">
                         <div class="block">
                             <el-card v-if="UnreadNotificationList.length<=0">
-                                {{T('NoInfo')+T('UnreadNotification')}}
+                                {{T('NoInfo')}}
                             </el-card>
                             <el-timeline v-else>
                                 <div class="buttonlist">
@@ -161,7 +161,7 @@
                     <el-tab-pane :label="T('RemindNotification')" name="1">
                         <div class="block">
                             <el-card v-if="RemindNotificationList.length<=0">
-                                {{T('NoInfo')+T('RemindNotification')}}
+                                {{T('NoInfo')}}
                             </el-card>
                             <el-timeline v-else>
                                 <el-timeline-item v-for="(Notification, index) in RemindNotificationList" :key="index"
@@ -200,7 +200,7 @@
                     <el-tab-pane :label="T('MsgNotification')" name="2">
                         <div class="block">
                             <el-card v-if="MsgNotificationList.length<=0">
-                                {{T('NoInfo')+T('MsgNotification')}}
+                                {{T('NoInfo')}}
                             </el-card>
                             <el-timeline v-else>
                                 <el-timeline-item v-for="(Notification, index) in MsgNotificationList" :key="index"

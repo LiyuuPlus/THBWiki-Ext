@@ -16,16 +16,28 @@
         "description": "搜索提示"
     },
     "menuSearch": {
-        "message": "在THBWiki上搜索\"%s\"",
+        "message": "在THBWiki上搜索“%s”",
         "description": "菜单搜索"
     },
     "menuGo": {
-        "message": "访问THBWiki上的\"%s\"",
+        "message": "访问THBWiki上的“%s”",
         "description": "菜单跳转"
     },
     "LoginTHB": {
         "message": "登录THBWiki",
         "description": "登录"
+    },
+    "RegTime": {
+        "message": "注册时间：",
+        "description": "注册时间"
+    },
+    "EditCount": {
+        "message": "编辑数：",
+        "description": "编辑数"
+    },
+    "Group": {
+        "message": "用户组：",
+        "description": "用户组"
     },
     "View": {
         "message": "查看",
@@ -52,8 +64,8 @@
         "description": "操作人"
     },
     "NoInfo": {
-        "message": "暂无",
-        "description": "暂无信息"
+        "message": "无记录",
+        "description": "无记录"
     },
     "UnreadNotification": {
         "message": "未读消息",
