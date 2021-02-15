@@ -2,10 +2,16 @@ var app = new Vue({
     el: "#app",
     data() {
         return {
+            UserInfo: {
+                name: '',
+                realname: '',
+                fullname: '未知用户',
+                avatar: 'https://thwiki.cc/favicon.ico'
+            },
             Version: '',
             Search: '',
             Tab: "0",
-            UserName: "",
+            loginStatus: false,
             loading: [null, null, null],
             UnreadNotificationList: [],
             RemindNotificationList: [],
@@ -51,7 +57,28 @@ var app = new Vue({
             this.Version = info.version;
         }, 'json');
         checkLogin((res) => {
-            this.UserName = res ? decodeURIComponent(res).replace(/\+/g, " ") : null;
+            this.loginStatus = res ? true : false;
+            if (this.loginStatus) {
+                this.UserInfo.fullname = decodeURIComponent(res).replace(/\+/g, " ");
+                getUserInfo().then((res) => {
+                    res.groups = res.groups.filter((v) => v != "*");
+                    //取得最高权限用户组
+                    var rights = ["bot", "bureaucrat", "sysop", "textop", "confirm", "preconfirm", "autoconfirmed", "user"];
+                    for (var i = 0; i < rights.length; i++) {
+                        var right = rights[i];
+                        var group = res.groups.filter((v) => v == right);
+                        if (group.length > 0) {
+                            res.group = this.T(`right_${right}`);
+                            break;
+                        }
+                    }
+                    res.registrationdate = new Date(res.registrationdate).Format("yyyy年MM月dd日");
+                    res.avatar = `https://upload.thwiki.cc/avatars/thwikicc_wiki_${res.id}_l.png`;
+                    res.fullname = `${res.name}（${res.realname}）`;
+                    console.log(res);
+                    this.UserInfo = res;
+                });
+            }
             this.getUnreadNotification();
         });
         getCustomerBanner().then((res) => {
@@ -86,7 +113,7 @@ var app = new Vue({
         },
         enterTHB(User) {
             if (User) {
-                createTab(this.UserName ? `https://thwiki.cc/用户:${this.UserName}` : "https://thwiki.cc/特殊:用户登录");
+                createTab(this.loginStatus ? `https://thwiki.cc/用户:${this.UserInfo.name}` : "https://thwiki.cc/特殊:用户登录");
             }
             else {
                 createTab("https://thwiki.cc");

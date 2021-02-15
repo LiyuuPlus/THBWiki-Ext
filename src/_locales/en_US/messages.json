@@ -196,5 +196,37 @@
     "edit":{
         "message":"Edit",
         "description":"Info category"
+    },
+    "right_user": {
+        "message": "User",
+        "description": "User Rights"
+    },
+    "right_autoconfirmed": {
+        "message": "Auto Confirmed User",
+        "description": "User Rights"
+    },
+    "right_preconfirm": {
+        "message": "Preconfirm",
+        "description": "User Rights"
+    },
+    "right_confirm": {
+        "message": "Confirm",
+        "description": "User Rights"
+    },
+    "right_textop": {
+        "message": "Textop",
+        "description": "User Rights"
+    },
+    "right_sysop": {
+        "message": "Administrator",
+        "description": "User Rights"
+    },
+    "right_bureaucrat": {
+        "message": "Bureaucrat",
+        "description": "User Rights"
+    },
+    "right_bot": {
+        "message": "Bot",
+        "description": "User Rights"
     }
 }

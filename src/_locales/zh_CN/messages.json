@@ -8,7 +8,7 @@
         "description": "扩展说明"
     },
     "extVersion": {
-        "message": "THBWiki扩展版本：",
+        "message": "版本：",
         "description": "扩展版本"
     },
     "search": {
@@ -196,5 +196,37 @@
     "edit": {
         "message": "编辑",
         "description": "信息分类"
+    },
+    "right_user": {
+        "message": "少女",
+        "description": "用户权限"
+    },
+    "right_autoconfirmed": {
+        "message": "自动确认少女",
+        "description": "用户权限"
+    },
+    "right_preconfirm": {
+        "message": "继续努力少女",
+        "description": "用户权限"
+    },
+    "right_confirm": {
+        "message": "已认证的少女",
+        "description": "用户权限"
+    },
+    "right_textop": {
+        "message": "词条管理姬",
+        "description": "用户权限"
+    },
+    "right_sysop": {
+        "message": "管理姬",
+        "description": "用户权限"
+    },
+    "right_bureaucrat": {
+        "message": "权限姬",
+        "description": "用户权限"
+    },
+    "right_bot": {
+        "message": "妹抖机器人",
+        "description": "用户权限"
     }
 }

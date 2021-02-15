@@ -289,3 +289,25 @@ var getProjectRelaseDate = () => {
         });
     });
 }
+
+var getUserInfo = () => {
+    return new Promise((res, rej) => {
+        $.ajax({
+            url: CsiteApiUrl,
+            data: {
+                action: "query",
+                format: "json",
+                formatversion: 2,
+                meta: "userinfo",
+                uiprop: "editcount|registrationdate|realname|groups",
+            },
+            dataType: 'json',
+            success: (result) => {
+                res(result.query.userinfo);
+            },
+            error: () => {
+                rej([]);
+            }
+        });
+    });
+}

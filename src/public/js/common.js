@@ -74,7 +74,7 @@ var copyToClipboardText = (txt) => {
 var getCustomerBanner = () => {
     return new Promise((res, rej) => {
         $.ajax({
-            url:`${apiurl}Banner.php`,
+            url: `${apiurl}Banner.php`,
             dataType: 'json',
             success: (result) => {
                 res(result);
@@ -85,3 +85,15 @@ var getCustomerBanner = () => {
         })
     });
 };
+
+var insertText = (obj, str) => {
+    if (obj) {
+        let curPos = obj.selectionStart;
+        let oldStr = obj.value;
+        let tmp1 = oldStr.substring(0, curPos);
+        let tmp2 = oldStr.substring(curPos, oldStr.length);
+        obj.value = tmp1 + str + tmp2;
+        console.log(tmp1 + str + tmp2);
+    }
+    return false;
+}

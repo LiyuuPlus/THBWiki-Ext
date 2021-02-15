@@ -106,14 +106,14 @@ $().ready(() => {
     if (background && $("body").hasClass("skin-unicorn")) {
         let defurl = `${apiurl}Background.php`;
         if (custombackground) {
-            var url=custombgurl || defurl;
+            var url = custombgurl || defurl;
             setthbextbg(url);
         }
         else {
             //根据词条判断背景
             var word = $("#firstHeading").text().replace(/ /g, "_");
-            var url=`${defurl}?char=${word}&type=1`;
-            $.get(url,{},(res)=>{
+            var url = `${defurl}?char=${word}&type=1`;
+            $.get(url, {}, (res) => {
                 $("#p-namespaces ul").append($(`<li id='ca-nstab-saveBackground'><span><a href='${res}' target='_blank'>查看背景图片</a></span></li>`));
                 setthbextbg(res);
             });
@@ -130,15 +130,13 @@ $().ready(() => {
         if (url) {
             if ($("#ca-nstab-main").text() == '首页') {
                 // 仅unicorn和vampire皮肤生效
-                var skins = ["skin-unicorn","skin-vampire"];
+                var skins = ["skin-unicorn", "skin-vampire"];
                 var hasSkin = false;
-                for(var index in skins)
-                {
+                for (var index in skins) {
                     hasSkin = $(`.${skins[index]}`).length > 0;
-                    if(hasSkin)break;
+                    if (hasSkin) break;
                 }
-                if(hasSkin)
-                {
+                if (hasSkin) {
                     loadCssCode("#siteNotice{text-shadow: #252525 -1px -1px 1px, #252525 1px -1px 1px, #252525 -1px 1px 1px, #252525 1px 1px 1px;color: #CBA461;}");
                     loadCssCode(`.page-首页 div#content.mw-body{background-image:url(${url})!important;}`);
                 }
@@ -166,6 +164,36 @@ $().ready(() => {
 
     //修改页面
     if (editstatus) {
+        var toolbarReady = null;
+        toolbarReady = setInterval(() => {
+            if ($(".wikiEditor-ui-toolbar .tabs").length > 0) {
+                clearInterval(toolbarReady);
+
+                // 哔哩哔哩BV号转换
+                $(".wikiEditor-ui-toolbar .tabs").append($(`<span class='tab tab-bilibili' rel='bilibili'><a href='#' role='button' aria-pressed='false' aria-controls='wikiEditor-section-bilibili' class=''>插入转换后的哔哩哔哩BV号</a></span>`));
+
+                $(".tab-bilibili").on("click", function () {
+                    let bvid = prompt("请输入BV号（非完整地址）", "");
+
+                    let table = "fZodR9XQDSUm21yCkr6zBqiveYah8bt4xsWpHnJE7jL5VG3guMTKNPAwcF";
+                    let tr = {};
+                    for (let i = 0; i < 58; i++) {
+                        tr[table[i]] = i;
+                    }
+                    let s = [11, 10, 3, 8, 4, 6];
+                    let xor = 177451812,
+                        add = 8728348608;
+
+                    let r = 0;
+                    for (let i = 0; i < 6; i++) {
+                        r += tr[bvid[s[i]]] * Math.pow(58, i);
+                    }
+                    let avid = (r - add) ^ xor;
+                    insertText($("textarea")[0], avid);
+                    return false;
+                });
+            }
+        }, 1000);
         var fundiv = "";
         //歌词修改
         if (lyricstatus) {

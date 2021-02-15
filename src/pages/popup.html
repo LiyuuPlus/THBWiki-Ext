@@ -61,11 +61,36 @@
     <div id="app">
         <el-row>
             <el-col :span="24">
-                <div class="buttonlist">
-                    <el-button @Click="enterTHB()" type="info">THBWiki</el-button>
-                    <el-button @Click="enterTHB(true)" type="primary" v-text="UserName||T('LoginTHB')"></el-button>
-                    {{T('extVersion')+Version}}
-                </div>
+                <el-row :gutter="20">
+                    <el-col :span="6">
+                        <div class="grid-content">
+                            <el-button @Click="enterTHB()" type="info">THBWiki</el-button>
+                            <p>{{T('extVersion')+Version}}</p>
+                        </div>
+                    </el-col>
+                    <template v-if="loginStatus">
+                        <el-col :span="8">
+                            <div class="grid-content" id="userinfo">
+                                <el-avatar size="large" :src="UserInfo.avatar"></el-avatar>
+                                <p style="margin-top: 0rem;margin-bottom: 0rem;"><el-link @Click="enterTHB(true)"  v-text="UserInfo.fullname"></el-link></p>
+                            </div>
+                        </el-col>
+                        <el-col :span="10">
+                            <div class="grid-content" id="userextinfo" style="margin-top: -0.8rem;">
+                                <p>注册时间：{{UserInfo.registrationdate}}</p>
+                                <p>用户组：{{UserInfo.group}}</p>
+                                <p>编辑数：{{UserInfo.editcount}}</p>
+                            </div>
+                        </el-col>
+                    </template>
+                    <template v-else>
+                        <el-col :span="8">
+                            <div class="grid-content" id="userextinfo">
+                                <el-button @Click="enterTHB(true)" type="primary" v-text="T('LoginTHB')"></el-button>
+                            </div>
+                        </el-col>
+                    </template>
+                </el-row>
             </el-col>
         </el-row>
         <el-row>
@@ -298,7 +323,8 @@
                                         :value="Banner.value">
                                     </el-option>
                                 </el-select>
-                                <el-input v-model="Options.custombnurl" v-if="Options.custombnop=='customer'"></el-input>
+                                <el-input v-model="Options.custombnurl" v-if="Options.custombnop=='customer'">
+                                </el-input>
                             </div>
                             <div class="text item">
                                 <el-button type="primary" @click="saveOptions">{{T('SaveOptions')}}</el-button>
