@@ -54,6 +54,16 @@
             color: #fff;
             border-radius: 50%;
         }
+
+        .mask {
+            background-color: #252525;
+            color: #252525;
+            transition: color 0.5s;
+        }
+
+        .mask:hover {
+            color: #ffffff;
+        }
     </style>
 </head>
 
@@ -72,7 +82,11 @@
                         <el-col :span="8">
                             <div class="grid-content" id="userinfo">
                                 <el-avatar size="large" :src="UserInfo.avatar"></el-avatar>
-                                <p style="margin-top: 0rem;margin-bottom: 0rem;"><el-link @Click="enterTHB(true)"  v-text="UserInfo.fullname"></el-link></p>
+                                <p style="margin-top: 0rem;margin-bottom: 0rem;">
+                                    <el-link  @Click="enterTHB(true)" v-html="UserInfo.name"></el-link>
+                                </p>
+                                <p style="margin-top: 0rem;margin-bottom: 0rem;" v-html="UserInfo.htmlrealname">
+                                </p>
                             </div>
                         </el-col>
                         <el-col :span="10">
