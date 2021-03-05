@@ -81,19 +81,27 @@
                     <template v-if="loginStatus">
                         <el-col :span="8">
                             <div class="grid-content" id="userinfo">
-                                <el-avatar size="large" :src="UserInfo.avatar"></el-avatar>
-                                <p style="margin-top: 0rem;margin-bottom: 0rem;">
-                                    <el-link  @Click="enterTHB(true)" v-html="UserInfo.name"></el-link>
-                                </p>
+                                <div id="username">
+                                    <template v-if="UserInfo.name">
+                                        <el-avatar size="large" :src="UserInfo.avatar"></el-avatar>
+                                    </template>
+                                    <el-link @Click="enterTHB(true)" v-html="UserInfo.name" style="margin-top: -1.7rem;"></el-link>
+                                </div>
+                                <template v-if="AchievementInfo.titlename">
+                                    <p style="margin-top: 0rem;margin-bottom: 0rem;">
+                                        <a :title="AchievementInfo.titledesc" v-text="AchievementInfo.titlename"
+                                            style="color: #409eff;"></a>
+                                    </p>
+                                </template>
                                 <p style="margin-top: 0rem;margin-bottom: 0rem;" v-html="UserInfo.htmlrealname">
                                 </p>
                             </div>
                         </el-col>
                         <el-col :span="10">
-                            <div class="grid-content" id="userextinfo" style="margin-top: -0.8rem;">
-                                <p>{{T('RegTime')}}{{UserInfo.registrationdate}}</p>
-                                <p>{{T('Group')}}{{UserInfo.group}}</p>
-                                <p>{{T('EditCount')}}{{UserInfo.editcount}}</p>
+                            <div class="grid-content" id="userextinfo" style="margin-top: -0.6rem;">
+                                <p>{{T('RegTime')}}<b>{{UserInfo.registrationdate}}</b></p>
+                                <p>{{T('Group')}}<b>{{UserInfo.group}}</b></p>
+                                <p>{{T('EditCount')}}<b>{{UserInfo.editcount}}</b></p>
                             </div>
                         </el-col>
                     </template>

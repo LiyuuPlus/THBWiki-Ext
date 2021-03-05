@@ -6,7 +6,9 @@ var app = new Vue({
                 name: '',
                 realname: '',
                 htmlrealname: '',
-                avatar: 'https://thwiki.cc/favicon.ico'
+                avatar: 'https://thwiki.cc/favicon.ico',
+            },
+            AchievementInfo: {
             },
             Version: '',
             Search: '',
@@ -76,6 +78,9 @@ var app = new Vue({
                     res.avatar = `https://upload.thwiki.cc/avatars/thwikicc_wiki_${res.id}_l.png`;
                     res.htmlrealname = this.ParseWiki(res.realname);
                     this.UserInfo = res;
+                });
+                getAchievementInfo().then(res=>{
+                    this.AchievementInfo = res;
                 });
             }
             this.getUnreadNotification();
@@ -226,9 +231,13 @@ var app = new Vue({
                                 {
                                     newvalue = "铃仙二号";
                                 } break;
-                            case "梅莉":
+                            case "赫恩":
                                 {
                                     newvalue = "玛艾露贝莉·赫恩";
+                                } break;
+                            case "梅莉":
+                                {
+                                    newvalue = "梅莉";
                                 } break;
                         }
                     }

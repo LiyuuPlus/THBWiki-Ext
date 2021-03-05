@@ -311,3 +311,25 @@ var getUserInfo = () => {
         });
     });
 }
+
+var getAchievementInfo = () => {
+    return new Promise((res, rej) => {
+        $.ajax({
+            url: CsiteApiUrl,
+            data: {
+                action: "query",
+                format: "json",
+                formatversion: 2,
+                meta: "achievementinfo",
+                aiprop: "titlename|titledesc",
+            },
+            dataType: 'json',
+            success: (result) => {
+                res(result.query.achievementinfo);
+            },
+            error: () => {
+                rej([]);
+            }
+        });
+    });
+}
