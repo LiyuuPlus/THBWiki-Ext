@@ -155,6 +155,10 @@
         "message": "アルバムページはAPlayerを使用して網易雲音楽を再生します",
         "description": "アルバムページはAPlayerを使用して網易雲音楽を再生します"
     },
+    "SWInPageEdit":{
+        "message": "InPageEditの機能強化をオンにする",
+        "description": "InPageEditをロードします"
+    },
     "SaveOptions": {
         "message": "オプションの保存",
         "description": "オプションの保存"
@@ -162,6 +166,10 @@
     "SaveYes":{
         "message": "オプションの保存に成功しました！ ",
         "description": "オプションの保存に成功しました！ "
+    },
+    "HiddenFunOpen":{
+        "message": "すごい！ 新しい世界への扉を開いた！",
+        "description": "高度な機能をオンにする"
     },
     "NotificationTtile":{
         "message":"THBWikiからの通知",

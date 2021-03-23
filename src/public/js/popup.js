@@ -27,6 +27,9 @@ var app = new Vue({
                 Game: '',
                 Date: ''
             },
+            Temp: {
+                advancedCount: 0
+            },
             Banners: [],
             Options: {
                 background: true,
@@ -37,7 +40,9 @@ var app = new Vue({
                 aplayer: false,
                 custombanner: false,
                 custombnop: '',
-                custombnurl: ''
+                custombnurl: '',
+                advanced: false,
+                inpageedit: false
             }
         };
     },
@@ -53,6 +58,8 @@ var app = new Vue({
                 this.Options.custombnop = res.options.custombnop || '';
                 this.Options.custombnurl = res.options.custombnurl || '';
                 this.Options.custombanner = res.options.custombanner;
+                this.Options.inpageedit = res.options.inpageedit;
+                this.Options.advanced = res.options.advanced;
             }
         });
         $.get(chrome.extension.getURL('manifest.json'), (info) => {
@@ -79,7 +86,7 @@ var app = new Vue({
                     res.htmlrealname = this.ParseWiki(res.realname);
                     this.UserInfo = res;
                 });
-                getAchievementInfo().then(res=>{
+                getAchievementInfo().then(res => {
                     this.AchievementInfo = res;
                 });
             }
@@ -93,6 +100,23 @@ var app = new Vue({
         getProjectRelaseDate().then((res) => {
             this.DateList = res;
         });
+    },
+    watch: {
+        Temp: {
+            handler(val) {
+                if (!this.Options.advanced) {
+                    if (val.advancedCount >= 5) {
+                        this.$message({
+                            message: this.T("HiddenFunOpen"),
+                            type:"success"
+                        });
+                        this.Options.advanced = true;
+                        this.saveOptions();
+                    }
+                }
+            },
+            deep: true
+        }
     },
     methods: {
         T(name) {

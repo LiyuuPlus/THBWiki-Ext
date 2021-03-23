@@ -155,6 +155,10 @@
         "message": "Album Use APlayer Play Netease Music",
         "description": "Album Use APlayer Play Music From Netease"
     },
+    "SWInPageEdit":{
+        "message": "Turn on advanced features of InPageEdit ",
+        "description": "Load InPageEdit"
+    },
     "SaveOptions": {
         "message": "Save Options",
         "description": "Save Options"
@@ -162,6 +166,10 @@
     "SaveYes":{
         "message": "Save Options Successful！",
         "description": "Save Options Successful！"
+    },
+    "HiddenFunOpen":{
+        "message": "Very good! Advanced features have been turned on! ",
+        "description": "Turn on advanced features"
     },
     "NotificationTtile":{
         "message":"Notification from THBWiki",

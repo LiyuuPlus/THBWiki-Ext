@@ -64,6 +64,10 @@
         .mask:hover {
             color: #ffffff;
         }
+
+        .el-card .switch {
+            padding-bottom: 0.4rem;
+        }
     </style>
 </head>
 
@@ -83,9 +87,14 @@
                             <div class="grid-content" id="userinfo">
                                 <div id="username">
                                     <template v-if="UserInfo.name">
-                                        <el-avatar size="large" :src="UserInfo.avatar"></el-avatar>
+
+                                        <div @Click="Temp.advancedCount++">
+                                            <el-avatar size="large" :src="UserInfo.avatar">
+                                            </el-avatar>
+                                        </div>
                                     </template>
-                                    <el-link @Click="enterTHB(true)" v-html="UserInfo.name" style="margin-top: -1.7rem;"></el-link>
+                                    <el-link @Click="enterTHB(true)" v-html="UserInfo.name"
+                                        style="margin-top: -0.7rem;"></el-link>
                                 </div>
                                 <template v-if="AchievementInfo.titlename">
                                     <p style="margin-top: 0rem;margin-bottom: 0rem;">
@@ -93,7 +102,7 @@
                                             style="color: #409eff;"></a>
                                     </p>
                                 </template>
-                                <p style="margin-top: 0rem;margin-bottom: 0rem;" v-html="UserInfo.htmlrealname">
+                                <p style="margin-top: 0rem;margin-bottom: 0.1rem;" v-html="UserInfo.htmlrealname">
                                 </p>
                             </div>
                         </el-col>
@@ -311,34 +320,34 @@
                     </el-tab-pane>
                     <el-tab-pane :label="T('Options')" name="5">
                         <el-card class="box-card">
-                            <div class="text item">
+                            <div class="text item switch">
                                 {{T('SWBackground')}}：<el-switch v-model="Options.background">
                                 </el-switch>
                             </div>
-                            <div class="text item" v-if="Options.background">
+                            <div class="text item switch" v-if="Options.background">
                                 {{T('SWCustomBackground')}}：<el-switch v-model="Options.custombackground">
                                 </el-switch>
                             </div>
-                            <div class="text item" v-if="Options.custombackground">
+                            <div class="text item switch" v-if="Options.custombackground">
                                 {{T('CustomBGUrl')}}：<el-input v-model="Options.custombgurl"></el-input>
                             </div>
-                            <div class="text item">
+                            <div class="text item switch">
                                 {{T('SWTag')}}：<el-switch v-model="Options.tag">
                                 </el-switch>
                             </div>
-                            <div class="text item">
+                            <div class="text item switch">
                                 {{T('SWNetease')}}：<el-switch v-model="Options.netease">
                                 </el-switch>
                             </div>
-                            <div class="text item">
+                            <div class="text item switch">
                                 {{T('SWAPlayer')}}：<el-switch v-model="Options.aplayer">
                                 </el-switch>
                             </div>
-                            <div class="text item">
+                            <div class="text item switch">
                                 {{T('SWCustomBanner')}}：<el-switch v-model="Options.custombanner">
                                 </el-switch>
                             </div>
-                            <div class="text item" v-if="Options.custombanner">
+                            <div class="text item switch" v-if="Options.custombanner">
                                 {{T('CustomBNUrl')}}：
                                 <el-select v-model="Options.custombnop" placeholder="默认头图">
                                     <el-option v-for="Banner in Banners" :key="Banner.value" :label="Banner.name"
@@ -348,7 +357,13 @@
                                 <el-input v-model="Options.custombnurl" v-if="Options.custombnop=='customer'">
                                 </el-input>
                             </div>
-                            <div class="text item">
+                            <template v-if="Options.advanced">
+                                <div class="text item switch">
+                                    {{T('SWInPageEdit')}}：<el-switch v-model="Options.inpageedit">
+                                    </el-switch>
+                                </div>
+                            </template>
+                            <div class="text item switch">
                                 <el-button type="primary" @click="saveOptions">{{T('SaveOptions')}}</el-button>
                             </div>
                         </el-card>

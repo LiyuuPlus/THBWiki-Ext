@@ -36,6 +36,12 @@ var loadCssCode = (code) => {
     head.appendChild(style);
 }
 
+var loadScript = (code) => {
+    var script = document.createElement('script');
+    script.innerHTML = code;
+    document.head.appendChild(script);
+}
+
 var setbg = () => {
     var css = `body{
         background-color:#ffffff00!important;
@@ -87,6 +93,7 @@ var aplayer = false;
 var custombanner = false;
 var custombnop = "";
 var custombnurl = "";
+var inpageedit = false;
 
 chrome.storage.local.get(['options'], (res) => {
     if (res.options) {
@@ -99,10 +106,20 @@ chrome.storage.local.get(['options'], (res) => {
         custombanner = res.options.custombanner;
         custombnop = res.options.custombnop || '';
         custombnurl = res.options.custombnurl || '';
+        inpageedit = res.options.inpageedit;
     }
 });
 
 $().ready(() => {
+    //过于花里胡哨的提示
+    console.log(`  _____   _   _   ____  
+    |_   _| | | | | | __ ) 
+      | |   | |_| | |  _ \ 
+      | |   |  _  | | |_) |
+      |_|   |_| |_| |____/ 
+                           `);
+
+    // 仅unicorn皮肤生效
     if (background && $("body").hasClass("skin-unicorn")) {
         let defurl = `${apiurl}Background.php`;
         if (custombackground) {
@@ -144,6 +161,31 @@ $().ready(() => {
         }
     }
 
+    if (inpageedit) {
+        var script = `!(function() {
+  // RLQ是MediaWiki保存异步执行函数的数组
+  window.RLQ = RLQ || [];
+  RLQ.push(() => {
+    // 等待jQuery加载完毕
+    var _count = 0;
+    var _interval = setInterval(() => {
+      _count++;
+      if (typeof jQuery !== "undefined") {
+        // jQuery加载完毕
+        clearInterval(_interval);
+        // 防止网站并不是MediaWiki时报错
+        try {
+          mw.loader.load("https://cdn.jsdelivr.net/npm/mediawiki-inpageedit@latest/dist/InPageEdit.min.js");
+        } catch (e) {}
+      } else if (_count > 30 * 5) {
+        // 加载超时
+        clearInterval(_interval);
+      }
+    }, 200);
+  });
+})();`;
+        loadScript(script);
+    }
     // //替换底部标签
     // if ($("#mw-normal-catlinks ul").length > 0) {
     //     $("#mw-normal-catlinks ul li").each(function () {
