@@ -157,6 +157,12 @@ $().ready(() => {
                     loadCssCode("#siteNotice{text-shadow: #252525 -1px -1px 1px, #252525 1px -1px 1px, #252525 -1px 1px 1px, #252525 1px 1px 1px;color: #CBA461;}");
                     loadCssCode(`.page-首页 div#content.mw-body{background-image:url(${url})!important;}`);
                 }
+                // 如果不是在首页而是在首页的编辑页或者历史页的时候，不显示banner
+                if (action)
+                {
+                    loadCssCode(`.page-首页 div#content.mw-body{background-image:none!important;}`);
+                }
+                
             }
         }
     }
