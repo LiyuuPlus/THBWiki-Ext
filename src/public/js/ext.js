@@ -131,8 +131,32 @@ $().ready(() => {
             var word = $("#firstHeading").text().replace(/ /g, "_");
             var url = `${defurl}?char=${word}&type=1`;
             $.get(url, {}, (res) => {
-                $("#p-namespaces ul").append($(`<li id='ca-nstab-saveBackground'><span><a href='${res}' target='_blank'>查看背景图片</a></span></li>`));
                 setthbextbg(res);
+                var toolsDiv = `<ul id="ext-tools" class="vectorTabs">
+                <li id="ca-nstab-saveBackground" @click="ViewPic"><span><a>查看背景图片</a></span></li>
+                <template>
+                    <el-image :src="bgsrc" :preview-src-list="bglist" style="width: 1px; height: 1px" ref="bg_preview"></el-image>
+                </template>
+            </ul>`;
+                $("#p-namespaces").append($(toolsDiv));
+                new Vue({
+                    el: "#ext-tools",
+                    data() {
+                        return {
+                            bgsrc: "",
+                            bglist: []
+                        };
+                    },
+                    created() {
+                        this.bgsrc = res;
+                        this.bglist = [res];
+                    },
+                    methods: {
+                        ViewPic() {
+                            this.$refs.bg_preview.showViewer = true;
+                        }
+                    }
+                });
             });
         }
     }
@@ -158,11 +182,10 @@ $().ready(() => {
                     loadCssCode(`.page-首页 div#content.mw-body{background-image:url(${url})!important;}`);
                 }
                 // 如果不是在首页而是在首页的编辑页或者历史页的时候，不显示banner
-                if (action)
-                {
+                if (action) {
                     loadCssCode(`.page-首页 div#content.mw-body{background-image:none!important;}`);
                 }
-                
+
             }
         }
     }
