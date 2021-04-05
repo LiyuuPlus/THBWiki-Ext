@@ -333,3 +333,32 @@ var getAchievementInfo = () => {
         });
     });
 }
+
+var getCharTemplInfo = () => {
+    return new Promise((res, rej) => {
+        $.ajax({
+            url: CsiteApiUrl,
+            data: {
+                action: "parse",
+                format: "json",
+                formatversion: 2,
+                page: "用户Wiki:Suika_Sakura/角色名",
+                prop: "text",
+                wrapoutputclass: "",
+                disablelimitreport: 1,
+                disableeditsection: 1,
+                preview: 1,
+                disabletoc: 1,
+                utf8: 1
+            },
+            dataType: 'json',
+            success: (result) => {
+                var nresult=result.parse.text.replace("<p>","").replace("</p>","");
+                res(nresult);
+            },
+            error: () => {
+                rej([]);
+            }
+        });
+    });
+}

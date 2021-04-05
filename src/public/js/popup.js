@@ -30,6 +30,7 @@ var app = new Vue({
             Temp: {
                 advancedCount: 0
             },
+            Chars: {},
             Banners: [],
             Options: {
                 background: true,
@@ -65,32 +66,8 @@ var app = new Vue({
         $.get(chrome.extension.getURL('manifest.json'), (info) => {
             this.Version = info.version;
         }, 'json');
-        checkLogin((res) => {
-            this.loginStatus = res ? true : false;
-            if (this.loginStatus) {
-                this.UserInfo.fullname = decodeURIComponent(res).replace(/\+/g, " ");
-                getUserInfo().then((res) => {
-                    res.groups = res.groups.filter((v) => v != "*");
-                    //取得最高权限用户组
-                    var rights = ["bot", "bureaucrat", "sysop", "textop", "confirm", "preconfirm", "autoconfirmed", "user"];
-                    for (var i = 0; i < rights.length; i++) {
-                        var right = rights[i];
-                        var group = res.groups.filter((v) => v == right);
-                        if (group.length > 0) {
-                            res.group = this.T(`right_${right}`);
-                            break;
-                        }
-                    }
-                    res.registrationdate = new Date(res.registrationdate).Format("yyyy年MM月dd日");
-                    res.avatar = `https://upload.thwiki.cc/avatars/thwikicc_wiki_${res.id}_l.png`;
-                    res.htmlrealname = this.ParseWiki(res.realname);
-                    this.UserInfo = res;
-                });
-                getAchievementInfo().then(res => {
-                    this.AchievementInfo = res;
-                });
-            }
-            this.getUnreadNotification();
+        getCharTemplInfo().then(res => {
+            this.Chars = JSON.parse(res);
         });
         getCustomerBanner().then((res) => {
             var nres = [{ name: '默认头图', value: '' }, { name: '自定义', value: 'customer' }];
@@ -101,6 +78,37 @@ var app = new Vue({
             this.DateList = res;
         });
     },
+    mounted() {
+        checkLogin((res) => {
+            this.loginStatus = res ? true : false;
+            if (this.loginStatus) {
+                this.UserInfo.fullname = decodeURIComponent(res).replace(/\+/g, " ");
+                setTimeout(() => {
+                    getUserInfo().then((res) => {
+                        res.groups = res.groups.filter((v) => v != "*");
+                        //取得最高权限用户组
+                        var rights = ["bot", "bureaucrat", "sysop", "textop", "confirm", "preconfirm", "autoconfirmed", "user"];
+                        for (var i = 0; i < rights.length; i++) {
+                            var right = rights[i];
+                            var group = res.groups.filter((v) => v == right);
+                            if (group.length > 0) {
+                                res.group = this.T(`right_${right}`);
+                                break;
+                            }
+                        }
+                        res.registrationdate = new Date(res.registrationdate).Format("yyyy年MM月dd日");
+                        res.avatar = `https://upload.thwiki.cc/avatars/thwikicc_wiki_${res.id}_l.png`;
+                        res.htmlrealname = this.ParseWiki(res.realname);
+                        this.UserInfo = res;
+                    });
+                    getAchievementInfo().then(res => {
+                        this.AchievementInfo = res;
+                    });
+                }, 200);
+            }
+            this.getUnreadNotification();
+        });
+    },
     watch: {
         Temp: {
             handler(val) {
@@ -108,7 +116,7 @@ var app = new Vue({
                     if (val.advancedCount >= 5) {
                         this.$message({
                             message: this.T("HiddenFunOpen"),
-                            type:"success"
+                            type: "success"
                         });
                         this.Options.advanced = true;
                         this.saveOptions();
@@ -134,135 +142,8 @@ var app = new Vue({
                     let newvalue = "";
                     if (kv.length == 1) {
                         let key = kv[0];
-                        switch (key.toLowerCase()) {
-                            case "卡娜":
-                                {
-                                    newvalue = "卡娜·安娜贝拉尔";
-                                } break;
-                            case "帕秋莉":
-                                {
-                                    newvalue = "帕秋莉·诺蕾姬";
-                                } break;
-                            case "蕾米莉亚":
-                                {
-                                    newvalue = "蕾米莉亚·斯卡蕾特";
-                                } break;
-                            case "芙兰朵露":
-                                {
-                                    newvalue = "芙兰朵露·斯卡蕾特";
-                                } break;
-                            case "蕾蒂":
-                                {
-                                    newvalue = "蕾蒂·霍瓦特洛克";
-                                } break;
-                            case "爱丽丝":
-                                {
-                                    newvalue = "爱丽丝·玛格特洛依德";
-                                } break;
-                            case "lily":
-                                {
-                                    newvalue = "莉莉霍瓦特";
-                                } break;
-                            case "露娜萨":
-                                {
-                                    newvalue = "露娜萨·普莉兹姆利巴";
-                                } break;
-                            case "梅露兰":
-                                {
-                                    newvalue = "梅露兰·普莉兹姆利巴";
-                                } break;
-                            case "莉莉卡":
-                                {
-                                    newvalue = "莉莉卡·普莉兹姆利巴";
-                                } break;
-                            case "蕾拉":
-                                {
-                                    newvalue = "蕾拉·普莉兹姆利巴";
-                                } break;
-                            case "莉格露":
-                                {
-                                    newvalue = "莉格露·奈特巴格";
-                                } break;
-                            case "米斯蒂娅":
-                                {
-                                    newvalue = "米斯蒂娅·萝蕾拉";
-                                } break;
-                            case "tewi":
-                                {
-                                    newvalue = "因幡帝";
-                                } break;
-                            case "铃仙":
-                                {
-                                    newvalue = "铃仙·优昙华院·因幡";
-                                } break;
-                            case "梅蒂欣":
-                                {
-                                    newvalue = "梅蒂欣·梅兰可莉";
-                                } break;
-                            case "四季映姬":
-                                {
-                                    newvalue = "四季映姬·夜魔仙那度";
-                                } break;
-                            case "琪斯美":
-                                {
-                                    newvalue = "琪斯美";
-                                } break;
-                            case "水桥":
-                                {
-                                    newvalue = "水桥帕露西";
-                                } break;
-                            case "naz":
-                                {
-                                    newvalue = "娜兹玲";
-                                } break;
-                            case "姬海棠":
-                                {
-                                    newvalue = "姬海棠果";
-                                } break;
-                            case "二岩":
-                                {
-                                    newvalue = "二岩猯藏";
-                                } break;
-                            case "哆来咪":
-                                {
-                                    newvalue = "哆来咪·苏伊特";
-                                } break;
-                            case "克劳恩":
-                                {
-                                    newvalue = "克劳恩皮丝";
-                                } break;
-                            case "赫卡提亚":
-                                {
-                                    newvalue = "赫卡提亚·拉碧斯拉祖利";
-                                } break;
-                            case "爱塔":
-                                {
-                                    newvalue = "爱塔妮缇·拉尔瓦";
-                                } break;
-                            case "桑尼":
-                                {
-                                    newvalue = "桑尼米尔克";
-                                } break;
-                            case "露娜":
-                                {
-                                    newvalue = "露娜切露德";
-                                } break;
-                            case "斯塔":
-                                {
-                                    newvalue = "斯塔萨菲雅";
-                                } break;
-                            case "铃仙二号":
-                                {
-                                    newvalue = "铃仙二号";
-                                } break;
-                            case "赫恩":
-                                {
-                                    newvalue = "玛艾露贝莉·赫恩";
-                                } break;
-                            case "梅莉":
-                                {
-                                    newvalue = "梅莉";
-                                } break;
+                        if (this.Chars[`${key.toLowerCase()}`]) {
+                            newvalue = this.Chars[`${key.toLowerCase()}`];
                         }
                     }
                     else if (kv.length > 1) {
