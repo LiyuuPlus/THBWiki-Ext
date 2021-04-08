@@ -97,7 +97,7 @@ var app = new Vue({
                             }
                         }
                         res.registrationdate = new Date(res.registrationdate).Format("yyyy年MM月dd日");
-                        res.avatar = `https://upload.thwiki.cc/avatars/thwikicc_wiki_${res.id}_l.png`;
+                        res.avatar = `https://upload.thwiki.cc/avatars/thwikicc_wiki_${res.id}_l.jpg?r=${Math.round(new Date().getTime()/1000)}`;
                         res.htmlrealname = this.ParseWiki(res.realname);
                         this.UserInfo = res;
                     });
