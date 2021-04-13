@@ -176,11 +176,15 @@
         "description":"Browser notification title"
     },
     "NotificationBody":{
-        "message":"You have $count$ unread notifications.",
+        "message":"You have $count$ unread notifications, such as <$msg>.",
         "description":"Browser notification body",
         "placeholders": {
-            "count": {
+            "msg": {
                 "content": "$1",
+                "example": "This is a Message."
+            },
+            "count": {
+                "content": "$2",
                 "example": "0"
             }
         }

@@ -21,7 +21,8 @@ var action = QueryString.GetValue("action");
 var title = decodeURI(QueryString.GetValue("title"));
 
 //Get Status
-var editstatus = (action == "edit") ? true : false;
+var editstatus = action == "edit";
+var submitstatus = action == "submit";
 var lyricstatus = (title.indexOf("歌词:") >= 0) ? true : false;
 
 var loadCssCode = (code) => {
@@ -233,8 +234,27 @@ $().ready(() => {
     //     });
     // }
 
+    //提交页面
+    if (submitstatus) {
+        setTimeout(() => {
+            //验证码自动获取
+            if ($("label[for='wpCaptchaWord']").length > 0) {
+                var question = $("label[for='wpCaptchaWord']").text();
+                $.get(CsiteApiUrl, {
+                    action: "query",
+                    format: "json",
+                    formatversion: 2,
+                    meta: "userinfo",
+                }, (result) => {
+                    $.get(`${apiurl}Captcha.php?q=${question}&uid=${result.query.userinfo.id}`, (res) => {
+                        $("input[name='wpCaptchaWord']").val(res);
+                    });
+                });
+            }
+        }, 1000);
+    }
     //修改页面
-    if (editstatus) {
+    else if (editstatus) {
         var toolbarReady = null;
         toolbarReady = setInterval(() => {
             if ($(".wikiEditor-ui-toolbar .tabs").length > 0) {

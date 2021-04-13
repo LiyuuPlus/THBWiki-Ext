@@ -176,11 +176,15 @@
         "description":"ブラウザ通知タイトル"
     },
     "NotificationBody":{
-        "message":"未読の通知が$count$つあります。 ",
+        "message":"「$msg$」などの未読通知が$count$つあります 。 ",
         "description":"ブラウザ通知本文",
         "placeholders": {
-            "count": {
+            "msg": {
                 "content": "$1",
+                "example": "これはメッセージです。"
+            },
+            "count": {
+                "content": "$2",
                 "example": "0"
             }
         }

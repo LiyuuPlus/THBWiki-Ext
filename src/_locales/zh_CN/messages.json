@@ -176,11 +176,15 @@
         "description": "浏览器通知标题"
     },
     "NotificationBody": {
-        "message": "你有$count$条未读信息",
+        "message": "你有<$msg$>等$count$条未读信息",
         "description": "浏览器通知内容",
         "placeholders": {
-            "count": {
+            "msg": {
                 "content": "$1",
+                "example": "这是一条消息"
+            },
+            "count": {
+                "content": "$2",
                 "example": "0"
             }
         }

@@ -26,7 +26,7 @@ var checkUnreadNotificationNum = (username) => {
                 meta: 'notifications',
                 notformat: "model",
                 notlimit: 25,
-                notprop: 'count',
+                notprop: 'list|count',
                 uselang: Vlang,
                 notfilter: "!read"
             },
@@ -40,15 +40,17 @@ var checkUnreadNotificationNum = (username) => {
                         chrome.browserAction.getBadgeText({}, res => {
                             let count = res || 0;
                             if (count < ncount) {
+                                var msg = result.query.notifications.list[0]["*"].header.replace(/<.*?>/g, "");
+                                var url = result.query.notifications.list[0]["*"].links.primary.url;
                                 let options = {
-                                    body: getLang("NotificationBody", [ncount]),
+                                    body: getLang("NotificationBody", [msg, ncount]),
                                     icon: "../public/images/logo-128.png",
                                     tag: "THBWiki",
                                     renotify: true
                                 };
                                 var notification = new Notification(getLang("NotificationTtile"), options);
                                 notification.onclick = function () {
-                                    createTab("https://thwiki.cc/%E7%89%B9%E6%AE%8A:%E9%80%9A%E7%9F%A5");
+                                    createTab((ncount == 1) ? url : "https://thwiki.cc/%E7%89%B9%E6%AE%8A:%E9%80%9A%E7%9F%A5");
                                 }
                             }
                             chrome.browserAction.setBadgeText({ text: String(ncount) });
@@ -353,7 +355,7 @@ var getCharTemplInfo = () => {
             },
             dataType: 'json',
             success: (result) => {
-                var nresult=result.parse.text.replace("<p>","").replace("</p>","");
+                var nresult = result.parse.text.replace("<p>", "").replace("</p>", "");
                 res(nresult);
             },
             error: () => {
