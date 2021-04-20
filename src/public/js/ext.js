@@ -44,8 +44,11 @@ var loadScript = (code) => {
 }
 
 var setbg = () => {
-    var css = `body{
+    var css = `
+    body{
         background-color:#ffffff00!important;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
     }
     
     #mw-page-base,#mw-head-base,#mw-panel{
@@ -61,11 +64,16 @@ var setbg = () => {
     
     #p-personal,#footer{
         background-color: #ffffffcc!important;
+
+    }
+    
+    #p-personal{
+        padding-right: 1rem;
     }
     
     #content
     {
-        background-color: #ffffffcc;
+        background-color: #ffffffcc!important;
     }
     
     .portal ul>li
@@ -80,10 +88,57 @@ var setbg = () => {
     loadCssCode(css);
 }
 
+var setblurbg = (url) => {
+    var css = `
+    #mw-panel{
+        --foreground-color-high:#ffffff73!important;
+    }
+    
+    #content
+    {
+        background-color: #ffffffa6!important;
+    }
+    
+    .thbextbg::after{
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url(${url});
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        z-index: -1;
+        -webkit-filter: blur(10px);
+        -moz-filter: blur(10px);
+        -ms-filter: blur(10px);
+        -o-filter: blur(10px);
+        filter: blur(10px);
+    }
+    
+    .mw-body #toc, .mw-body .toc,
+    .mw-body table.wikitable,
+    div.thumbinner,
+    .disambig-box,
+    .page-content-header,
+    #mw-hidesidebar,
+    .catlinks{
+        background-color: #ffffff5c!important;
+    }
+    
+    `;
+    loadCssCode(css);
+}
+
 var setthbextbg = (url) => {
     setbg();
     loadCssCode(`.thbextbg{background-image:url(${url})!important;}`);
     $("html").addClass(`mainbg thbextbg`);
+    setblurbg(url);
 }
 var background = true;
 var custombackground = false;
