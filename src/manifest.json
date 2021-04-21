@@ -50,7 +50,8 @@
   ],
   "web_accessible_resources": [
     "public/libs/element-ui/fonts/element-icons.ttf",
-    "public/libs/element-ui/fonts/element-icons.woff"
+    "public/libs/element-ui/fonts/element-icons.woff",
+    "manifest.json"
   ],
   "content_security_policy": "style-src 'self' 'unsafe-inline';script-src 'self' 'unsafe-eval'; object-src 'self' ;img-src https:; font-src 'self' 'unsafe-inline';"
 }

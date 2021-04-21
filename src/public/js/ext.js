@@ -175,7 +175,13 @@ var custombnop = "";
 var custombnurl = "";
 var inpageedit = false;
 
-chrome.storage.local.get(['options'], (res) => {
+var extVer = "0.0.0";
+$.get(chrome.extension.getURL('manifest.json'), (info) => {
+    extVer = info.version;
+}, 'json');
+var isUpdate = false;
+
+chrome.storage.local.get(['options', "info"], (res) => {
     if (res.options) {
         background = res.options.background;
         custombackground = res.options.custombackground;
@@ -188,6 +194,13 @@ chrome.storage.local.get(['options'], (res) => {
         custombnurl = res.options.custombnurl || '';
         inpageedit = res.options.inpageedit;
     }
+    var ver = "0.0.0";
+    if (res.info) {
+        ver = res.info.ver;
+    }
+    if (ver < extVer) {
+        isUpdate = true;
+    }
 });
 
 $().ready(() => {
@@ -199,6 +212,55 @@ $().ready(() => {
       |_|   |_| |_| |____/ 
                            `);
 
+
+    $("#p-namespaces").append($(`<ul id="thbext" class="vectorTabs">
+                           <li id="ca-nstab-changeLog" @click="showChangeLog"><span><a>THB扩展更新日志</a></span></li>
+                           <li id="ca-nstab-update" v-if="update" @click="goToSite"><span><a>更新我的THBWiki</a></span></li>
+                       </ul>`));
+    new Vue({
+        el: "#thbext",
+        data() {
+            return {
+                update: false
+            };
+        },
+        created() {
+            this.checkUpdate();
+            if (isUpdate) {
+                $.get(`${apiurl}Ver.php?ver=${extVer}`, (res) => {
+                    this.$alert(res, `我的THBWiki ${extVer}更新日志`, {
+                        dangerouslyUseHTMLString: true,
+                        confirmButtonText: '确定',
+                        callback: action => {
+                            if (action == "confirm") {
+                                chrome.storage.local.set({ "info": { ver: extVer } });
+                            }
+                        }
+                    });
+                });
+            }
+        },
+        methods: {
+            showChangeLog() {
+                $.get(`${apiurl}Ver.php`, (res) => {
+                    this.$alert(res, `我的THBWiki 更新日志`, {
+                        dangerouslyUseHTMLString: true,
+                        confirmButtonText: '确定'
+                    });
+                });
+            },
+            checkUpdate() {
+                $.get(`${apiurl}Ver.php?upVer=${extVer}`, (res) => {
+                    if (extVer != res) {
+                        this.update = true;
+                    }
+                });
+            },
+            goToSite() {
+                window.location.href = "https://github.com/Whuihuan/THBWiki-Ext/releases";
+            }
+        }
+    });
     // 仅unicorn皮肤生效
     if (background && $("body").hasClass("skin-unicorn")) {
         let defurl = `${apiurl}Background.php`;
