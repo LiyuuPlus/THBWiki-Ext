@@ -47,8 +47,6 @@ var setbg = () => {
     var css = `
     body{
         background-color:#ffffff00!important;
-        background-repeat: no-repeat;
-        background-attachment: fixed;
     }
     
     #mw-page-base,#mw-head-base,#mw-panel{
@@ -58,13 +56,14 @@ var setbg = () => {
     #mw-panel{
         --foreground-color-high:#ffffffcc!important;
     }
+    
     #mw-panel .portal{
         background-color:#ffffff00!important;
     }
     
-    #p-personal,#footer{
+    #p-personal,
+    #footer{
         background-color: #ffffffcc!important;
-
     }
     
     #p-personal{
@@ -91,12 +90,28 @@ var setbg = () => {
 var setblurbg = (url) => {
     var css = `
     #mw-panel{
-        --foreground-color-high:#ffffff73!important;
+        --foreground-color-high:#ffffff94!important;
+    }
+    
+    #p-personal{
+        border-radius: 1rem;
+    }
+    
+    #p-personal,
+    #footer,
+    div.vectorTabs ul li,
+    #mw-head div.vectorMenu h3
+    {
+        background-color:#ffffffa6!important;
     }
     
     #content
     {
         background-color: #ffffffa6!important;
+    }
+    
+    .thbextbg{
+        background-image:unset!important;
     }
     
     .thbextbg::after{
@@ -113,11 +128,11 @@ var setblurbg = (url) => {
         background-attachment: fixed;
         background-size: cover;
         z-index: -1;
-        -webkit-filter: blur(10px);
-        -moz-filter: blur(10px);
-        -ms-filter: blur(10px);
-        -o-filter: blur(10px);
-        filter: blur(10px);
+        -webkit-filter: blur(5px);
+        -moz-filter: blur(5px);
+        -ms-filter: blur(5px);
+        -o-filter: blur(5px);
+        filter: blur(5px);
     }
     
     .mw-body #toc, .mw-body .toc,
@@ -126,7 +141,8 @@ var setblurbg = (url) => {
     .disambig-box,
     .page-content-header,
     #mw-hidesidebar,
-    .catlinks{
+    .catlinks,
+    .ambox{
         background-color: #ffffff5c!important;
     }
     
@@ -136,7 +152,15 @@ var setblurbg = (url) => {
 
 var setthbextbg = (url) => {
     setbg();
-    loadCssCode(`.thbextbg{background-image:url(${url})!important;}`);
+    var css = `
+    .thbextbg{
+        background-image:url(${url})!important;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+     }
+     `;
+    loadCssCode(css);
     $("html").addClass(`mainbg thbextbg`);
     setblurbg(url);
 }
