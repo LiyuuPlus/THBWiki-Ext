@@ -176,10 +176,13 @@ var custombnurl = "";
 var inpageedit = false;
 
 var extVer = "0.0.0";
+var ver = "0.0.0";
+var homepage = "";
+
 $.get(chrome.extension.getURL('manifest.json'), (info) => {
     extVer = info.version;
+    homepage = info.homepage_url;
 }, 'json');
-var isUpdate = false;
 
 chrome.storage.local.get(['options', "info"], (res) => {
     if (res.options) {
@@ -194,12 +197,8 @@ chrome.storage.local.get(['options', "info"], (res) => {
         custombnurl = res.options.custombnurl || '';
         inpageedit = res.options.inpageedit;
     }
-    var ver = "0.0.0";
     if (res.info) {
         ver = res.info.ver;
-    }
-    if (ver < extVer) {
-        isUpdate = true;
     }
 });
 
@@ -226,7 +225,7 @@ $().ready(() => {
         },
         created() {
             this.checkUpdate();
-            if (isUpdate) {
+            if (ver < extVer) {
                 $.get(`${apiurl}Ver.php?ver=${extVer}`, (res) => {
                     this.$alert(res, `我的THBWiki ${extVer}更新日志`, {
                         dangerouslyUseHTMLString: true,
@@ -257,10 +256,11 @@ $().ready(() => {
                 });
             },
             goToSite() {
-                window.location.href = "https://github.com/Whuihuan/THBWiki-Ext/releases";
+                window.location.href = `${homepage}/releases`;
             }
         }
     });
+
     // 仅unicorn皮肤生效
     if (background && $("body").hasClass("skin-unicorn")) {
         let defurl = `${apiurl}Background.php`;
