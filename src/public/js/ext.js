@@ -142,8 +142,52 @@ var setblurbg = (url) => {
     .page-content-header,
     #mw-hidesidebar,
     .catlinks,
-    .ambox{
+    .ambox,
+    pre,
+    .mw-code{
         background-color: #ffffff5c!important;
+    }
+
+    .mw-body #toc, .mw-body .toc,
+    div.thumbinner,
+    .disambig-box,
+    .page-content-header,
+    .catlinks,
+    .ambox,
+    pre,
+    .mw-code,
+    .template-documentation,
+    #a-garakuta,
+    #a-game,
+    #a-music,
+    #a-series,
+    #a-doujin,
+    #a-news,
+    #a-other,
+    #a-link,
+    #a-about{
+        border-radius: 10px;
+    }
+
+    #a-donate{
+        border-radius: 5px;
+    }
+
+    .page-首页 #content{
+        background-color: #ffffff6e!important;
+    }
+    
+    #a-series::before,
+    #a-doujin::before,
+    #a-news::before,
+    #a-other::before,
+    #a-link::before,
+    #a-about::before{
+        background-color: #ffffff78!important;
+    }
+
+    .bg-g2{
+        background-color: #d2ecd594!important;
     }
     
     `;
@@ -204,7 +248,8 @@ chrome.storage.local.get(['options', "info"], (res) => {
 
 $().ready(() => {
     //过于花里胡哨的提示
-    console.log(`  _____   _   _   ____  
+    console.log(`
+    _____   _   _   ____  
     |_   _| | | | | | __ ) 
       | |   | |_| | |  _ \ 
       | |   |  _  | | |_) |
