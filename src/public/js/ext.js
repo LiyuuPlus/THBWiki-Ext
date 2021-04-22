@@ -165,11 +165,14 @@ var setblurbg = (url) => {
     #a-news,
     #a-other,
     #a-link,
-    #a-about{
+    #a-about,
+    .thumbimage{
         border-radius: 10px;
     }
 
-    #a-donate{
+    #a-donate,
+    .user-relationship-container img,
+    #profile-image img{
         border-radius: 5px;
     }
 
