@@ -135,8 +135,20 @@
         "message": "カスタム背景 Url",
         "description": "カスタム背景 Url"
     },
+    "SWBlurBackground": {
+        "message": "背景をぼかす（注意して使用） ",
+        "description": "カスタム背景 "
+    },
     "SWCustomBanner": {
         "message": "カスタムバナー",
+        "description": "カスタムバナー"
+    },
+    "DefaultBanner": {
+        "message": "デフォルトバナー",
+        "description": "デフォルトバナー"
+    },
+    "CustomBanner": {
+        "message": "カスタム",
         "description": "カスタムバナー"
     },
     "CustomBNUrl": {
@@ -163,9 +175,17 @@
         "message": "オプションの保存",
         "description": "オプションの保存"
     },
+    "ResetOptions": {
+        "message": "オプションのリセット",
+        "description": "オプションのリセット"
+    },
     "SaveYes":{
         "message": "オプションの保存に成功しました！ ",
         "description": "オプションの保存に成功しました！ "
+    },
+    "ResetYes":{
+        "message": "オプションのリセットに成功しました！ ",
+        "description": "オプションのリセットに成功しました！ "
     },
     "HiddenFunOpen":{
         "message": "すごい！ 新しい世界への扉を開いた！",

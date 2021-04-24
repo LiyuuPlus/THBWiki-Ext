@@ -135,8 +135,20 @@
         "message": "自定义背景图地址",
         "description": "自定义背景图地址"
     },
+    "SWBlurBackground": {
+        "message": "高级美化（低性能慎用）",
+        "description": "开启毛玻璃背景"
+    },
     "SWCustomBanner": {
         "message": "自定义头图",
+        "description": "自定义头图"
+    },
+    "DefaultBanner": {
+        "message": "默认头图",
+        "description": "默认头图"
+    },
+    "CustomBanner": {
+        "message": "自定义",
         "description": "自定义头图"
     },
     "CustomBNUrl": {
@@ -163,9 +175,17 @@
         "message": "保存设置",
         "description": "保存设置"
     },
+    "ResetOptions": {
+        "message": "重置设置",
+        "description": "重置设置"
+    },
     "SaveYes":{
         "message": "保存成功！",
         "description": "保存成功！"
+    },
+    "ResetYes":{
+        "message": "重置成功！",
+        "description": "重置成功！"
     },
     "HiddenFunOpen":{
         "message": "好耶！开启了新世界的大门！",

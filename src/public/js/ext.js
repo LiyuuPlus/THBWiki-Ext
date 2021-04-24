@@ -43,6 +43,35 @@ var loadScript = (code) => {
     document.head.appendChild(script);
 }
 
+var background = true;
+var custombackground = false;
+var custombgurl = "";
+var blurbackground = false;
+var tag = true;
+var netease = false;
+var aplayer = false;
+var custombanner = false;
+var custombnop = "";
+var custombnurl = "";
+var inpageedit = false;
+
+
+chrome.storage.local.get(['options'], (res) => {
+    if (res.options) {
+        background = res.options.background;
+        custombackground = res.options.custombackground;
+        custombgurl = res.options.custombgurl || '';
+        blurbackground = res.options.blurbackground;
+        tag = res.options.tag;
+        netease = res.options.netease;
+        aplayer = res.options.aplayer;
+        custombanner = res.options.custombanner;
+        custombnop = res.options.custombnop || '';
+        custombnurl = res.options.custombnurl || '';
+        inpageedit = res.options.inpageedit;
+    }
+});
+
 var setbg = () => {
     var css = `
     body{
@@ -72,7 +101,7 @@ var setbg = () => {
     
     #content
     {
-        background-color: #ffffffcc!important;
+        background-color: #ffffffb3!important
     }
     
     .portal ul>li
@@ -82,8 +111,81 @@ var setbg = () => {
     
     .portal li ul li
     {
-        background-color: #ffffffff!important;
-    }`;
+        background-color: #ffffff45!important
+    }
+
+    
+    .mw-body #toc, .mw-body .toc,
+    div.thumbinner,
+    .disambig-box,
+    .page-content-header,
+    .catlinks,
+    .ambox,
+    pre,
+    .mw-code,
+    .template-documentation,
+    #a-garakuta,
+    #a-game,
+    #a-music,
+    #a-series,
+    #a-doujin,
+    #a-news,
+    #a-other,
+    #a-link,
+    #a-about,
+    .thumbimage{
+        border-radius: 10px;
+    }
+
+    .mw-body #toc, .mw-body .toc,
+    .mw-body table.wikitable,
+    div.thumbinner,
+    .disambig-box,
+    .page-content-header,
+    #mw-hidesidebar,
+    .catlinks,
+    .ambox,
+    pre,
+    .mw-code{
+        background-color: #ffffff6b!important;
+    }
+
+    #p-personal,
+    #footer,
+    div.vectorTabs ul li,
+    #mw-head div.vectorMenu h3
+    {
+        background-color:#ffffffc9!important;
+    }
+
+    .mw-body table.wikitable th{
+        background-color: #fffbfb69!important;
+    }
+
+    #a-donate,
+    .user-relationship-container img,
+    #profile-image img{
+        border-radius: 5px;
+    }
+
+    #p-personal{
+        border-radius: 1rem;
+    }
+
+    .page-首页 #content{
+        background-color: #ffffff6e!important;
+    }
+
+    .bg-g2{
+        background-color: #d2ecd594!important;
+    }
+
+    div#ExtFixedHeader h2, 
+    div#ExtFixedHeader h3{
+        background-color: rgba(244, 244, 244, 0.78)!important;
+    }
+    `;
+
     loadCssCode(css);
 }
 
@@ -91,10 +193,6 @@ var setblurbg = (url) => {
     var css = `
     #mw-panel{
         --foreground-color-high:#ffffff94!important;
-    }
-    
-    #p-personal{
-        border-radius: 1rem;
     }
     
     #p-personal,
@@ -134,47 +232,6 @@ var setblurbg = (url) => {
         -o-filter: blur(5px);
         filter: blur(5px);
     }
-    
-    .mw-body #toc, .mw-body .toc,
-    .mw-body table.wikitable,
-    div.thumbinner,
-    .disambig-box,
-    .page-content-header,
-    #mw-hidesidebar,
-    .catlinks,
-    .ambox,
-    pre,
-    .mw-code{
-        background-color: #ffffff5c!important;
-    }
-
-    .mw-body #toc, .mw-body .toc,
-    div.thumbinner,
-    .disambig-box,
-    .page-content-header,
-    .catlinks,
-    .ambox,
-    pre,
-    .mw-code,
-    .template-documentation,
-    #a-garakuta,
-    #a-game,
-    #a-music,
-    #a-series,
-    #a-doujin,
-    #a-news,
-    #a-other,
-    #a-link,
-    #a-about,
-    .thumbimage{
-        border-radius: 10px;
-    }
-
-    #a-donate,
-    .user-relationship-container img,
-    #profile-image img{
-        border-radius: 5px;
-    }
 
     .page-首页 #content{
         background-color: #ffffff6e!important;
@@ -191,6 +248,19 @@ var setblurbg = (url) => {
 
     .bg-g2{
         background-color: #d2ecd594!important;
+    }
+
+    div#ExtFixedHeader h2, 
+    div#ExtFixedHeader h3{
+        background-color: rgba(244, 244, 244, 0.69)!important;
+    }
+
+    .portal li ul li {
+        background-color: #ffffff94!important;
+    }
+
+    .mw-body table.wikitable th{
+        background-color: #fffbfb52!important;
     }
     
     `;
@@ -209,56 +279,12 @@ var setthbextbg = (url) => {
      `;
     loadCssCode(css);
     $("html").addClass(`mainbg thbextbg`);
-    setblurbg(url);
+    if (blurbackground) {
+        setblurbg(url);
+    }
 }
-var background = true;
-var custombackground = false;
-var custombgurl = "";
-var tag = true;
-var netease = false;
-var aplayer = false;
-var custombanner = false;
-var custombnop = "";
-var custombnurl = "";
-var inpageedit = false;
-
-var extVer = "0.0.0";
-var ver = "0.0.0";
-var homepage = "";
-
-$.get(chrome.extension.getURL('manifest.json'), (info) => {
-    extVer = info.version;
-    homepage = info.homepage_url;
-}, 'json');
-
-chrome.storage.local.get(['options', "info"], (res) => {
-    if (res.options) {
-        background = res.options.background;
-        custombackground = res.options.custombackground;
-        custombgurl = res.options.custombgurl || '';
-        tag = res.options.tag;
-        netease = res.options.netease;
-        aplayer = res.options.aplayer;
-        custombanner = res.options.custombanner;
-        custombnop = res.options.custombnop || '';
-        custombnurl = res.options.custombnurl || '';
-        inpageedit = res.options.inpageedit;
-    }
-    if (res.info) {
-        ver = res.info.ver;
-    }
-});
 
 $().ready(() => {
-    //过于花里胡哨的提示
-    console.log(`
-    _____   _   _   ____  
-    |_   _| | | | | | __ ) 
-      | |   | |_| | |  _ \ 
-      | |   |  _  | | |_) |
-      |_|   |_| |_| |____/ 
-                           `);
-
 
     $("#p-namespaces").append($(`<ul id="thbext" class="vectorTabs">
                            <li id="ca-nstab-changeLog" @click="showChangeLog"><span><a>THB扩展更新日志</a></span></li>
@@ -268,23 +294,26 @@ $().ready(() => {
         el: "#thbext",
         data() {
             return {
+                homepage: "",
+                extVer: '0.0.0',
+                ver: '0.0.0',
                 update: false
             };
         },
         created() {
             this.checkUpdate();
-            if (ver < extVer) {
-                $.get(`${apiurl}Ver.php?ver=${extVer}`, (res) => {
-                    this.$alert(res, `我的THBWiki ${extVer}更新日志`, {
-                        dangerouslyUseHTMLString: true,
-                        confirmButtonText: '确定',
-                        callback: action => {
-                            if (action == "confirm") {
-                                chrome.storage.local.set({ "info": { ver: extVer } });
-                            }
-                        }
-                    });
-                });
+            chrome.storage.local.get(["info"], (res) => {
+                if (res.info) {
+                    this.ver = res.info.ver;
+                }
+            });
+        },
+        watch: {
+            ver(newval, oldval) {
+                this.isNewVer(newval, this.extVer);
+            },
+            extVer(newval, oldval) {
+                this.isNewVer(this.ver, newval);
             }
         },
         methods: {
@@ -297,14 +326,43 @@ $().ready(() => {
                 });
             },
             checkUpdate() {
-                $.get(`${apiurl}Ver.php?upVer=${extVer}`, (res) => {
-                    if (extVer != res) {
-                        this.update = true;
+                $.get(chrome.extension.getURL('manifest.json'), (info) => {
+                    this.extVer = info.version;
+                    this.homepage = info.homepage_url;
+                    //过于花里胡哨的提示
+                    var spLen = 10 - this.extVer.length;
+                    var sp = "";
+                    for (let i = 0; i < spLen; i++) {
+                        sp += " ";
                     }
-                });
+                    console.log(`%c    _____   _   _   ____                    
+    |_   _| | | | | | __ )                  
+      | |   | |_| | |  _ \                   
+      | |   |  _  | | |_) |                 
+      |_|   |_| |_| |____/   ver. ${this.extVer}${sp}
+                                            `, 'background-color:#000;color:#fff;text-shadow: -1px 0 0.4rem #2196f3, 0 1px 0.4rem #2196f3, 1px 0 0.4rem #2196f3, 0 -1px 0.4rem #2196f3;');
+                    $.get(`${apiurl}Ver.php?upVer=${this.extVer}`, (res) => {
+                        this.update = this.extVer != res;
+                    });
+                }, 'json');
             },
             goToSite() {
-                window.location.href = `${homepage}/releases`;
+                window.location.href = `${this.homepage}/releases`;
+            },
+            isNewVer(curVer, newVer) {
+                if (curVer < newVer) {
+                    $.get(`${apiurl}Ver.php?ver=${newVer}`, (res) => {
+                        this.$alert(res, `我的THBWiki ${newVer}更新日志`, {
+                            dangerouslyUseHTMLString: true,
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                if (action == "confirm") {
+                                    chrome.storage.local.set({ "info": { ver: newVer } });
+                                }
+                            }
+                        });
+                    });
+                }
             }
         }
     });

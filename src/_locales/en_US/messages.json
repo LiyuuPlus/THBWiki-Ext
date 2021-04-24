@@ -135,8 +135,20 @@
         "message": "Custom Background Url",
         "description": "Custom Background Url"
     },
+    "BlurBackground": {
+        "message": "Blur Background (Use with caution)",
+        "description": "Blur Background"
+    },
     "SWCustomBanner": {
         "message": "Custom Banner",
+        "description": "Custom Banner"
+    },
+    "DefaultBanner": {
+        "message": "Default Banner",
+        "description": "Default Banner"
+    },
+    "CustomBanner": {
+        "message": "Custom",
         "description": "Custom Banner"
     },
     "CustomBNUrl": {
@@ -163,9 +175,17 @@
         "message": "Save Options",
         "description": "Save Options"
     },
+    "ResetOptions": {
+        "message": "Reset Options",
+        "description": "Reset Options"
+    },
     "SaveYes":{
         "message": "Save Options Successful！",
         "description": "Save Options Successful！"
+    },
+    "ResetYes":{
+        "message": "Reset Options Successful！",
+        "description": "Reset Options Successful！"
     },
     "HiddenFunOpen":{
         "message": "Very good! Advanced features have been turned on! ",

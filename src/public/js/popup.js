@@ -36,6 +36,7 @@ var app = new Vue({
                 background: true,
                 custombackground: false,
                 custombgurl: '',
+                blurbackground: false,
                 tag: true,
                 netease: false,
                 aplayer: false,
@@ -48,21 +49,7 @@ var app = new Vue({
         };
     },
     created() {
-        chrome.storage.local.get(['options'], (res) => {
-            if (res.options) {
-                this.Options.background = res.options.background;
-                this.Options.custombgurl = res.options.custombgurl || '';
-                this.Options.custombackground = res.options.custombackground;
-                this.Options.tag = res.options.tag;
-                this.Options.netease = res.options.netease;
-                this.Options.aplayer = res.options.aplayer;
-                this.Options.custombnop = res.options.custombnop || '';
-                this.Options.custombnurl = res.options.custombnurl || '';
-                this.Options.custombanner = res.options.custombanner;
-                this.Options.inpageedit = res.options.inpageedit;
-                this.Options.advanced = res.options.advanced;
-            }
-        });
+        this.loadOptions();
         $.get(chrome.extension.getURL('manifest.json'), (info) => {
             this.Version = info.version;
         }, 'json');
@@ -70,7 +57,7 @@ var app = new Vue({
             this.Chars = JSON.parse(res);
         });
         getCustomerBanner().then((res) => {
-            var nres = [{ name: '默认头图', value: '' }, { name: '自定义', value: 'customer' }];
+            var nres = [{ name: this.T("DefaultBanner"), value: '' }, { name: this.T("CustomBanner"), value: 'customer' }];
             nres = nres.concat(res);
             this.Banners = nres;
         });
@@ -97,7 +84,7 @@ var app = new Vue({
                             }
                         }
                         res.registrationdate = new Date(res.registrationdate).Format("yyyy年MM月dd日");
-                        res.avatar = `https://upload.thwiki.cc/avatars/thwikicc_wiki_${res.id}_l.jpg?r=${Math.round(new Date().getTime()/1000)}`;
+                        res.avatar = `https://upload.thwiki.cc/avatars/thwikicc_wiki_${res.id}_l.jpg?r=${Math.round(new Date().getTime() / 1000)}`;
                         res.htmlrealname = this.ParseWiki(res.realname);
                         this.UserInfo = res;
                     });
@@ -388,6 +375,15 @@ var app = new Vue({
                 });
             });
         },
+        resetOptions() {
+            chrome.storage.local.set({ 'options': null, 'info':null}, () => {
+                this.$message({
+                    message: this.T('ResetYes'),
+                    type: 'success'
+                });
+                this.loadOptions();
+            });
+        },
         getStarDay(day) {
             return this.DateList.filter((v) => {
                 var nday = day.split('-').slice(1).join('-');
@@ -410,6 +406,38 @@ var app = new Vue({
                 });
             }
             return str;
+        },
+        loadOptions() {
+            chrome.storage.local.get(['options'], (res) => {
+                if (res.options) {
+                    this.Options.background = res.options.background;
+                    this.Options.custombgurl = res.options.custombgurl || '';
+                    this.Options.custombackground = res.options.custombackground;
+                    this.Options.tag = res.options.tag;
+                    this.Options.blurbackground = res.options.blurbackground;
+                    this.Options.netease = res.options.netease;
+                    this.Options.aplayer = res.options.aplayer;
+                    this.Options.custombnop = res.options.custombnop || '';
+                    this.Options.custombnurl = res.options.custombnurl || '';
+                    this.Options.custombanner = res.options.custombanner;
+                    this.Options.inpageedit = res.options.inpageedit;
+                    this.Options.advanced = res.options.advanced;
+                }
+                else {
+                    this.Options.background= true;
+                    this.Options.custombackground= false;
+                    this.Options.custombgurl= '';
+                    this.Options.blurbackground= false;
+                    this.Options.tag= true;
+                    this.Options.netease= false;
+                    this.Options.aplayer= false;
+                    this.Options.custombanner= false;
+                    this.Options.custombnop= '';
+                    this.Options.custombnurl= '';
+                    this.Options.advanced= false;
+                    this.Options.inpageedit= false
+                }
+            });
         }
     }
 });
