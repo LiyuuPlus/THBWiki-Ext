@@ -301,12 +301,12 @@ $().ready(() => {
             };
         },
         created() {
-            this.checkUpdate();
             chrome.storage.local.get(["info"], (res) => {
                 if (res.info) {
                     this.ver = res.info.ver;
                 }
             });
+            this.checkUpdate();
         },
         watch: {
             ver(newval, oldval) {
@@ -350,6 +350,7 @@ $().ready(() => {
                 window.location.href = `${this.homepage}/releases`;
             },
             isNewVer(curVer, newVer) {
+                console.log(curVer, newVer);
                 if (curVer < newVer) {
                     $.get(`${apiurl}Ver.php?ver=${newVer}`, (res) => {
                         this.$alert(res, `我的THBWiki ${newVer}更新日志`, {
