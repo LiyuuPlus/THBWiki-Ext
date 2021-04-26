@@ -135,7 +135,7 @@
         "message": "Custom Background Url",
         "description": "Custom Background Url"
     },
-    "BlurBackground": {
+    "SWBlurBackground": {
         "message": "Blur Background (Use with caution)",
         "description": "Blur Background"
     },
