@@ -78,25 +78,47 @@ var setbg = () => {
         background-color:#ffffff00!important;
     }
     
-    #mw-page-base,#mw-head-base,#mw-panel{
+    #mw-page-base,
+    #mw-head-base,
+    #mw-panel{
         --foreground-color-high:auto!important;
+    }
+
+    #mw-page-base{
+        -webkit-box-shadow: unset;
+        -moz-box-shadow: unset;
+        box-shadow: unset;
     }
     
     #mw-panel{
         --foreground-color-high:#ffffffcc!important;
+        padding-top: 0;
+    }
+
+    #p-logo{
+        background-color: transparent;
+        top: -165px;
+    }
+
+    #p-personal,
+    #simpleSearch{
+        background-color: #ffffff94!important;
     }
     
     #mw-panel .portal{
         background-color:#ffffff00!important;
     }
     
-    #p-personal,
     #footer{
         background-color: #ffffffcc!important;
     }
     
     #p-personal{
         padding-right: 1rem;
+    }
+    
+    #p-personal ul{
+        padding-left: 0;
     }
     
     #content
@@ -109,11 +131,12 @@ var setbg = () => {
         background-color: #ffffff00!important;
     }
     
-    .portal li ul li
+    .portal li ul li,
+    div.vectorMenu div.menu
     {
         background-color: #ffffff45!important
     }
-
+    
     
     .mw-body #toc, .mw-body .toc,
     div.thumbinner,
@@ -136,7 +159,7 @@ var setbg = () => {
     .thumbimage{
         border-radius: 10px;
     }
-
+    
     .mw-body #toc, .mw-body .toc,
     .mw-body table.wikitable,
     div.thumbinner,
@@ -149,37 +172,62 @@ var setbg = () => {
     .mw-code{
         background-color: #ffffff6b!important;
     }
-
-    #p-personal,
-    #footer,
-    div.vectorTabs ul li,
-    #mw-head div.vectorMenu h3
+    
+    #footer
     {
-        background-color:#ffffffc9!important;
+        background-color: #ffffffc9!important;
+    }
+    
+    div.vectorTabs ul li,
+    #mw-head div.vectorMenu h3{
+        background-color: transparent!important;
+    }
+    
+    div.vectorTabs li.selected a, 
+    div.vectorTabs li.selected a:visited{
+        text-shadow: -1px 0 0.4rem #000, 0 1px 0.4rem #000, 1px 0 0.4rem #000, 0 -1px 0.4rem #000;
+        color:#fff;
+    }
+    
+    div.vectorTabs li.new a,
+     div.vectorTabs li.new a:visited{
+        text-shadow: -1px 0 0.4rem #e91e63, 0 1px 0.4rem #e91e63, 1px 0 0.4rem #e91e63, 0 -1px 0.4rem #e91e63;
+        color:#fff;
     }
 
+    div.vectorTabs span > a,
+    div.vectorMenu div.menu li a{
+        text-shadow: -1px 0 0.4rem #2196f3, 0 1px 0.4rem #2196f3, 1px 0 0.4rem #2196f3, 0 -1px 0.4rem #2196f3;
+        color:#fff;
+    }
+
+    div.vectorMenu h3 span{
+        text-shadow: -1px 0 0.4rem #cf8300, 0 1px 0.4rem #cf8300, 1px 0 0.4rem #cf8300, 0 -1px 0.4rem #cf8300;
+        color:#fff;
+    }
+    
     .mw-body table.wikitable th{
         background-color: #fffbfb69!important;
     }
-
+    
     #a-donate,
     .user-relationship-container img,
     #profile-image img{
         border-radius: 5px;
     }
-
+    
     #p-personal{
         border-radius: 1rem;
     }
-
+    
     .page-首页 #content{
         background-color: #ffffff6e!important;
     }
-
+    
     .bg-g2{
         background-color: #d2ecd594!important;
     }
-
+    
     div#ExtFixedHeader h2, 
     div#ExtFixedHeader h3{
         background-color: rgba(244, 244, 244, 0.78)!important;
@@ -195,10 +243,7 @@ var setblurbg = (url) => {
         --foreground-color-high:#ffffff94!important;
     }
     
-    #p-personal,
-    #footer,
-    div.vectorTabs ul li,
-    #mw-head div.vectorMenu h3
+    #footer
     {
         background-color:#ffffffa6!important;
     }
