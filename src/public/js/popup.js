@@ -365,6 +365,9 @@ var app = new Vue({
                     this.OrigMusicInfo.Date = '';
                 }
             });
+            /*getAlbumData(this.OrigMusic).then((res)=>{
+                console.log(res);
+            });*/
         },
         saveOptions() {
             var that = this;

@@ -364,3 +364,31 @@ var getCharTemplInfo = () => {
         });
     });
 }
+
+var getAlbumData = (trackName) => {
+    return new Promise((res, rej) => {
+        var data = {
+            searchkey: [trackName],
+            alname: null,
+            circlename: null,
+            name: null,
+            ogmusicname: null,
+            ogmusiccnname: null,
+            vocal: null,
+            arrange: null,
+        };
+        $.ajax({
+            url: CmusicApiUrl,
+            method: "post",
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: (ret) => {
+                res(ret);
+            },
+            error: () => {
+                rej();
+            }
+        })
+    });
+}
