@@ -331,8 +331,8 @@ var setthbextbg = (url) => {
 
 $().ready(() => {
 
-    $("#p-namespaces").append($(`<ul id="thbext" class="vectorTabs">
-                           <li id="ca-nstab-changeLog" @click="showChangeLog"><span><a>THB扩展更新日志</a></span></li>
+    $("#p-namespaces").append($(`<ul id="thbext" class="vectorTabs" :data-lastVer="ver" :data-curVer="extVer">
+                           <li id="ca-nstab-changeLog" @click="showChangeLog"><span ><a>THB扩展更新日志</a></span></li>
                            <li id="ca-nstab-update" v-if="update" @click="goToSite"><span><a>更新我的THBWiki</a></span></li>
                        </ul>`));
     new Vue({
@@ -340,30 +340,31 @@ $().ready(() => {
         data() {
             return {
                 homepage: "",
-                extVer: '0.0.0',
-                ver: '0.0.0',
+                extVer: "",
+                ver: "",
                 update: false
             };
         },
         created() {
-            chrome.storage.local.get(["info"], (res) => {
-                if (res.info) {
-                    this.ver = res.info.ver;
-                }
-            });
-            this.checkUpdate();
+            $.get(chrome.extension.getURL('manifest.json'), (info) => {
+                chrome.storage.local.get(["info"], (res) => {
+                    if (res.info) {
+                        this.ver = res.info.ver;
+                    }
+                    else {
+                        this.ver = "0.0.0";
+                    }
+                    this.extVer = info.version;
+                    this.homepage = info.homepage_url;
+                });
+            }, "json");
         },
-        watch: {
-            ver(newval, oldval) {
-                this.isNewVer(newval, this.extVer);
-            },
-            extVer(newval, oldval) {
-                this.isNewVer(this.ver, newval);
-            }
+        updated() {
+            this.checkUpdate();
         },
         methods: {
             showChangeLog() {
-                $.get(`${apiurl}Ver.php`, (res) => {
+                $.get(`${apiurl}Ver.php?curVer=${this.extVer}`, (res) => {
                     this.$alert(res, `我的THBWiki 更新日志`, {
                         dangerouslyUseHTMLString: true,
                         confirmButtonText: '确定'
@@ -371,32 +372,29 @@ $().ready(() => {
                 });
             },
             checkUpdate() {
-                $.get(chrome.extension.getURL('manifest.json'), (info) => {
-                    this.extVer = info.version;
-                    this.homepage = info.homepage_url;
-                    //过于花里胡哨的提示
-                    var spLen = 10 - this.extVer.length;
-                    var sp = "";
-                    for (let i = 0; i < spLen; i++) {
-                        sp += " ";
-                    }
-                    console.log(`%c    _____   _   _   ____                    
+                //过于花里胡哨的提示
+                var spLen = 10 - this.extVer.length;
+                var sp = "";
+                for (let i = 0; i < spLen; i++) {
+                    sp += " ";
+                }
+                console.log(`%c    _____   _   _   ____                    
     |_   _| | | | | | __ )                  
       | |   | |_| | |  _ \                   
       | |   |  _  | | |_) |                 
       |_|   |_| |_| |____/   ver. ${this.extVer}${sp}
                                             `, 'background-color:#000;color:#fff;text-shadow: -1px 0 0.4rem #2196f3, 0 1px 0.4rem #2196f3, 1px 0 0.4rem #2196f3, 0 -1px 0.4rem #2196f3;');
-                    $.get(`${apiurl}Ver.php?upVer=${this.extVer}`, (res) => {
-                        this.update = this.extVer != res;
-                    });
-                }, 'json');
+                this.isNewVer(this.ver, this.extVer);
+                $.get(`${apiurl}Ver.php?upVer=${this.extVer}`, (ret) => {
+                    this.update = this.extVer != ret;
+                });
             },
             goToSite() {
                 window.location.href = `${this.homepage}/releases`;
             },
             isNewVer(curVer, newVer) {
                 console.log(curVer, newVer);
-                if (curVer < newVer) {
+                if (curVer && newVer && curVer < newVer) {
                     $.get(`${apiurl}Ver.php?ver=${newVer}`, (res) => {
                         this.$alert(res, `我的THBWiki ${newVer}更新日志`, {
                             dangerouslyUseHTMLString: true,
