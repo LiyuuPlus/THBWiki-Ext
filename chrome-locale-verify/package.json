@@ -22,7 +22,7 @@
   "dependencies": {
     "colors": "^1.1.2",
     "glob": "^5.0.14",
-    "lodash": "^3.10.0",
+    "lodash": "^4.17.19",
     "minimist": "^1.1.2"
   }
 }
