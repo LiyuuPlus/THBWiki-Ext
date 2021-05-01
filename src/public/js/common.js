@@ -5,6 +5,7 @@ const CmusicApiUrl = "https://www.alicem.top/KamiAPI/Album/query.php";
 
 const CsiteNoLoginLogo = "/public/images/logo-32-bw.png";
 const CsiteLoginLogo = "/public/images/logo-32.png";
+const CsiteInTHBLogo = "/public/images/logo-32-thb.png";
 
 const localMap = {
     "en-us": "en",
@@ -97,4 +98,80 @@ var insertText = (obj, str) => {
         console.log(tmp1 + str + tmp2);
     }
     return false;
+}
+
+// 获取所有选项卡信息
+var getAllTabId = (cb) => {
+    var windowTabs = [];
+    chrome.windows.getAll((window) => {
+        window.forEach((win, i) => {
+            chrome.tabs.query({ windowId: win.id }, (tabs) => {
+                if (tabs.length > 0) {
+                    tabs.forEach(tab => {
+                        windowTabs.push({ id: tab.id, url: tab.url });
+                    });
+                }
+                if (i == window.length - 1) {
+                    cb(windowTabs);
+                }
+            });
+        });
+    });
+}
+
+var getBadgeLogo = (login = false, tabId = false) => {
+    if (login) {
+        if (tabId) {
+            return CsiteInTHBLogo;
+        }
+        else {
+            return CsiteLoginLogo;
+        }
+    }
+    else {
+        return CsiteNoLoginLogo;
+    }
+}
+
+var setBadge = (login, text = null) => {
+    if (text != null) {
+        chrome.browserAction.setBadgeText({ text: text });
+    }
+    chrome.browserAction.setTitle({ title: `${getLang("extName")}` });
+    chrome.browserAction.setIcon({ path: getBadgeLogo(login, false) });
+    getAllTabId((res) => {
+        var thbTabs = res.filter(v => v.url.indexOf("thwiki.cc") >= 0);
+        thbTabs.forEach(tab => {
+            chrome.browserAction.setTitle({ title: `${getLang("extName")} - ${getLang("currTHB")}`, tabId: tab.id });
+            chrome.browserAction.setIcon({ path: getBadgeLogo(login, true), tabId: tab.id });
+        });
+    })
+}
+
+/** 将json数组指定键的值转成数组 */
+var getJsonValToArray = (json, key) => {
+    var newArray = [];
+    json.forEach(v => {
+        newArray.push(v[key]);
+    });
+    return newArray;
+}
+
+/** 将json数组指定键数组的值转成数组 */
+var getJsonValToArray2 = (json, keyArr, filter = []) => {
+    var newArray = [];
+    json.forEach(v => {
+        for (var i = 0; i < keyArr.length; i++) {
+            var v1 = keyArr[i];
+            var val = v[v1];
+            if (v[v1]) {
+                filter.forEach(v2 => {
+                    val = val.replace(v2, "");
+                });
+                newArray.push(val);
+                break;
+            }
+        }
+    });
+    return newArray;
 }

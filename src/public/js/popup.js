@@ -19,13 +19,10 @@ var app = new Vue({
             RemindNotificationList: [],
             MsgNotificationList: [],
             DateList: [],
-            OrigMusic: '',
-            OrigMusicInfo: {
-                Name: '',
-                Url: '',
-                TranName: '',
-                Game: '',
-                Date: ''
+            Track: '',
+            TrackInfo: {
+                Items: [],
+                Selects: []
             },
             Temp: {
                 advancedCount: 0
@@ -83,7 +80,7 @@ var app = new Vue({
                                 break;
                             }
                         }
-                        res.registrationdate = new Date(res.registrationdate).Format("yyyy年MM月dd日");
+                        res.registrationdate = new Date(res.registrationdate).Format("yyyy-MM-dd");
                         res.avatar = `https://upload.thwiki.cc/avatars/thwikicc_wiki_${res.id}_l.jpg?r=${Math.round(new Date().getTime() / 1000)}`;
                         res.htmlrealname = this.ParseWiki(res.realname);
                         this.UserInfo = res;
@@ -94,6 +91,15 @@ var app = new Vue({
                 }, 200);
             }
             this.getUnreadNotification();
+        }, "popup");
+    },
+    updated() {
+        $("a").unbind('click').on("click", (e) => {
+            console.log(e)
+            var href = e.target.href;
+            if (href) {
+                createTab(href);
+            }
         });
     },
     watch: {
@@ -162,12 +168,12 @@ var app = new Vue({
                     let newvalue = "";
                     if (kv.length == 1) {
                         let key = kv[0];
-                        newvalue = `<a title='${key}'>${key}</a>`;
+                        newvalue = `<a class='el-link el-link--default is-underline' title='${key}' href='https://thwiki.cc/${key}'>${key}</a>`;
                     }
                     else if (kv.length > 1) {
                         let key = kv[0];
                         let value = kv[1];
-                        newvalue = `<a title='${key}'>${value}</a>`;
+                        newvalue = `<a class='el-link el-link--default is-underline' title='${key}' href='https://thwiki.cc/${key}'>${value}</a>`;
                     }
                     else {
                         return;
@@ -226,11 +232,11 @@ var app = new Vue({
                     let notifications = res.query.notifications;
                     let count = parseInt(notifications.count);
                     if (count == 0) {
-                        chrome.browserAction.setBadgeText({ text: "" });
+                        setBadge(true, "");
                         this.UnreadNotificationList = [];
                     }
                     else {
-                        chrome.browserAction.setBadgeText({ text: String(count) });
+                        setBadge(true, String(count));
                         this.UnreadNotificationList = this.formatNotification(notifications.list);
                     }
                 }
@@ -348,38 +354,27 @@ var app = new Vue({
         searchSelect(item) {
             createTab(item.url);
         },
-        searchOrigMusic() {
-            searchOrigMusic(this.OrigMusic).then((res) => {
-                if (res && typeof (res) == 'object') {
-                    this.OrigMusicInfo.Name = res.printouts.原曲名称.join();
-                    this.OrigMusicInfo.Url = res.fullurl;
-                    this.OrigMusicInfo.TranName = res.printouts.原曲译名.join();
-                    this.OrigMusicInfo.Game = res.printouts.原曲首发作品.join();
-                    this.OrigMusicInfo.Date = res.printouts.原曲首发日期[0] ? timestampFormat(res.printouts.原曲首发日期[0].timestamp) : '';
-                }
-                else {
-                    this.OrigMusicInfo.Name = '';
-                    this.OrigMusicInfo.Url = '';
-                    this.OrigMusicInfo.TranName = '';
-                    this.OrigMusicInfo.Game = '';
-                    this.OrigMusicInfo.Date = '';
+        searchTrack() {
+            getAlbumData(this.Track).then((res) => {
+                this.TrackInfo.Items = res.results;
+                if (res.count > 0) {
+                    this.TrackInfo.Selects = [0];
                 }
             });
-            /*getAlbumData(this.OrigMusic).then((res)=>{
-                console.log(res);
-            });*/
         },
-        saveOptions() {
+        saveOptions(showMsg = true) {
             var that = this;
             chrome.storage.local.set({ 'options': that.Options }, () => {
-                this.$message({
-                    message: this.T('SaveYes'),
-                    type: 'success'
-                });
+                if (showMsg) {
+                    this.$message({
+                        message: this.T('SaveYes'),
+                        type: 'success'
+                    });
+                }
             });
         },
         resetOptions() {
-            chrome.storage.local.set({ 'options': null, 'info':null}, () => {
+            chrome.storage.local.set({ 'options': null, 'info': null }, () => {
                 this.$message({
                     message: this.T('ResetYes'),
                     type: 'success'
@@ -427,18 +422,18 @@ var app = new Vue({
                     this.Options.advanced = res.options.advanced;
                 }
                 else {
-                    this.Options.background= true;
-                    this.Options.custombackground= false;
-                    this.Options.custombgurl= '';
-                    this.Options.blurbackground= false;
-                    this.Options.tag= true;
-                    this.Options.netease= false;
-                    this.Options.aplayer= false;
-                    this.Options.custombanner= false;
-                    this.Options.custombnop= '';
-                    this.Options.custombnurl= '';
-                    this.Options.advanced= false;
-                    this.Options.inpageedit= false
+                    this.Options.background = true;
+                    this.Options.custombackground = false;
+                    this.Options.custombgurl = '';
+                    this.Options.blurbackground = false;
+                    this.Options.tag = true;
+                    this.Options.netease = false;
+                    this.Options.aplayer = false;
+                    this.Options.custombanner = false;
+                    this.Options.custombnop = '';
+                    this.Options.custombnurl = '';
+                    this.Options.advanced = false;
+                    this.Options.inpageedit = false
                 }
             });
         }

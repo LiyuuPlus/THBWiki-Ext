@@ -18,7 +18,7 @@
     "page": "pages/background.html"
   },
   "browser_action": {
-    "default_title": "THBWiki",
+    "default_title": "__MSG_extName__",
     "default_icon": "public/images/logo-32-bw.png",
     "default_popup": "pages/popup.html"
   },
@@ -44,6 +44,7 @@
         "public/libs/element-ui/element-ui.js",
         "public/libs/APlayer/APlayer.min.js",
         "public/js/common.js",
+        "public/js/content_scripts.js",
         "public/js/ext.js"
       ]
     }

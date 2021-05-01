@@ -27,12 +27,8 @@ var lyricstatus = (title.indexOf("歌词:") >= 0) ? true : false;
 
 var loadCssCode = (code) => {
     var style = document.createElement('style');
-    style.type = 'text/css';
     style.rel = 'stylesheet';
-    //for Chrome Firefox Opera Safari
     style.appendChild(document.createTextNode(code));
-    //for IE
-    //style.styleSheet.cssText = code;
     var head = document.getElementsByTagName('head')[0];
     head.appendChild(style);
 }
@@ -40,7 +36,7 @@ var loadCssCode = (code) => {
 var loadScript = (code) => {
     var script = document.createElement('script');
     script.innerHTML = code;
-    document.head.appendChild(script);
+    document.body.appendChild(script);
 }
 
 var background = true;
@@ -330,9 +326,8 @@ var setthbextbg = (url) => {
 }
 
 $().ready(() => {
-
     $("#p-namespaces").append($(`<ul id="thbext" class="vectorTabs" :data-lastVer="ver" :data-curVer="extVer">
-                           <li id="ca-nstab-changeLog" @click="showChangeLog"><span ><a>THB扩展更新日志</a></span></li>
+                           <li id="ca-nstab-changeLog" @click="showChangeLog"><span ><a>${getLang("extName")} ${getLang("THBChangelog")}</a></span></li>
                            <li id="ca-nstab-update" v-if="update" @click="goToSite"><span><a>更新我的THBWiki</a></span></li>
                        </ul>`));
     new Vue({
@@ -365,9 +360,9 @@ $().ready(() => {
         methods: {
             showChangeLog() {
                 $.get(`${apiurl}Ver.php?curVer=${this.extVer}`, (res) => {
-                    this.$alert(res, `我的THBWiki 更新日志`, {
+                    this.$alert(res, `${getLang("extName")} ${getLang("THBChangelog")}`, {
                         dangerouslyUseHTMLString: true,
-                        confirmButtonText: '确定'
+                        confirmButtonText: getLang("Yes")
                     });
                 });
             },
@@ -387,18 +382,21 @@ $().ready(() => {
                 this.isNewVer(this.ver, this.extVer);
                 $.get(`${apiurl}Ver.php?upVer=${this.extVer}`, (ret) => {
                     this.update = this.extVer != ret;
+                    console.log(this.extVer, ret, this.extVer >= ret ? "扩展版本已是最新" : `检测到扩展有更新，最新扩展版本为${ret}`);
                 });
             },
             goToSite() {
                 window.location.href = `${this.homepage}/releases`;
             },
             isNewVer(curVer, newVer) {
-                console.log(curVer, newVer);
+                if (curVer < newVer) {
+                    console.log(curVer, newVer, `检测到扩展已更新，当前扩展版本为${newVer}`);
+                }
                 if (curVer && newVer && curVer < newVer) {
                     $.get(`${apiurl}Ver.php?ver=${newVer}`, (res) => {
-                        this.$alert(res, `我的THBWiki ${newVer}更新日志`, {
+                        this.$alert(res, `${getLang("extName")} ${newVer}${getLang("THBChangelog")}`, {
                             dangerouslyUseHTMLString: true,
-                            confirmButtonText: '确定',
+                            confirmButtonText: getLang("yes"),
                             callback: action => {
                                 if (action == "confirm") {
                                     chrome.storage.local.set({ "info": { ver: newVer } });
@@ -425,7 +423,7 @@ $().ready(() => {
             $.get(url, {}, (res) => {
                 setthbextbg(res);
                 var toolsDiv = `<ul id="ext-tools" class="vectorTabs">
-                <li id="ca-nstab-saveBackground" @click="ViewPic"><span><a>查看背景图片</a></span></li>
+                <li id="ca-nstab-saveBackground" @click="ViewPic"><span><a>${getLang("ViewBG")}</a></span></li>
                 <template>
                     <el-image :src="bgsrc" :preview-src-list="bglist" style="width: 1px; height: 1px" ref="bg_preview"></el-image>
                 </template>

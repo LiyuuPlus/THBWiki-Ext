@@ -1,16 +1,16 @@
 var checkLogin = (cb) => {
     getCookies(CsiteUrl, "thwikicc_wikiUserID").then(() => {
         getCookies(CsiteUrl, "thwikicc_wikiUserName").then((res2) => {
-            chrome.browserAction.setIcon({ path: CsiteLoginLogo });
+            setBadge(true);
             cb(res2);
-        }).catch(() => {
-            chrome.browserAction.setIcon({ path: CsiteNoLoginLogo });
-            chrome.browserAction.setBadgeText({ text: "" });
+        }).catch((ex1) => {
+            console.log(ex1);
+            setBadge(false, "");
             cb(null);
         });
-    }).catch(() => {
-        chrome.browserAction.setIcon({ path: CsiteNoLoginLogo });
-        chrome.browserAction.setBadgeText({ text: "" });
+    }).catch((ex) => {
+        console.log(ex);
+        setBadge(false, "");
         cb(null);
     });
 }
@@ -35,7 +35,7 @@ var checkUnreadNotificationNum = (username) => {
                 if (result.query && result.query.notifications) {
                     var ncount = parseInt(result.query.notifications.count);
                     if (ncount == 0) {
-                        chrome.browserAction.setBadgeText({ text: "" });
+                        setBadge(true, "");
                     } else {
                         chrome.browserAction.getBadgeText({}, res => {
                             let count = res || 0;
@@ -53,7 +53,7 @@ var checkUnreadNotificationNum = (username) => {
                                     createTab((ncount == 1) ? url : "https://thwiki.cc/%E7%89%B9%E6%AE%8A:%E9%80%9A%E7%9F%A5");
                                 }
                             }
-                            chrome.browserAction.setBadgeText({ text: String(ncount) });
+                            setBadge(true, String(ncount));
                         });
                     }
                 }
@@ -207,6 +207,7 @@ var searchSuggest = (key) => {
                 namespace: '0|2|4|8|10|12|102|108|200|506|508|512',
                 limit: 12,
                 suggest: true,
+                uselang: Vlang,
             },
             dataType: 'json',
             success: (result) => {
@@ -237,7 +238,7 @@ var searchOrigMusic = (key) => {
                 format: "json",
                 formatversion: 2,
                 uselang: Vlang,
-                query: `[[${key.replace(/ /g, "_")}]]|?原曲名称|?原曲译名|?原曲首发作品|?原曲首发日期`
+                query: `[[${key.replace(/ /g, "_")}]]|?原曲名称|?原曲译名|?原曲首发作品|?原曲首发日期`,
             },
             dataType: 'json',
             success: (result) => {
@@ -301,6 +302,7 @@ var getUserInfo = () => {
                 format: "json",
                 formatversion: 2,
                 meta: "userinfo",
+                uselang: Vlang,
                 uiprop: "editcount|registrationdate|realname|groups",
             },
             dataType: 'json',
@@ -324,6 +326,7 @@ var getAchievementInfo = () => {
                 formatversion: 2,
                 meta: "achievementinfo",
                 aiprop: "titlename|titledesc",
+                uselang: Vlang,
             },
             dataType: 'json',
             success: (result) => {
@@ -365,17 +368,21 @@ var getCharTemplInfo = () => {
     });
 }
 
-var getAlbumData = (trackName) => {
+var getAlbumData = (searchKey) => {
+    var searchKeys = searchKey.split("，");
     return new Promise((res, rej) => {
+        if (searchKeys.length <= 0) rej();
         var data = {
-            searchkey: [trackName],
-            alname: null,
-            circlename: null,
-            name: null,
+            searchkey: [searchKeys[0]],
+            alsearchkey: searchKeys.length > 1 ? [searchKeys[1]] : null,
+            alname: [],
+            circle: null,
+            name: [],
             ogmusicname: null,
             ogmusiccnname: null,
             vocal: null,
             arrange: null,
+            date: null
         };
         $.ajax({
             url: CmusicApiUrl,
@@ -384,6 +391,17 @@ var getAlbumData = (trackName) => {
             contentType: 'application/json',
             data: JSON.stringify(data),
             success: (ret) => {
+                ret.results = ret.results.map(v => {
+                    v.name = v.name.join();
+                    v.alname = v.alname.join();
+                    v.althb = v.self.displaytitle ? v.self.displaytitle : v.id.substr(0, v.id.lastIndexOf("#") >= 0 ? v.id.lastIndexOf("#") : v.id.length);
+                    v.artist = v.vocal.length > 0 ? v.vocal : v.arrange.length > 0 ? v.arrange : v.circle;
+                    v.ogmusicname = v.ogmusicname.join("/");
+                    v.ogmusiccnname = v.ogmusiccnname.join("/");
+                    v.date = timestampFormat(v.date.join());
+                    return v;
+                });
+                console.log(ret);
                 res(ret);
             },
             error: () => {
