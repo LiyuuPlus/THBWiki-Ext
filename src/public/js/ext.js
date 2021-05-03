@@ -68,7 +68,7 @@ chrome.storage.local.get(['options'], (res) => {
     }
 });
 
-var setbg = () => {
+var setBG = () => {
     var css = `
     body{
         background-color:#ffffff00!important;
@@ -78,6 +78,7 @@ var setbg = () => {
     #mw-head-base,
     #mw-panel{
         --foreground-color-high:auto!important;
+        background-color: var(--foreground-color-high)!important;
     }
 
     #mw-page-base{
@@ -88,12 +89,14 @@ var setbg = () => {
     
     #mw-panel{
         --foreground-color-high:#ffffffcc!important;
+        background-color: var(--foreground-color-high)!important;
         padding-top: 0;
+        top: 178px;
     }
 
     #p-logo{
-        background-color: transparent;
-        top: -165px;
+        background-color: transparent!important;
+        top: -178px;
     }
 
     #p-personal,
@@ -174,34 +177,6 @@ var setbg = () => {
         background-color: #ffffffc9!important;
     }
     
-    div.vectorTabs ul li,
-    #mw-head div.vectorMenu h3{
-        background-color: transparent!important;
-    }
-    
-    div.vectorTabs li.selected a, 
-    div.vectorTabs li.selected a:visited{
-        text-shadow: -1px 0 0.4rem #000, 0 1px 0.4rem #000, 1px 0 0.4rem #000, 0 -1px 0.4rem #000;
-        color:#fff;
-    }
-    
-    div.vectorTabs li.new a,
-     div.vectorTabs li.new a:visited{
-        text-shadow: -1px 0 0.4rem #e91e63, 0 1px 0.4rem #e91e63, 1px 0 0.4rem #e91e63, 0 -1px 0.4rem #e91e63;
-        color:#fff;
-    }
-
-    div.vectorTabs span > a,
-    div.vectorMenu div.menu li a{
-        text-shadow: -1px 0 0.4rem #2196f3, 0 1px 0.4rem #2196f3, 1px 0 0.4rem #2196f3, 0 -1px 0.4rem #2196f3;
-        color:#fff;
-    }
-
-    div.vectorMenu h3 span{
-        text-shadow: -1px 0 0.4rem #cf8300, 0 1px 0.4rem #cf8300, 1px 0 0.4rem #cf8300, 0 -1px 0.4rem #cf8300;
-        color:#fff;
-    }
-    
     .mw-body table.wikitable th{
         background-color: #fffbfb69!important;
     }
@@ -228,12 +203,49 @@ var setbg = () => {
     div#ExtFixedHeader h3{
         background-color: rgba(244, 244, 244, 0.78)!important;
     }
+
+    @keyframes show{
+        from{
+          opacity: 0;
+        }
+      }
     `;
 
     loadCssCode(css);
 }
 
-var setblurbg = (url) => {
+var setTHBExtBG = (url) => {
+    setBG();
+    var bgcss = `
+    .THBExtBG {
+        width: 100%;
+        height: 100%;
+        top: 0px;
+        left: 0px;
+        z-index: -3;
+        display: block;
+        user-select: none;
+        bottom: 0;
+        position: fixed;
+    }
+    
+    .THBExtBG img {
+        position: fixed;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center center;
+        animation: 2s ease 0s 1 normal none running show;
+    }
+    `;
+
+     loadCssCode(bgcss);
+     $("body").append($(`<div class="THBExtBG"><img id="THBG" src="${url}"></img></div>`));
+}
+
+var setTHBExtBlurBG = (url) => {
+    setBG();
     var css = `
     #mw-panel{
         --foreground-color-high:#ffffff94!important;
@@ -247,31 +259,6 @@ var setblurbg = (url) => {
     #content
     {
         background-color: #ffffffa6!important;
-    }
-    
-    .thbextbg{
-        background-image:unset!important;
-    }
-    
-    .thbextbg::after{
-        content: '';
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        width: 100%;
-        height: 100%;
-        background-image: url(${url});
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        background-size: cover;
-        z-index: -1;
-        -webkit-filter: blur(5px);
-        -moz-filter: blur(5px);
-        -ms-filter: blur(5px);
-        -o-filter: blur(5px);
-        filter: blur(5px);
     }
 
     .page-首页 #content{
@@ -305,24 +292,35 @@ var setblurbg = (url) => {
     }
     
     `;
-    loadCssCode(css);
-}
 
-var setthbextbg = (url) => {
-    setbg();
-    var css = `
-    .thbextbg{
-        background-image:url(${url})!important;
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        background-size: cover;
-     }
-     `;
-    loadCssCode(css);
-    $("html").addClass(`mainbg thbextbg`);
-    if (blurbackground) {
-        setblurbg(url);
+    var bgcss = `
+    .THBExtBG {
+        width: 100%;
+        height: 100%;
+        top: 0px;
+        left: 0px;
+        z-index: -3;
+        display: block;
+        user-select: none;
+        bottom: 0;
+        position: fixed;
     }
+    
+    .THBExtBG img {
+        position: fixed;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center center;
+        animation: 2s ease 0s 1 normal none running show;
+        filter: blur(5px);
+    }
+    `;
+
+    loadCssCode(bgcss);
+    $("body").append($(`<div class="THBExtBG"><img id="THBG" src="${url}"></img></div>`));
+    loadCssCode(css);
 }
 
 $().ready(() => {
@@ -414,14 +412,36 @@ $().ready(() => {
         let defurl = `${apiurl}Background.php`;
         if (custombackground) {
             var url = custombgurl || defurl;
-            setthbextbg(url);
+            var img = new Image();
+            img.src = url;
+            if (blurbackground) {
+                img.onload = () => {
+                    setTHBExtBlurBG(url, 2);
+                }
+            }
+            else {
+                img.onload = () => {
+                    setTHBExtBG(url);
+                }
+            }
         }
         else {
             //根据词条判断背景
             var word = $("#firstHeading").text().replace(/ /g, "_");
             var url = `${defurl}?char=${word}&type=1`;
             $.get(url, {}, (res) => {
-                setthbextbg(res);
+                var img = new Image();
+                img.src = res;
+                if (blurbackground) {
+                    img.onload = () => {
+                        setTHBExtBlurBG(res, 2);
+                    }
+                }
+                else {
+                    img.onload = () => {
+                        setTHBExtBG(res);
+                    }
+                }
                 var toolsDiv = `<ul id="ext-tools" class="vectorTabs">
                 <li id="ca-nstab-saveBackground" @click="ViewPic"><span><a>${getLang("ViewBG")}</a></span></li>
                 <template>
