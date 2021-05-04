@@ -99,9 +99,18 @@ var setBG = () => {
         top: -178px;
     }
 
+    .mw-wiki-logo{
+        filter: drop-shadow(0px 0px 0.4rem #000);
+    }
+
     #p-personal,
     #simpleSearch{
         background-color: #ffffff94!important;
+    }
+
+    #simpleSearch #searchButton,
+    #simpleSearch #mw-searchButton{
+        background-color: #e8e8e869;
     }
     
     #mw-panel .portal{
@@ -172,6 +181,23 @@ var setBG = () => {
         background-color: #ffffff6b!important;
     }
     
+    table.tt-type-dialogue tr.tt-header>td.tt-ja,
+    table.tt-type-dialogue tr.tt-header>td.tt-zh,
+    td.tt-char, td.tt-status,
+    table.tt-type-omake tr.tt-header>td,
+    table.tt-type-omake tr.tt-content-header>td,
+    table.tt-type-omake tr.tt-manual-header>td,
+    table.tt-type-omake td.tt-pic,
+    table.tt-type-omaketxt tr.tt-header>td,
+    table.tt-type-omaketxt tr.tt-content-header>td,
+    table.tt-type-omaketxt tr.tt-manual-header>td,
+    table.tt-type-omaketxt td.tt-pic,
+    table.tt-type-setting tr.tt-header>td,
+    table.tt-type-setting tr.tt-content-header>td,
+    tr.tt-lyrics-header>td{
+        background-color: #e8e8e87a !important;
+    }
+
     #footer
     {
         background-color: #ffffffc9!important;
@@ -208,7 +234,11 @@ var setBG = () => {
         from{
           opacity: 0;
         }
-      }
+    }
+
+    .comment-body textarea, .comment-preview{
+        background: #ffffff7d;
+    }
     `;
 
     loadCssCode(css);
@@ -240,38 +270,44 @@ var setTHBExtBG = (url) => {
     }
     `;
 
-     loadCssCode(bgcss);
-     $("body").append($(`<div class="THBExtBG"><img id="THBG" src="${url}"></img></div>`));
+    loadCssCode(bgcss);
+    $("body").append($(`<div class="THBExtBG"><img id="THBG" src="${url}"></img></div>`));
 }
 
 var setTHBExtBlurBG = (url) => {
-    setBG();
     var css = `
     #mw-panel{
         --foreground-color-high:#ffffff94!important;
     }
     
+    #mw-panel,
+    #content,
     #footer
     {
-        background-color:#ffffffa6!important;
-    }
-    
-    #content
-    {
-        background-color: #ffffffa6!important;
+        background-color: #ffffff70!important;
     }
 
     .page-首页 #content{
-        background-color: #ffffff6e!important;
+        background-color: #fff0!important;
+        backdrop-filter: unset;
     }
     
+    #a-donate table{
+        background-color: #fff0!important;
+    }
+
+    #p-personal,
+    #simpleSearch,
+    #a-garakuta::before,
+    #a-game::before,
+    #a-music::before,
     #a-series::before,
     #a-doujin::before,
     #a-news::before,
     #a-other::before,
     #a-link::before,
     #a-about::before{
-        background-color: #ffffff78!important;
+        background-color: #ffffff85!important;
     }
 
     .bg-g2{
@@ -280,7 +316,8 @@ var setTHBExtBlurBG = (url) => {
 
     div#ExtFixedHeader h2, 
     div#ExtFixedHeader h3{
-        background-color: rgba(244, 244, 244, 0.69)!important;
+        background-color: #f4f4f44a!important;
+        backdrop-filter: blur(5px);
     }
 
     .portal li ul li {
@@ -291,35 +328,34 @@ var setTHBExtBlurBG = (url) => {
         background-color: #fffbfb52!important;
     }
     
+    #p-personal,
+    #simpleSearch,
+    #a-donate table,
+    #a-garakuta,
+    #a-game,
+    #a-music,
+    #a-series,
+    #a-doujin,
+    #a-news,
+    #a-other,
+    #a-link,
+    #a-about,
+    #mw-panel,
+    #content,
+    #footer{
+        backdrop-filter: blur(5px);
+    }
+
+    .comment-user, .comment-user a {
+        color: #616161;
+    }
+
+    .comment-time{
+        color: #6f6e6e;
+    }
     `;
 
-    var bgcss = `
-    .THBExtBG {
-        width: 100%;
-        height: 100%;
-        top: 0px;
-        left: 0px;
-        z-index: -3;
-        display: block;
-        user-select: none;
-        bottom: 0;
-        position: fixed;
-    }
-    
-    .THBExtBG img {
-        position: fixed;
-        top: 0px;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center center;
-        animation: 2s ease 0s 1 normal none running show;
-        filter: blur(5px);
-    }
-    `;
-
-    loadCssCode(bgcss);
-    $("body").append($(`<div class="THBExtBG"><img id="THBG" src="${url}"></img></div>`));
+    setTHBExtBG(url);
     loadCssCode(css);
 }
 
@@ -414,13 +450,11 @@ $().ready(() => {
             var url = custombgurl || defurl;
             var img = new Image();
             img.src = url;
-            if (blurbackground) {
-                img.onload = () => {
-                    setTHBExtBlurBG(url, 2);
+            img.onload = () => {
+                if (blurbackground) {
+                    setTHBExtBlurBG(url);
                 }
-            }
-            else {
-                img.onload = () => {
+                else {
                     setTHBExtBG(url);
                 }
             }
@@ -432,41 +466,39 @@ $().ready(() => {
             $.get(url, {}, (res) => {
                 var img = new Image();
                 img.src = res;
-                if (blurbackground) {
-                    img.onload = () => {
-                        setTHBExtBlurBG(res, 2);
+                img.onload = () => {
+                    if (blurbackground) {
+                        setTHBExtBlurBG(res);
                     }
-                }
-                else {
-                    img.onload = () => {
+                    else {
                         setTHBExtBG(res);
                     }
-                }
-                var toolsDiv = `<ul id="ext-tools" class="vectorTabs">
-                <li id="ca-nstab-saveBackground" @click="ViewPic"><span><a>${getLang("ViewBG")}</a></span></li>
-                <template>
-                    <el-image :src="bgsrc" :preview-src-list="bglist" style="width: 1px; height: 1px" ref="bg_preview"></el-image>
-                </template>
-            </ul>`;
-                $("#p-namespaces").append($(toolsDiv));
-                new Vue({
-                    el: "#ext-tools",
-                    data() {
-                        return {
-                            bgsrc: "",
-                            bglist: []
-                        };
-                    },
-                    created() {
-                        this.bgsrc = res;
-                        this.bglist = [res];
-                    },
-                    methods: {
-                        ViewPic() {
-                            this.$refs.bg_preview.showViewer = true;
+                    var toolsDiv = `<ul id="ext-tools" class="vectorTabs">
+                    <li id="ca-nstab-saveBackground" @click="ViewPic"><span><a>${getLang("ViewBG")}</a></span></li>
+                    <template>
+                        <el-image :src="bgsrc" :preview-src-list="bglist" style="width: 1px; height: 1px" ref="bg_preview"></el-image>
+                    </template>
+                </ul>`;
+                    $("#p-namespaces").append($(toolsDiv));
+                    new Vue({
+                        el: "#ext-tools",
+                        data() {
+                            return {
+                                bgsrc: "",
+                                bglist: []
+                            };
+                        },
+                        created() {
+                            this.bgsrc = res;
+                            this.bglist = [res];
+                        },
+                        methods: {
+                            ViewPic() {
+                                this.$refs.bg_preview.showViewer = true;
+                            }
                         }
-                    }
-                });
+                    });
+                }
             });
         }
     }
