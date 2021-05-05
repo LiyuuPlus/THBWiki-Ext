@@ -43,6 +43,7 @@
         "public/libs/vue.min.js",
         "public/libs/element-ui/element-ui.js",
         "public/libs/APlayer/APlayer.min.js",
+        "public/js/api.js",
         "public/js/common.js",
         "public/js/content_scripts.js",
         "public/js/ext.js"
@@ -50,8 +51,7 @@
     }
   ],
   "web_accessible_resources": [
-    "public/libs/element-ui/fonts/element-icons.ttf",
-    "public/libs/element-ui/fonts/element-icons.woff",
+    "public/libs/element-ui/fonts/*",
     "manifest.json"
   ],
   "content_security_policy": "style-src 'self' 'unsafe-inline';script-src 'self' 'unsafe-eval'; object-src 'self' ;img-src https:; font-src 'self' 'unsafe-inline';"

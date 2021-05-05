@@ -17,30 +17,15 @@ const localMap = {
 };
 
 /** 获得当前语言 */
-var Vlang = (navigator.language || navigator.browserLanguage).toLowerCase();
+var Vlang = getBrowserLang();
 Vlang = localMap[Vlang] || Vlang;
 
-
-/** 创建标签 */
-var createTab = (newUrl) => {
-    chrome.tabs.create({ url: newUrl });
-}
-
-var getCookies = (domain, name) => {
-    return new Promise((res, rej) => {
-        chrome.cookies.get({ "url": domain, "name": name }, function (cookie) {
-            if (cookie && cookie.value) {
-                res(cookie.value);
-            }
-            rej();
-        });
-    });
-}
-
+/** 格式化数字时间 */
 var dateFormat = (timeStr) => {
     return timeStr.substring(0, 4) + "-" + timeStr.substring(4, 6) + "-" + timeStr.substring(6, 8);
 }
 
+/** 格式化Date对象 */
 Date.prototype.Format = function (fmt) {
     var o = {
         "M+": this.getMonth() + 1, //月份 
@@ -58,12 +43,9 @@ Date.prototype.Format = function (fmt) {
     return fmt;
 }
 
+/** 时间戳格式化 */
 var timestampFormat = (timestamp) => {
     return new Date(parseInt(timestamp) * 1000).Format("yyyy-MM-dd");
-}
-
-var getLang = (name, arg) => {
-    return (arg ? chrome.i18n.getMessage(name, arg) : chrome.i18n.getMessage(name)) || '';
 }
 
 var copyToClipboardText = (txt) => {
@@ -103,54 +85,6 @@ var insertText = (obj, str) => {
         console.log(tmp1 + str + tmp2);
     }
     return false;
-}
-
-/** 获取所有选项卡信息 */
-var getAllTabId = (cb) => {
-    var windowTabs = [];
-    chrome.windows.getAll((window) => {
-        window.forEach((win, i) => {
-            chrome.tabs.query({ windowId: win.id }, (tabs) => {
-                if (tabs.length > 0) {
-                    tabs.forEach(tab => {
-                        windowTabs.push({ id: tab.id, url: tab.url });
-                    });
-                }
-                if (i == window.length - 1) {
-                    cb(windowTabs);
-                }
-            });
-        });
-    });
-}
-
-var getBadgeLogo = (login = false, tabId = false) => {
-    if (login) {
-        if (tabId) {
-            return CsiteInTHBLogo;
-        }
-        else {
-            return CsiteLoginLogo;
-        }
-    }
-    else {
-        return CsiteNoLoginLogo;
-    }
-}
-
-var setBadge = (login, text = null) => {
-    if (text != null) {
-        chrome.browserAction.setBadgeText({ text: text });
-    }
-    chrome.browserAction.setTitle({ title: `${getLang("extName")}` });
-    chrome.browserAction.setIcon({ path: getBadgeLogo(login, false) });
-    getAllTabId((res) => {
-        var thbTabs = res.filter(v => v.url.indexOf("thwiki.cc") >= 0);
-        thbTabs.forEach(tab => {
-            chrome.browserAction.setTitle({ title: `${getLang("extName")} - ${getLang("currTHB")}`, tabId: tab.id });
-            chrome.browserAction.setIcon({ path: getBadgeLogo(login, true), tabId: tab.id });
-        });
-    })
 }
 
 /** 将json数组指定键的值转成数组 */
