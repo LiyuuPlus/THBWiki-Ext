@@ -1,30 +1,14 @@
-QueryString = {
-    data: {},
-    Initial: function () {
-        var aPairs, aTmp;
-        var queryString = new String(window.location.search);
-        queryString = queryString.substr(1, queryString.length);
-        aPairs = queryString.split("&");
-        for (var i = 0; i < aPairs.length; i++) {
-            aTmp = aPairs[i].split("=");
-            this.data[aTmp[0]] = aTmp[1];
-        }
-    },
-    GetValue: function (key) {
-        return this.data[key];
-    }
-}
-QueryString.Initial();
+/** 获得参数 */
+var queryString = new QueryString();
+var action = queryString.GetValue("action");
+var title = decodeURI(queryString.GetValue("title"));
 
-//Get Query
-var action = QueryString.GetValue("action");
-var title = decodeURI(QueryString.GetValue("title"));
-
-//Get Status
+/** 获得状态 */
 var editstatus = action == "edit";
 var submitstatus = action == "submit";
 var lyricstatus = (title.indexOf("歌词:") >= 0) ? true : false;
 
+/** 加载样式 */
 var loadCssCode = (code) => {
     var style = document.createElement('style');
     style.rel = 'stylesheet';
@@ -33,12 +17,14 @@ var loadCssCode = (code) => {
     head.appendChild(style);
 }
 
+/** 加载脚本 */
 var loadScript = (code) => {
     var script = document.createElement('script');
     script.innerHTML = code;
     document.body.appendChild(script);
 }
 
+/** 变量定义 */
 var background = true;
 var custombackground = false;
 var custombgurl = "";
@@ -51,7 +37,10 @@ var custombnop = "";
 var custombnurl = "";
 var inpageedit = false;
 
+// 临时变量
+var img = new Image();
 
+/** 设置获取 */
 chrome.storage.local.get(['options'], (res) => {
     if (res.options) {
         background = res.options.background;
@@ -446,62 +435,53 @@ $().ready(() => {
     // 仅unicorn皮肤生效
     if (background && $("body").hasClass("skin-unicorn")) {
         let defurl = `${apiurl}Background.php`;
+        img.onload = () => {
+            if (blurbackground) {
+                setTHBExtBlurBG(img.src);
+            }
+            else {
+                setTHBExtBG(img.src);
+            }
+            var toolsDiv = `<ul id="ext-tools" class="vectorTabs">
+            <li id="ca-nstab-saveBackground" @click="ViewPic"><span><a>${getLang("ViewBG")}</a></span></li>
+            <template>
+                <el-image :src="bgsrc" :preview-src-list="bglist" style="width: 1px; height: 1px" ref="bg_preview"></el-image>
+            </template>
+        </ul>`;
+            $("#p-namespaces").append($(toolsDiv));
+            new Vue({
+                el: "#ext-tools",
+                data() {
+                    return {
+                        bgsrc: "",
+                        bglist: []
+                    };
+                },
+                created() {
+                    this.bgsrc = img.src;
+                    this.bglist = [img.src];
+                },
+                methods: {
+                    ViewPic() {
+                        this.$refs.bg_preview.showViewer = true;
+                    }
+                }
+            });
+        }
         if (custombackground) {
             var url = custombgurl || defurl;
-            var img = new Image();
             img.src = url;
-            img.onload = () => {
-                if (blurbackground) {
-                    setTHBExtBlurBG(url);
-                }
-                else {
-                    setTHBExtBG(url);
-                }
-            }
         }
         else {
             //根据词条判断背景
             var word = $("#firstHeading").text().replace(/ /g, "_");
             var url = `${defurl}?char=${word}&type=1`;
             $.get(url, {}, (res) => {
-                var img = new Image();
                 img.src = res;
-                img.onload = () => {
-                    if (blurbackground) {
-                        setTHBExtBlurBG(res);
-                    }
-                    else {
-                        setTHBExtBG(res);
-                    }
-                    var toolsDiv = `<ul id="ext-tools" class="vectorTabs">
-                    <li id="ca-nstab-saveBackground" @click="ViewPic"><span><a>${getLang("ViewBG")}</a></span></li>
-                    <template>
-                        <el-image :src="bgsrc" :preview-src-list="bglist" style="width: 1px; height: 1px" ref="bg_preview"></el-image>
-                    </template>
-                </ul>`;
-                    $("#p-namespaces").append($(toolsDiv));
-                    new Vue({
-                        el: "#ext-tools",
-                        data() {
-                            return {
-                                bgsrc: "",
-                                bglist: []
-                            };
-                        },
-                        created() {
-                            this.bgsrc = res;
-                            this.bglist = [res];
-                        },
-                        methods: {
-                            ViewPic() {
-                                this.$refs.bg_preview.showViewer = true;
-                            }
-                        }
-                    });
-                }
             });
         }
     }
+
     if (custombanner) {
         let url = "";
         if (custombnop == "customer") {

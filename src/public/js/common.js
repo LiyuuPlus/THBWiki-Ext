@@ -7,6 +7,7 @@ const CsiteNoLoginLogo = "/public/images/logo-32-bw.png";
 const CsiteLoginLogo = "/public/images/logo-32.png";
 const CsiteInTHBLogo = "/public/images/logo-32-thb.png";
 
+/** 加载语言列表 */
 const localMap = {
     "en-us": "en",
     "en-gb": "en",
@@ -14,9 +15,13 @@ const localMap = {
     "zh-tw": "zh",
     "zh-hk": "zh",
 };
+
+/** 获得当前语言 */
 var Vlang = (navigator.language || navigator.browserLanguage).toLowerCase();
 Vlang = localMap[Vlang] || Vlang;
 
+
+/** 创建标签 */
 var createTab = (newUrl) => {
     chrome.tabs.create({ url: newUrl });
 }
@@ -100,7 +105,7 @@ var insertText = (obj, str) => {
     return false;
 }
 
-// 获取所有选项卡信息
+/** 获取所有选项卡信息 */
 var getAllTabId = (cb) => {
     var windowTabs = [];
     chrome.windows.getAll((window) => {
@@ -174,4 +179,22 @@ var getJsonValToArray2 = (json, keyArr, filter = []) => {
         }
     });
     return newArray;
+}
+
+/** 查询参数类 */
+class QueryString {
+    constructor() {
+        var aPairs, aTmp;
+        var queryString = new String(window.location.search);
+        queryString = queryString.substr(1, queryString.length);
+        aPairs = queryString.split("&");
+        this.data = {};
+        for (var i = 0; i < aPairs.length; i++) {
+            aTmp = aPairs[i].split("=");
+            this.data[aTmp[0]] = aTmp[1];
+        }
+    }
+    GetValue(key) {
+        return this.data[key];
+    }
 }
