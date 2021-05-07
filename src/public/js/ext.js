@@ -273,7 +273,7 @@ var setTHBExtBlurBG = (url) => {
     #content,
     #footer
     {
-        background-color: #ffffff70!important;
+        background-color: #ffffff80!important;
     }
 
     .page-首页 #content{
@@ -307,6 +307,7 @@ var setTHBExtBlurBG = (url) => {
     div#ExtFixedHeader h3{
         background-color: #f4f4f44a!important;
         backdrop-filter: blur(5px);
+        transform: translate3d(0px, 0px, 0px);
     }
 
     .portal li ul li {
@@ -333,6 +334,7 @@ var setTHBExtBlurBG = (url) => {
     #content,
     #footer{
         backdrop-filter: blur(5px);
+        transform: translate3d(0px, 0px, 0px);
     }
 
     .comment-user, .comment-user a {
