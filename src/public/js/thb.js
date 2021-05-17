@@ -59,7 +59,6 @@ var checkUnreadNotificationNum = (username) => {
                 }
             },
             error: () => {
-                rej();
             }
         });
     }

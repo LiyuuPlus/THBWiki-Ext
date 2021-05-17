@@ -42,3 +42,7 @@ div.vectorMenu h3 span {
 #content {
     background-color: #ffffffb3!important;
 }
+
+.p-menu .el-badge__content.is-fixed.is-dot {
+    top: 1rem;
+}

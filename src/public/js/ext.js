@@ -318,6 +318,7 @@ var setTHBExtBlurBG = (url) => {
         background-color: #fffbfb52!important;
     }
     
+    div.vectorMenu div.menu,
     #p-personal,
     #simpleSearch,
     #a-donate table,
@@ -351,18 +352,43 @@ var setTHBExtBlurBG = (url) => {
 }
 
 $().ready(() => {
-    $("#p-namespaces").append($(`<ul id="thbext" class="vectorTabs" :data-lastVer="ver" :data-curVer="extVer">
+    /*$("#p-namespaces").append($(`<ul id="thbext" class="vectorTabs" :data-lastVer="ver" :data-curVer="extVer">
                            <li id="ca-nstab-changeLog" @click="showChangeLog"><span ><a>${getLang("extName")} ${getLang("THBChangelog")}</a></span></li>
                            <li id="ca-nstab-update" v-if="update" @click="goToSite"><span><a>更新我的THBWiki</a></span></li>
-                       </ul>`));
+                           <li id="ca-nstab-saveBackground" @click="ViewPic" v-if="background"><span><a>${getLang("ViewBG")}</a></span></li>
+                           <template v-if="background">
+                               <el-image :src="bgsrc" :preview-src-list="bglist" style="width: 1px; height: 1px" ref="bg_preview"></el-image>
+                           </template>
+                       </ul>`));*/
+    $("#left-navigation").append($(`<div id="p-thbext" role="navigation" class="vectorMenu" aria-labelledby="p-thbext-label">
+    <el-badge is-dot class="item p-menu" :hidden="!update">
+        <h3 id="p-thbext-label" tabindex="0" :data-lastVer="ver" :data-curVer="extVer"> 
+            <span>${getLang("extName")}</span><a href="#" tabindex="-1"></a>
+        </h3>
+    </el-badge>
+    <div class="menu">
+        <ul>
+            <li id="ca-changeLog" @click="showChangeLog"><span ><a>${getLang("extName")} ${getLang("THBChangelog")}</a></span></li>
+            <li id="ca-update" v-if="update" @click="goToSite"><span><a>更新${getLang("extName")}</a></span></li>
+            <li id="ca-saveBackground" @click="ViewPic" v-if="background"><span><a>${getLang("ViewBG")}</a></span></li>
+        </ul>
+    </div>
+    <template v-if="background">
+        <el-image :src="bgsrc" :preview-src-list="bglist" style="width: 1px; height: 1px" ref="bg_preview"></el-image>
+    </template>
+</div>`))
     new Vue({
-        el: "#thbext",
+        el: "#p-thbext",
         data() {
             return {
                 homepage: "",
                 extVer: "",
                 ver: "",
-                update: false
+                check: false,
+                update: false,
+                background: false,
+                bgsrc: "",
+                bglist: []
             };
         },
         created() {
@@ -378,9 +404,15 @@ $().ready(() => {
                     this.homepage = info.homepage_url;
                 });
             }, "json");
+            // 仅unicorn皮肤生效
+            if (background && $("body").hasClass("skin-unicorn")) {
+                this.showBackground();
+            }
         },
         updated() {
-            this.checkUpdate();
+            if (!this.check) {
+                this.checkUpdate();
+            }
         },
         methods: {
             showChangeLog() {
@@ -409,6 +441,7 @@ $().ready(() => {
                     this.update = this.extVer != ret;
                     console.log(this.extVer, ret, this.extVer >= ret ? "扩展版本已是最新" : `检测到扩展有更新，最新扩展版本为${ret}`);
                 });
+                this.check = true;
             },
             goToSite() {
                 window.location.href = `${this.homepage}/releases`;
@@ -430,59 +463,38 @@ $().ready(() => {
                         });
                     });
                 }
+            },
+            showBackground() {
+                let defurl = `${apiurl}Background.php`;
+                img.onload = () => {
+                    if (blurbackground) {
+                        setTHBExtBlurBG(img.src);
+                    }
+                    else {
+                        setTHBExtBG(img.src);
+                    }
+                    this.bgsrc = img.src;
+                    this.bglist = [img.src];
+                    this.background = true;
+                }
+                if (custombackground) {
+                    var url = custombgurl || defurl;
+                    img.src = url;
+                }
+                else {
+                    //根据词条判断背景
+                    var word = $("#firstHeading").text().replace(/ /g, "_");
+                    var url = `${defurl}?char=${word}&type=1`;
+                    $.get(url, {}, (res) => {
+                        img.src = res;
+                    });
+                }
+            },
+            ViewPic() {
+                this.$refs.bg_preview.showViewer = true;
             }
         }
     });
-
-    // 仅unicorn皮肤生效
-    if (background && $("body").hasClass("skin-unicorn")) {
-        let defurl = `${apiurl}Background.php`;
-        img.onload = () => {
-            if (blurbackground) {
-                setTHBExtBlurBG(img.src);
-            }
-            else {
-                setTHBExtBG(img.src);
-            }
-            var toolsDiv = `<ul id="ext-tools" class="vectorTabs">
-            <li id="ca-nstab-saveBackground" @click="ViewPic"><span><a>${getLang("ViewBG")}</a></span></li>
-            <template>
-                <el-image :src="bgsrc" :preview-src-list="bglist" style="width: 1px; height: 1px" ref="bg_preview"></el-image>
-            </template>
-        </ul>`;
-            $("#p-namespaces").append($(toolsDiv));
-            new Vue({
-                el: "#ext-tools",
-                data() {
-                    return {
-                        bgsrc: "",
-                        bglist: []
-                    };
-                },
-                created() {
-                    this.bgsrc = img.src;
-                    this.bglist = [img.src];
-                },
-                methods: {
-                    ViewPic() {
-                        this.$refs.bg_preview.showViewer = true;
-                    }
-                }
-            });
-        }
-        if (custombackground) {
-            var url = custombgurl || defurl;
-            img.src = url;
-        }
-        else {
-            //根据词条判断背景
-            var word = $("#firstHeading").text().replace(/ /g, "_");
-            var url = `${defurl}?char=${word}&type=1`;
-            $.get(url, {}, (res) => {
-                img.src = res;
-            });
-        }
-    }
 
     if (custombanner) {
         let url = "";

@@ -317,7 +317,10 @@
                                 <div class="text item">
                                     <span style="font-size:14px;vertical-align: middle;">{{T('TrackArtist')}}：</span>
                                     <template v-for="artist,index in track.artist">
-                                        <el-link type="primary" :href="artist.fullurl" target="_blank">
+                                        <el-link type="primary" :href="artist.fullurl" target="_blank" v-if="artist.exists">
+                                            {{artist.fulltext}}
+                                        </el-link>
+                                        <el-link type="danger" target="_blank" :title="artist.fulltext + ' (词条不存在)'" v-else>
                                             {{artist.fulltext}}
                                         </el-link>
                                         <span v-if="index < track.artist.length-1">/</span>
