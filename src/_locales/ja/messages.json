@@ -95,29 +95,37 @@
         "message": "発売",
         "description": "発売"
     },
-    "OrigMusic":{
-        "message":"原曲",
-        "description":"原曲検索"
+    "Track":{
+        "message":"クエリの追跡",
+        "description":"トラック情報検索"
     },
-    "OrigMusicSearch":{
-        "message":"原曲の名前または翻訳を入力してください",
-        "description":"原曲入力プロンプト"
+    "TrackSearch":{
+        "message":"トラック名を入力してください",
+        "description":"オリジナルの音楽入力プロンプト"
+    },
+    "TrackName":{
+        "message":"トラック名",
+        "description":"トラック名"
+    },
+    "TrackArtist": {
+        "message": "アーティスト",
+        "description": "トラック作成者/歌手"
+    },
+    "AlbumName":{
+        "message":"アルバム",
+        "description":"トラックが属するアルバム"
+    },
+    "AlbumDate":{
+        "message":"日付",
+        "description":"アルバムのリリース日"
+    },
+    "CircleName": {
+        "message": "サークル",
+        "description": "サークル"
     },
     "OrigMusicName":{
-        "message":"原曲の名前",
-        "description":"原曲の名前"
-    },
-    "OrigMusicTranName":{
-        "message":"原曲の翻訳された名前",
-        "description":"原曲の翻訳された名前"
-    },
-    "OrigMusicGame":{
-        "message":"ゲーム",
-        "description":"音楽はゲームに属しています "
-    },
-    "OrigMusicDate":{
-        "message":"日付",
-        "description":"音楽のリリース時間"
+        "message":"原曲名",
+        "description":"オリジナルの音楽名"
     },
     "Options": {
         "message": "オプション",
@@ -208,6 +216,18 @@
                 "example": "0"
             }
         }
+    },
+    "THBChangelog":{
+        "message":"更新履歴",
+        "description":"拡張の更新履歴"
+    },
+    "ViewBG":{
+        "message":"背景を見る",
+        "description":"背景画像を表示"
+    },
+    "CurrTHB": {
+        "message": "Current Page is THBWiki Website",
+        "description": "Current Page Title"
     },
     "userrights":{
         "message":"権限の変更",

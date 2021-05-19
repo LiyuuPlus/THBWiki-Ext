@@ -8,13 +8,14 @@
     <script src="../public/libs/jquery-3.3.1.min.js"></script>
 
     <!-- Vue.js -->
-    <script src="../public/libs/vue.min.js"></script>
+    <script src="../public/libs/vue.js"></script>
 
     <!-- element-ui -->
     <link href="../public/libs/element-ui/element-ui.css" rel="stylesheet">
     <script src="../public/libs/element-ui/element-ui.js"></script>
 
     <!-- ext -->
+    <script src="../public/js/api.js"></script>
     <script src="../public/js/common.js"></script>
     <script src="../public/js/thb.js"></script>
     <style>
@@ -295,36 +296,63 @@
                             </template>
                         </el-calendar>
                     </el-tab-pane>
-                    <!-- 原曲查询 -->
-                    <el-tab-pane :label="T('OrigMusic')" name="4">
+                    <!-- 曲目查询 -->
+                    <el-tab-pane :label="T('Track')" name="4">
                         <el-row>
                             <el-col :span="24">
-                                <el-input :placeholder="T('OrigMusicSearch')" v-model="OrigMusic"
-                                    class="input-with-select" @keyup.enter.native="searchOrigMusic">
-                                    <el-button slot="append" icon="el-icon-search" @click="searchOrigMusic"></el-button>
+                                <el-input :placeholder="T('TrackSearch')" v-model="Track" class="input-with-select"
+                                    @keyup.enter.native="searchTrack">
+                                    <el-button slot="append" icon="el-icon-search" @click="searchTrack"></el-button>
                                 </el-input>
                             </el-col>
                         </el-row>
-                        <el-card class="box-card">
-                            <div class="text item">
-                                <span style="font-size:14px;vertical-align: middle;">{{T('OrigMusicName')}}：</span>
-                                <el-link type="primary" :href="OrigMusicInfo.Url" target="_blank">{{OrigMusicInfo.Name}}
-                                </el-link>
-                            </div>
-                            <div class="text item">
-                                <span
-                                    style="font-size:14px;vertical-align: middle;">{{T('OrigMusicTranName')}}：{{OrigMusicInfo.TranName}}</span>
-                            </div>
-                            <div class="text item">
-                                <span style="font-size:14px;vertical-align: middle;">{{T('OrigMusicGame')}}：</span>
-                                <el-link type="primary" :href="'https://thwiki.cc/'+OrigMusicInfo.Game" target="_blank"
-                                    v-text="OrigMusicInfo.Game?'《'+OrigMusicInfo.Game+'》':''"></el-link>
-                            </div>
-                            <div class="text item">
-                                <span
-                                    style="font-size:14px;vertical-align: middle;">{{T('OrigMusicDate')}}：{{OrigMusicInfo.Date}}</span>
-                            </div>
-                        </el-card>
+                        <el-collapse v-model="TrackInfo.Selects" accordion>
+                            <el-collapse-item :title="track.name+' - '+track.alname" :name="index"
+                                v-for="track,index in TrackInfo.Items" :key="index">
+                                <div class="text item">
+                                    <span style="font-size:14px;vertical-align: middle;">{{T('TrackName')}}：</span>
+                                    <el-link type="primary" :href="track.self.fullurl" target="_blank">{{track.name}}
+                                    </el-link>
+                                </div>
+                                <div class="text item">
+                                    <span style="font-size:14px;vertical-align: middle;">{{T('TrackArtist')}}：</span>
+                                    <template v-for="artist,index in track.artist">
+                                        <el-link type="primary" :href="artist.fullurl" target="_blank" v-if="artist.exists">
+                                            {{artist.fulltext}}
+                                        </el-link>
+                                        <el-link type="danger" target="_blank" :title="artist.fulltext + ' (词条不存在)'" v-else>
+                                            {{artist.fulltext}}
+                                        </el-link>
+                                        <span v-if="index < track.artist.length-1">/</span>
+                                    </template>
+                                </div>
+                                <div class="text item">
+                                    <span style="font-size:14px;vertical-align: middle;">{{T('AlbumName')}}：</span>
+                                    <el-link type="primary" :href="'https://thwiki.cc/'+track.althb" target="_blank">
+                                        {{track.alname}}
+                                    </el-link>
+                                </div>
+                                <div class="text item">
+                                    <span style="font-size:14px;vertical-align: middle;">{{T('CircleName')}}：</span>
+                                    <template v-for="circle,index in track.circle">
+                                        <el-link type="primary" :href="circle.fullurl" target="_blank">
+                                            {{circle.displaytitle ? circle.displaytitle : circle.fulltext}}
+                                        </el-link>
+                                        <span v-if="index < track.circle.length-1">　/　</span>
+                                    </template>
+                                </div>
+                                <div class="text item">
+                                    <span style="font-size:14px;vertical-align: middle;">{{T('OrigMusicName')}}：</span>
+                                    <span style="font-size:14px;vertical-align: middle;"
+                                        :title="track.ogmusiccnname">{{track.ogmusicname}}</span>
+                                </div>
+                                <div class="text item">
+                                    <span style="font-size:14px;vertical-align: middle;">{{T('AlbumDate')}}：</span>
+                                    <span style="font-size:14px;vertical-align: middle;"
+                                        :title="track.ogmusiccnname">{{track.date}}</span>
+                                </div>
+                            </el-collapse-item>
+                        </el-collapse>
                     </el-tab-pane>
                     <!-- 设置 -->
                     <el-tab-pane :label="T('Options')" name="5">

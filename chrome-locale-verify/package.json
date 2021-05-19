@@ -1,0 +1,28 @@
+{
+  "name": "chrome-locale-verify",
+  "version": "0.1.0",
+  "description": "TMP",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "chrome-locale-verify": "./bin/chrome-locale-verify"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/calibr/chrome-locale-verify.git"
+  },
+  "author": "calibr <awcalibr@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/calibr/chrome-locale-verify/issues"
+  },
+  "homepage": "https://github.com/calibr/chrome-locale-verify",
+  "dependencies": {
+    "colors": "^1.1.2",
+    "glob": "^5.0.14",
+    "lodash": "^4.17.19",
+    "minimist": "^1.1.2"
+  }
+}

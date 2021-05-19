@@ -1,48 +1,30 @@
-QueryString = {
-    data: {},
-    Initial: function () {
-        var aPairs, aTmp;
-        var queryString = new String(window.location.search);
-        queryString = queryString.substr(1, queryString.length);
-        aPairs = queryString.split("&");
-        for (var i = 0; i < aPairs.length; i++) {
-            aTmp = aPairs[i].split("=");
-            this.data[aTmp[0]] = aTmp[1];
-        }
-    },
-    GetValue: function (key) {
-        return this.data[key];
-    }
-}
-QueryString.Initial();
+/** 获得参数 */
+var queryString = new QueryString();
+var action = queryString.GetValue("action");
+var title = decodeURI(queryString.GetValue("title"));
 
-//Get Query
-var action = QueryString.GetValue("action");
-var title = decodeURI(QueryString.GetValue("title"));
-
-//Get Status
+/** 获得状态 */
 var editstatus = action == "edit";
 var submitstatus = action == "submit";
 var lyricstatus = (title.indexOf("歌词:") >= 0) ? true : false;
 
+/** 加载样式 */
 var loadCssCode = (code) => {
     var style = document.createElement('style');
-    style.type = 'text/css';
     style.rel = 'stylesheet';
-    //for Chrome Firefox Opera Safari
     style.appendChild(document.createTextNode(code));
-    //for IE
-    //style.styleSheet.cssText = code;
     var head = document.getElementsByTagName('head')[0];
     head.appendChild(style);
 }
 
+/** 加载脚本 */
 var loadScript = (code) => {
     var script = document.createElement('script');
     script.innerHTML = code;
-    document.head.appendChild(script);
+    document.body.appendChild(script);
 }
 
+/** 变量定义 */
 var background = true;
 var custombackground = false;
 var custombgurl = "";
@@ -55,7 +37,10 @@ var custombnop = "";
 var custombnurl = "";
 var inpageedit = false;
 
+// 临时变量
+var img = new Image();
 
+/** 设置获取 */
 chrome.storage.local.get(['options'], (res) => {
     if (res.options) {
         background = res.options.background;
@@ -72,31 +57,65 @@ chrome.storage.local.get(['options'], (res) => {
     }
 });
 
-var setbg = () => {
+var setBG = () => {
     var css = `
     body{
         background-color:#ffffff00!important;
     }
     
-    #mw-page-base,#mw-head-base,#mw-panel{
+    #mw-page-base,
+    #mw-head-base,
+    #mw-panel{
         --foreground-color-high:auto!important;
+        background-color: var(--foreground-color-high)!important;
+    }
+
+    #mw-page-base{
+        -webkit-box-shadow: unset;
+        -moz-box-shadow: unset;
+        box-shadow: unset;
     }
     
     #mw-panel{
         --foreground-color-high:#ffffffcc!important;
+        background-color: var(--foreground-color-high)!important;
+        padding-top: 0;
+        top: 178px;
+    }
+
+    #p-logo{
+        background-color: transparent!important;
+        top: -178px;
+    }
+
+    .mw-wiki-logo{
+        filter: drop-shadow(0px 0px 0.4rem #000);
+    }
+
+    #p-personal,
+    #simpleSearch{
+        background-color: #ffffff94!important;
+    }
+
+    #simpleSearch #searchButton,
+    #simpleSearch #mw-searchButton{
+        background-color: #e8e8e869;
     }
     
     #mw-panel .portal{
         background-color:#ffffff00!important;
     }
     
-    #p-personal,
     #footer{
         background-color: #ffffffcc!important;
     }
     
     #p-personal{
         padding-right: 1rem;
+    }
+    
+    #p-personal ul{
+        padding-left: 0;
     }
     
     #content
@@ -109,11 +128,12 @@ var setbg = () => {
         background-color: #ffffff00!important;
     }
     
-    .portal li ul li
+    .portal li ul li,
+    div.vectorMenu div.menu
     {
         background-color: #ffffff45!important
     }
-
+    
     
     .mw-body #toc, .mw-body .toc,
     div.thumbinner,
@@ -136,7 +156,7 @@ var setbg = () => {
     .thumbimage{
         border-radius: 10px;
     }
-
+    
     .mw-body #toc, .mw-body .toc,
     .mw-body table.wikitable,
     div.thumbinner,
@@ -149,101 +169,134 @@ var setbg = () => {
     .mw-code{
         background-color: #ffffff6b!important;
     }
-
-    #p-personal,
-    #footer,
-    div.vectorTabs ul li,
-    #mw-head div.vectorMenu h3
-    {
-        background-color:#ffffffc9!important;
+    
+    table.tt-type-dialogue tr.tt-header>td.tt-ja,
+    table.tt-type-dialogue tr.tt-header>td.tt-zh,
+    td.tt-char, td.tt-status,
+    table.tt-type-omake tr.tt-header>td,
+    table.tt-type-omake tr.tt-content-header>td,
+    table.tt-type-omake tr.tt-manual-header>td,
+    table.tt-type-omake td.tt-pic,
+    table.tt-type-omaketxt tr.tt-header>td,
+    table.tt-type-omaketxt tr.tt-content-header>td,
+    table.tt-type-omaketxt tr.tt-manual-header>td,
+    table.tt-type-omaketxt td.tt-pic,
+    table.tt-type-setting tr.tt-header>td,
+    table.tt-type-setting tr.tt-content-header>td,
+    tr.tt-lyrics-header>td{
+        background-color: #e8e8e87a !important;
     }
 
+    #footer
+    {
+        background-color: #ffffffc9!important;
+    }
+    
     .mw-body table.wikitable th{
         background-color: #fffbfb69!important;
     }
-
+    
     #a-donate,
     .user-relationship-container img,
     #profile-image img{
         border-radius: 5px;
     }
-
+    
     #p-personal{
         border-radius: 1rem;
     }
-
+    
     .page-首页 #content{
         background-color: #ffffff6e!important;
     }
-
+    
     .bg-g2{
         background-color: #d2ecd594!important;
     }
-
+    
     div#ExtFixedHeader h2, 
     div#ExtFixedHeader h3{
         background-color: rgba(244, 244, 244, 0.78)!important;
+    }
+
+    @keyframes show{
+        from{
+          opacity: 0;
+        }
+    }
+
+    .comment-body textarea, .comment-preview{
+        background: #ffffff7d;
     }
     `;
 
     loadCssCode(css);
 }
 
-var setblurbg = (url) => {
+var setTHBExtBG = (url) => {
+    setBG();
+    var bgcss = `
+    .THBExtBG {
+        width: 100%;
+        height: 100%;
+        top: 0px;
+        left: 0px;
+        z-index: -3;
+        display: block;
+        user-select: none;
+        bottom: 0;
+        position: fixed;
+    }
+    
+    .THBExtBG img {
+        position: fixed;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center center;
+        animation: 2s ease 0s 1 normal none running show;
+    }
+    `;
+
+    loadCssCode(bgcss);
+    $("body").append($(`<div class="THBExtBG"><img id="THBG" src="${url}"></img></div>`));
+}
+
+var setTHBExtBlurBG = (url) => {
     var css = `
     #mw-panel{
         --foreground-color-high:#ffffff94!important;
     }
     
-    #p-personal,
-    #footer,
-    div.vectorTabs ul li,
-    #mw-head div.vectorMenu h3
+    #mw-panel,
+    #content,
+    #footer
     {
-        background-color:#ffffffa6!important;
-    }
-    
-    #content
-    {
-        background-color: #ffffffa6!important;
-    }
-    
-    .thbextbg{
-        background-image:unset!important;
-    }
-    
-    .thbextbg::after{
-        content: '';
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        width: 100%;
-        height: 100%;
-        background-image: url(${url});
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        background-size: cover;
-        z-index: -1;
-        -webkit-filter: blur(5px);
-        -moz-filter: blur(5px);
-        -ms-filter: blur(5px);
-        -o-filter: blur(5px);
-        filter: blur(5px);
+        background-color: #ffffff80!important;
     }
 
     .page-首页 #content{
-        background-color: #ffffff6e!important;
+        background-color: #fff0!important;
+        backdrop-filter: unset;
     }
     
+    #a-donate table{
+        background-color: #fff0!important;
+    }
+
+    #p-personal,
+    #simpleSearch,
+    #a-garakuta::before,
+    #a-game::before,
+    #a-music::before,
     #a-series::before,
     #a-doujin::before,
     #a-news::before,
     #a-other::before,
     #a-link::before,
     #a-about::before{
-        background-color: #ffffff78!important;
+        background-color: #ffffff85!important;
     }
 
     .bg-g2{
@@ -252,7 +305,9 @@ var setblurbg = (url) => {
 
     div#ExtFixedHeader h2, 
     div#ExtFixedHeader h3{
-        background-color: rgba(244, 244, 244, 0.69)!important;
+        background-color: #f4f4f44a!important;
+        backdrop-filter: blur(5px);
+        transform: translate3d(0px, 0px, 0px);
     }
 
     .portal li ul li {
@@ -263,99 +318,143 @@ var setblurbg = (url) => {
         background-color: #fffbfb52!important;
     }
     
-    `;
-    loadCssCode(css);
-}
-
-var setthbextbg = (url) => {
-    setbg();
-    var css = `
-    .thbextbg{
-        background-image:url(${url})!important;
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        background-size: cover;
-     }
-     `;
-    loadCssCode(css);
-    $("html").addClass(`mainbg thbextbg`);
-    if (blurbackground) {
-        setblurbg(url);
+    div.vectorMenu div.menu,
+    #p-personal,
+    #simpleSearch,
+    #a-donate table,
+    #a-garakuta,
+    #a-game,
+    #a-music,
+    #a-series,
+    #a-doujin,
+    #a-news,
+    #a-other,
+    #a-link,
+    #a-about,
+    #mw-panel,
+    #content,
+    #footer{
+        backdrop-filter: blur(5px);
+        transform: translate3d(0px, 0px, 0px);
     }
+
+    .comment-user, .comment-user a {
+        color: #616161;
+    }
+
+    .comment-time{
+        color: #6f6e6e;
+    }
+    `;
+
+    setTHBExtBG(url);
+    loadCssCode(css);
 }
 
 $().ready(() => {
-
-    $("#p-namespaces").append($(`<ul id="thbext" class="vectorTabs">
-                           <li id="ca-nstab-changeLog" @click="showChangeLog"><span><a>THB扩展更新日志</a></span></li>
+    /*$("#p-namespaces").append($(`<ul id="thbext" class="vectorTabs" :data-lastVer="ver" :data-curVer="extVer">
+                           <li id="ca-nstab-changeLog" @click="showChangeLog"><span ><a>${getLang("extName")} ${getLang("THBChangelog")}</a></span></li>
                            <li id="ca-nstab-update" v-if="update" @click="goToSite"><span><a>更新我的THBWiki</a></span></li>
-                       </ul>`));
+                           <li id="ca-nstab-saveBackground" @click="ViewPic" v-if="background"><span><a>${getLang("ViewBG")}</a></span></li>
+                           <template v-if="background">
+                               <el-image :src="bgsrc" :preview-src-list="bglist" style="width: 1px; height: 1px" ref="bg_preview"></el-image>
+                           </template>
+                       </ul>`));*/
+    $("#left-navigation").append($(`<div id="p-thbext" role="navigation" class="vectorMenu" aria-labelledby="p-thbext-label">
+    <el-badge is-dot class="p-menu" :hidden="!update">
+        <h3 id="p-thbext-label" tabindex="0" :data-lastVer="ver" :data-curVer="extVer"> 
+            <span>${getLang("extName")}</span><a href="#" tabindex="-1"></a>
+        </h3>
+    </el-badge>
+    <div class="menu">
+        <ul>
+            <li id="ca-changeLog" @click="showChangeLog"><span ><a>${getLang("extName")} ${getLang("THBChangelog")}</a></span></li>
+            <li id="ca-update" v-if="update" @click="goToSite"><span><a>更新${getLang("extName")}</a></span></li>
+            <li id="ca-saveBackground" @click="ViewPic" v-if="background"><span><a>${getLang("ViewBG")}</a></span></li>
+        </ul>
+    </div>
+    <template v-if="background">
+        <el-image :src="bgsrc" :preview-src-list="bglist" style="width: 1px; height: 1px" ref="bg_preview"></el-image>
+    </template>
+</div>`))
     new Vue({
-        el: "#thbext",
+        el: "#p-thbext",
         data() {
             return {
                 homepage: "",
-                extVer: '0.0.0',
-                ver: '0.0.0',
-                update: false
+                extVer: "",
+                ver: "",
+                check: false,
+                update: false,
+                background: false,
+                bgsrc: "",
+                bglist: []
             };
         },
         created() {
-            chrome.storage.local.get(["info"], (res) => {
-                if (res.info) {
-                    this.ver = res.info.ver;
-                }
-            });
-            this.checkUpdate();
+            $.get(chrome.extension.getURL('manifest.json'), (info) => {
+                chrome.storage.local.get(["info"], (res) => {
+                    if (res.info) {
+                        this.ver = res.info.ver;
+                    }
+                    else {
+                        this.ver = "0.0.0";
+                    }
+                    this.extVer = info.version;
+                    this.homepage = info.homepage_url;
+                });
+            }, "json");
+            // 仅unicorn皮肤生效
+            if (background && $("body").hasClass("skin-unicorn")) {
+                this.showBackground();
+            }
         },
-        watch: {
-            ver(newval, oldval) {
-                this.isNewVer(newval, this.extVer);
-            },
-            extVer(newval, oldval) {
-                this.isNewVer(this.ver, newval);
+        updated() {
+            if (!this.check) {
+                this.checkUpdate();
             }
         },
         methods: {
             showChangeLog() {
-                $.get(`${apiurl}Ver.php`, (res) => {
-                    this.$alert(res, `我的THBWiki 更新日志`, {
+                $.get(`${apiurl}Ver.php?curVer=${this.extVer}`, (res) => {
+                    this.$alert(res, `${getLang("extName")} ${getLang("THBChangelog")}`, {
                         dangerouslyUseHTMLString: true,
-                        confirmButtonText: '确定'
+                        confirmButtonText: getLang("Yes")
                     });
                 });
             },
             checkUpdate() {
-                $.get(chrome.extension.getURL('manifest.json'), (info) => {
-                    this.extVer = info.version;
-                    this.homepage = info.homepage_url;
-                    //过于花里胡哨的提示
-                    var spLen = 10 - this.extVer.length;
-                    var sp = "";
-                    for (let i = 0; i < spLen; i++) {
-                        sp += " ";
-                    }
-                    console.log(`%c    _____   _   _   ____                    
+                //过于花里胡哨的提示
+                var spLen = 10 - this.extVer.length;
+                var sp = "";
+                for (let i = 0; i < spLen; i++) {
+                    sp += " ";
+                }
+                console.log(`%c    _____   _   _   ____                    
     |_   _| | | | | | __ )                  
       | |   | |_| | |  _ \                   
       | |   |  _  | | |_) |                 
       |_|   |_| |_| |____/   ver. ${this.extVer}${sp}
                                             `, 'background-color:#000;color:#fff;text-shadow: -1px 0 0.4rem #2196f3, 0 1px 0.4rem #2196f3, 1px 0 0.4rem #2196f3, 0 -1px 0.4rem #2196f3;');
-                    $.get(`${apiurl}Ver.php?upVer=${this.extVer}`, (res) => {
-                        this.update = this.extVer != res;
-                    });
-                }, 'json');
+                this.isNewVer(this.ver, this.extVer);
+                $.get(`${apiurl}Ver.php?upVer=${this.extVer}`, (ret) => {
+                    this.update = this.extVer != ret;
+                    console.log(this.extVer, ret, this.extVer >= ret ? "扩展版本已是最新" : `检测到扩展有更新，最新扩展版本为${ret}`);
+                });
+                this.check = true;
             },
             goToSite() {
                 window.location.href = `${this.homepage}/releases`;
             },
             isNewVer(curVer, newVer) {
-                console.log(curVer, newVer);
                 if (curVer < newVer) {
+                    console.log(curVer, newVer, `检测到扩展已更新，当前扩展版本为${newVer}`);
+                }
+                if (curVer && newVer && curVer < newVer) {
                     $.get(`${apiurl}Ver.php?ver=${newVer}`, (res) => {
-                        this.$alert(res, `我的THBWiki ${newVer}更新日志`, {
+                        this.$alert(res, `${getLang("extName")} ${newVer}${getLang("THBChangelog")}`, {
                             dangerouslyUseHTMLString: true,
-                            confirmButtonText: '确定',
+                            confirmButtonText: getLang("yes"),
                             callback: action => {
                                 if (action == "confirm") {
                                     chrome.storage.local.set({ "info": { ver: newVer } });
@@ -364,51 +463,39 @@ $().ready(() => {
                         });
                     });
                 }
+            },
+            showBackground() {
+                let defurl = `${apiurl}Background.php`;
+                img.onload = () => {
+                    if (blurbackground) {
+                        setTHBExtBlurBG(img.src);
+                    }
+                    else {
+                        setTHBExtBG(img.src);
+                    }
+                    this.bgsrc = img.src;
+                    this.bglist = [img.src];
+                    this.background = true;
+                }
+                if (custombackground) {
+                    var url = custombgurl || defurl;
+                    img.src = url;
+                }
+                else {
+                    //根据词条判断背景
+                    var word = $("#firstHeading").text().replace(/ /g, "_");
+                    var url = `${defurl}?char=${word}&type=1`;
+                    $.get(url, {}, (res) => {
+                        img.src = res;
+                    });
+                }
+            },
+            ViewPic() {
+                this.$refs.bg_preview.showViewer = true;
             }
         }
     });
 
-    // 仅unicorn皮肤生效
-    if (background && $("body").hasClass("skin-unicorn")) {
-        let defurl = `${apiurl}Background.php`;
-        if (custombackground) {
-            var url = custombgurl || defurl;
-            setthbextbg(url);
-        }
-        else {
-            //根据词条判断背景
-            var word = $("#firstHeading").text().replace(/ /g, "_");
-            var url = `${defurl}?char=${word}&type=1`;
-            $.get(url, {}, (res) => {
-                setthbextbg(res);
-                var toolsDiv = `<ul id="ext-tools" class="vectorTabs">
-                <li id="ca-nstab-saveBackground" @click="ViewPic"><span><a>查看背景图片</a></span></li>
-                <template>
-                    <el-image :src="bgsrc" :preview-src-list="bglist" style="width: 1px; height: 1px" ref="bg_preview"></el-image>
-                </template>
-            </ul>`;
-                $("#p-namespaces").append($(toolsDiv));
-                new Vue({
-                    el: "#ext-tools",
-                    data() {
-                        return {
-                            bgsrc: "",
-                            bglist: []
-                        };
-                    },
-                    created() {
-                        this.bgsrc = res;
-                        this.bglist = [res];
-                    },
-                    methods: {
-                        ViewPic() {
-                            this.$refs.bg_preview.showViewer = true;
-                        }
-                    }
-                });
-            });
-        }
-    }
     if (custombanner) {
         let url = "";
         if (custombnop == "customer") {

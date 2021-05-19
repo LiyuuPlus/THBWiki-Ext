@@ -28,8 +28,8 @@
         "description":"Login"
     },
     "RegTime": {
-        "message": "Register Time: ",
-        "description": "Register Time"
+        "message": "Register Date: ",
+        "description": "Register Date"
     },
     "EditCount": {
         "message": "Edit Count: ",
@@ -95,29 +95,37 @@
         "message": "release",
         "description": "release"
     },
-    "OrigMusic":{
-        "message":"Original Music",
-        "description":"OrigMusic search"
+    "Track":{
+        "message":"Track Query",
+        "description":"Track Info search"
     },
-    "OrigMusicSearch":{
-        "message":"Enter OrigMusic name or tranname",
+    "TrackSearch":{
+        "message":"Enter Track Name",
         "description":"Original music input prompt"
     },
-    "OrigMusicName":{
-        "message":"OrigMusic Name",
-        "description":"Original music name"
+    "TrackName":{
+        "message":"Track Name",
+        "description":"Track name"
     },
-    "OrigMusicTranName":{
-        "message":"OrigMusic Translate Name",
-        "description":"Original music translate name"
+    "TrackArtist": {
+        "message": "Artist",
+        "description": "Track Author/Vocal"
     },
-    "OrigMusicGame":{
-        "message":"Game",
-        "description":"Original music release game"
+    "AlbumName":{
+        "message":"Album",
+        "description":"The album to which the track belongs"
     },
-    "OrigMusicDate":{
+    "AlbumDate":{
         "message":"Date",
-        "description":"Original music release date"
+        "description":"Album release date"
+    },
+    "CircleName":{
+        "message":"Circle",
+        "description":"The circle to which the track belongs"
+    },
+    "OrigMusicName":{
+        "message":"Original Title",
+        "description":"Original Title"
     },
     "Options": {
         "message": "Options",
@@ -196,7 +204,7 @@
         "description":"Browser notification title"
     },
     "NotificationBody":{
-        "message":"You have $count$ unread notifications, such as <$msg>.",
+        "message":"You have $count$ unread notifications, such as <$msg$>.",
         "description":"Browser notification body",
         "placeholders": {
             "msg": {
@@ -208,6 +216,18 @@
                 "example": "0"
             }
         }
+    },
+    "THBChangelog":{
+        "message":"Changelogs",
+        "description":"Extension Changelogs"
+    },
+    "ViewBG":{
+        "message":"View Background",
+        "description":"View Background Image"
+    },
+    "CurrTHB": {
+        "message": "Current Page is THBWiki Website",
+        "description": "Current Page Title"
     },
     "userrights":{
         "message":"Right Change",

@@ -95,29 +95,37 @@
         "message": "发布",
         "description": "发布"
     },
-    "OrigMusic": {
-        "message": "原曲查询",
-        "description": "原曲查询"
+    "Track": {
+        "message": "曲目查询",
+        "description": "曲目查询"
     },
-    "OrigMusicSearch": {
-        "message": "请输入原曲原名或译名",
-        "description": "原曲输入提示"
+    "TrackSearch": {
+        "message": "请输入曲目名称",
+        "description": "曲目输入提示"
+    },
+    "TrackName": {
+        "message": "曲目名称",
+        "description": "曲目名称"
+    },
+    "TrackArtist": {
+        "message": "艺术家",
+        "description": "曲目作者/演唱者"
+    },
+    "AlbumName": {
+        "message": "所属专辑",
+        "description": "曲目所属专辑"
+    },
+    "AlbumDate": {
+        "message": "首发日期",
+        "description": "专辑首发日期"
+    },
+    "CircleName": {
+        "message": "制作社团",
+        "description": "制作社团"
     },
     "OrigMusicName": {
-        "message": "原曲名称",
-        "description": "原曲原名"
-    },
-    "OrigMusicTranName": {
-        "message": "原曲译名",
-        "description": "原曲译名"
-    },
-    "OrigMusicGame": {
-        "message": "首发游戏",
-        "description": "原曲首发作品"
-    },
-    "OrigMusicDate": {
-        "message": "首发日期",
-        "description": "原曲首发日期"
+        "message": "原曲",
+        "description": "曲目原曲"
     },
     "Options": {
         "message": "设置",
@@ -167,7 +175,7 @@
         "message": "专辑页使用APlayer播放网易云音乐",
         "description": "专辑页使用APlayer播放网易云音乐"
     },
-    "SWInPageEdit":{
+    "SWInPageEdit": {
         "message": "开启InPageEdit增强功能",
         "description": "加载InPageEdit"
     },
@@ -179,15 +187,15 @@
         "message": "重置设置",
         "description": "重置设置"
     },
-    "SaveYes":{
+    "SaveYes": {
         "message": "保存成功！",
         "description": "保存成功！"
     },
-    "ResetYes":{
+    "ResetYes": {
         "message": "重置成功！",
         "description": "重置成功！"
     },
-    "HiddenFunOpen":{
+    "HiddenFunOpen": {
         "message": "好耶！开启了新世界的大门！",
         "description": "开启隐藏高级功能"
     },
@@ -208,6 +216,18 @@
                 "example": "0"
             }
         }
+    },
+    "THBChangelog": {
+        "message": "更新日志",
+        "description": "扩展更新日志"
+    },
+    "ViewBG": {
+        "message": "查看背景图片",
+        "description": "查看背景图片"
+    },
+    "CurrTHB": {
+        "message": "正在访问THBWiki",
+        "description": "Current Page Title"
     },
     "userrights": {
         "message": "权限变更",

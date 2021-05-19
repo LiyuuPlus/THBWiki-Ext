@@ -1,5 +1,48 @@
-.mainbg {
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-size: cover;
+html, body {
+    background-color: #f4f4f4!important;
+}
+
+#mw-page-base, #mw-head-base, #footer, #p-logo {
+    background-color: #f4f4f4!important;
+}
+
+#mw-panel{
+    padding-top: 0!important;
+    top: 178px!important;
+}
+
+#p-logo{
+    top: -175px!important;
+}
+
+div.vectorTabs ul li, #mw-head div.vectorMenu h3 {
+    background-color: transparent!important;
+}
+
+div.vectorTabs li.selected a, div.vectorTabs li.selected a:visited {
+    text-shadow: -1px 0 0.4rem #000, 0 1px 0.4rem #000, 1px 0 0.4rem #000, 0 -1px 0.4rem #000;
+    color: #fff !important;
+}
+
+div.vectorTabs li.new a, div.vectorTabs li.new a:visited {
+    text-shadow: -1px 0 0.4rem #e91e63, 0 1px 0.4rem #e91e63, 1px 0 0.4rem #e91e63, 0 -1px 0.4rem #e91e63;
+    color: #fff !important;
+}
+
+div.vectorTabs span>a, div.vectorMenu div.menu li a {
+    text-shadow: -1px 0 0.4rem #2196f3, 0 1px 0.4rem #2196f3, 1px 0 0.4rem #2196f3, 0 -1px 0.4rem #2196f3;
+    color: #fff !important;
+}
+
+div.vectorMenu h3 span {
+    text-shadow: -1px 0 0.4rem #cf8300, 0 1px 0.4rem #cf8300, 1px 0 0.4rem #cf8300, 0 -1px 0.4rem #cf8300;
+    color: #fff !important;
+}
+
+#content {
+    background-color: #ffffffb3!important;
+}
+
+.p-menu .el-badge__content.is-fixed.is-dot {
+    top: 1rem;
 }

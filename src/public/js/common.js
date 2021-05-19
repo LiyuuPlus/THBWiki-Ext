@@ -1,10 +1,13 @@
+const apiurl = "https://www.alicem.top/KamiAPI/THBExt/";
 const CsiteUrl = "https://thwiki.cc";
 const CsiteApiUrl = "https://thwiki.cc/api.php";
-const apiurl = "https://www.alicem.top/KamiAPI/THBExt/";
+const CmusicApiUrl = "https://www.alicem.top/KamiAPI/Album/query.php";
 
 const CsiteNoLoginLogo = "/public/images/logo-32-bw.png";
 const CsiteLoginLogo = "/public/images/logo-32.png";
+const CsiteInTHBLogo = "/public/images/logo-32-thb.png";
 
+/** 加载语言列表 */
 const localMap = {
     "en-us": "en",
     "en-gb": "en",
@@ -12,28 +15,17 @@ const localMap = {
     "zh-tw": "zh",
     "zh-hk": "zh",
 };
-var Vlang = (navigator.language || navigator.browserLanguage).toLowerCase();
+
+/** 获得当前语言 */
+var Vlang = getBrowserLang();
 Vlang = localMap[Vlang] || Vlang;
 
-var createTab = (newUrl) => {
-    chrome.tabs.create({ url: newUrl });
-}
-
-var getCookies = (domain, name) => {
-    return new Promise((res, rej) => {
-        chrome.cookies.get({ "url": domain, "name": name }, function (cookie) {
-            if (cookie && cookie.value) {
-                res(cookie.value);
-            }
-            rej();
-        });
-    });
-}
-
+/** 格式化数字时间 */
 var dateFormat = (timeStr) => {
     return timeStr.substring(0, 4) + "-" + timeStr.substring(4, 6) + "-" + timeStr.substring(6, 8);
 }
 
+/** 格式化Date对象 */
 Date.prototype.Format = function (fmt) {
     var o = {
         "M+": this.getMonth() + 1, //月份 
@@ -51,12 +43,9 @@ Date.prototype.Format = function (fmt) {
     return fmt;
 }
 
+/** 时间戳格式化 */
 var timestampFormat = (timestamp) => {
     return new Date(parseInt(timestamp) * 1000).Format("yyyy-MM-dd");
-}
-
-var getLang = (name, arg) => {
-    return (arg ? chrome.i18n.getMessage(name, arg) : chrome.i18n.getMessage(name)) || '';
 }
 
 var copyToClipboardText = (txt) => {
@@ -96,4 +85,50 @@ var insertText = (obj, str) => {
         console.log(tmp1 + str + tmp2);
     }
     return false;
+}
+
+/** 将json数组指定键的值转成数组 */
+var getJsonValToArray = (json, key) => {
+    var newArray = [];
+    json.forEach(v => {
+        newArray.push(v[key]);
+    });
+    return newArray;
+}
+
+/** 将json数组指定键数组的值转成数组 */
+var getJsonValToArray2 = (json, keyArr, filter = []) => {
+    var newArray = [];
+    json.forEach(v => {
+        for (var i = 0; i < keyArr.length; i++) {
+            var v1 = keyArr[i];
+            var val = v[v1];
+            if (v[v1]) {
+                filter.forEach(v2 => {
+                    val = val.replace(v2, "");
+                });
+                newArray.push(val);
+                break;
+            }
+        }
+    });
+    return newArray;
+}
+
+/** 查询参数类 */
+class QueryString {
+    constructor() {
+        var aPairs, aTmp;
+        var queryString = new String(window.location.search);
+        queryString = queryString.substr(1, queryString.length);
+        aPairs = queryString.split("&");
+        this.data = {};
+        for (var i = 0; i < aPairs.length; i++) {
+            aTmp = aPairs[i].split("=");
+            this.data[aTmp[0]] = aTmp[1];
+        }
+    }
+    GetValue(key) {
+        return this.data[key];
+    }
 }
