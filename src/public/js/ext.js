@@ -361,7 +361,7 @@ $().ready(() => {
                            </template>
                        </ul>`));*/
     $("#left-navigation").append($(`<div id="p-thbext" role="navigation" class="vectorMenu" aria-labelledby="p-thbext-label">
-    <el-badge is-dot class="item p-menu" :hidden="!update">
+    <el-badge is-dot class="p-menu" :hidden="!update">
         <h3 id="p-thbext-label" tabindex="0" :data-lastVer="ver" :data-curVer="extVer"> 
             <span>${getLang("extName")}</span><a href="#" tabindex="-1"></a>
         </h3>
