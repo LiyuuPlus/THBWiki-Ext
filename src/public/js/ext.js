@@ -438,7 +438,7 @@ $().ready(() => {
     },
     methods: {
       showChangeLog() {
-        $.get(`${apiurl}Ver.php?curVer=${this.extVer}`, (res) => {
+        getVer({ curVer: this.extVer }).then((res) => {
           this.$alert(res, `${getLang("extName")} ${getLang("THBChangelog")}`, {
             dangerouslyUseHTMLString: true,
             confirmButtonText: getLang("Yes"),
@@ -462,7 +462,7 @@ $().ready(() => {
           "background-color:#000;color:#fff;text-shadow: -1px 0 0.4rem #2196f3, 0 1px 0.4rem #2196f3, 1px 0 0.4rem #2196f3, 0 -1px 0.4rem #2196f3;"
         );
         this.isNewVer(this.ver, this.extVer);
-        $.get(`${apiurl}Ver.php?upVer=${this.extVer}`, (ret) => {
+        getVer({ upVer: this.extVer }).then((ret) => {
           this.update = this.extVer != ret;
           console.log(
             this.extVer,
@@ -486,7 +486,7 @@ $().ready(() => {
           );
         }
         if (curVer && newVer && curVer < newVer) {
-          $.get(`${apiurl}Ver.php?ver=${newVer}`, (res) => {
+          getVer({ ver: newVer }).then((ret) => {
             this.$alert(
               res,
               `${getLang("extName")} ${newVer}${getLang("THBChangelog")}`,
@@ -504,7 +504,7 @@ $().ready(() => {
         }
       },
       showBackground() {
-        let defurl = `${apiurl}Background.php`;
+        let defurl = `${apiurl}Background`;
         img.onload = () => {
           if (blurbackground) {
             setTHBExtBlurBG(img.src);
@@ -523,7 +523,9 @@ $().ready(() => {
           var word = $("#firstHeading").text().replace(/ /g, "_");
           var url = `${defurl}?char=${word}&type=1`;
           $.get(url, {}, (res) => {
-            img.src = res;
+            if (res.status == 0) {
+              img.src = res.data;
+            }
           });
         }
       },
@@ -633,23 +635,13 @@ $().ready(() => {
       //验证码自动获取
       if ($("label[for='wpCaptchaWord']").length > 0) {
         var question = $("label[for='wpCaptchaWord']").text();
-        $.get(
-          CsiteApiUrl,
-          {
-            action: "query",
-            format: "json",
-            formatversion: 2,
-            meta: "userinfo",
-          },
-          (result) => {
-            $.get(
-              `${apiurl}Captcha.php?q=${question}&uid=${result.query.userinfo.id}`,
-              (res) => {
-                $("input[name='wpCaptchaWord']").val(res);
-              }
-            );
-          }
-        );
+        getUserInfo(null).then((result) => {
+          getCaptcha({ q: question, uid: result.query.userinfo.id }).then(
+            (res) => {
+              $("input[name='wpCaptchaWord']").val(res);
+            }
+          );
+        });
       }
     }, 1000);
   }
@@ -726,17 +718,16 @@ $().ready(() => {
       },
       methods: {
         getNetLyric(songname, groupname) {
-          $.get(
-            `${apiurl}NetSearch.php?limit=5&name=${songname}+${groupname}`,
+          getNetSearch({ limit: 5, name: `${songname}+${groupname}` }).then(
             (res) => {
-              if (res.code == 200) {
-                this.songs = res.result.songs;
+              if (res.status == 0) {
+                this.songs = res.data.songs;
               }
             }
           );
         },
         clickSong(id) {
-          this.lyricUrl = `${apiurl}NetLyric.php?id=${id}&format=thb`;
+          this.lyricUrl = `${apiurl}NetLyric?id=${id}&format=thb`;
         },
         closeNetLyric() {
           this.lyricUrl = "";
@@ -922,7 +913,7 @@ $().ready(() => {
                       artist: v.ar[0].name,
                       cover: v.al.picUrl,
                       url: `http://music.163.com/song/media/outer/url?id=${v.id}.mp3`,
-                      lrc: `${apiurl}NetLyric.php?id=${v.id}`,
+                      lrc: `${apiurl}NetLyric?id=${v.id}`,
                     });
                   });
                   this.aplayer = new APlayer({
@@ -943,14 +934,11 @@ $().ready(() => {
             },
             methods: {
               getNetMusic() {
-                $.get(
-                  `${apiurl}NetAlbum.php?name=${album}&ar=${circle}`,
-                  (res) => {
-                    if (res.code == 200) {
-                      this.songs = res.songs;
-                    }
+                getNetAlbum({ name: album, ar: circle }).then((res) => {
+                  if (res.status == 0) {
+                    this.songs = res.data.songs;
                   }
-                );
+                });
               },
             },
           });

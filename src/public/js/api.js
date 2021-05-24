@@ -1,76 +1,118 @@
-/** 本文件为封装的浏览器API，方便移植使用 */
+/** 本文件为封装的扩展API*/
 
-/** 获得当前语言 */
-var getBrowserLang = () => (navigator.language || navigator.browserLanguage).toLowerCase();
+/** 获得自定义头图列表 */
+var getCustomerBanner = () => {
+  return new Promise((res, rej) => {
+    $.ajax({
+      url: `${apiurl}Banner`,
+      dataType: "json",
+      success: (result) => {
+        if (result.status == 0) {
+          res(result.data);
+        } else {
+          rej([]);
+        }
+      },
+      error: () => {
+        rej([]);
+      },
+    });
+  });
+};
 
-/** 创建标签 */
-var createTab = (newUrl) => {
-    chrome.tabs.create({ url: newUrl });
-}
+/** 获得版本更新日志/最新版本 */
+var getVer = ({ ver = null, curVer = null, upVer = null }) => {
+  return new Promise((res, rej) => {
+    $.ajax({
+      url: `${apiurl}Ver`,
+      data: {
+        curVer: curVer,
+        upVer: upVer,
+        ver: ver,
+      },
+      dataType: "json",
+      success: (result) => {
+        if (result.status == 0) {
+          res(result.data);
+        } else {
+          rej();
+        }
+      },
+      error: () => {
+        rej();
+      },
+    });
+  });
+};
 
-/** 获得cookie */
-var getCookies = (domain, name) => {
+/** 获得验证码答案 */
+var getCaptcha = (q, uid) => {
+  return new Promise((res, rej) => {
+    $.ajax({
+      url: `${apiurl}Captcha`,
+      data: {
+        q: q,
+        uid: uid,
+      },
+      dataType: "json",
+      success: (result) => {
+        if (result.status == 0) {
+          res(result.data);
+        } else {
+          rej();
+        }
+      },
+      error: () => {
+        rej();
+      },
+    });
+  });
+};
+
+/** 获得网易云搜索结果 */
+var getNetSearch = ({ name, limit = 5 }) => {
+  return new Promise((res, rej) => {
+    $.ajax({
+      url: `${apiurl}NetSearch`,
+      data: {
+        name: name,
+        limit: limit,
+      },
+      dataType: "json",
+      success: (result) => {
+        if (result.status == 0) {
+          res(result.data);
+        } else {
+          rej();
+        }
+      },
+      error: () => {
+        rej();
+      },
+    });
+  });
+};
+
+/** 获得网易云专辑信息 */
+var getNetAlbum = ({ name, ar }) => {
     return new Promise((res, rej) => {
-        chrome.cookies.get({ "url": domain, "name": name }, (cookie) => {
-            if (cookie && cookie.value) {
-                res(cookie.value);
-            }
+      $.ajax({
+        url: `${apiurl}NetAlbum`,
+        data: {
+          name: name,
+          ar: ar,
+        },
+        dataType: "json",
+        success: (result) => {
+          if (result.status == 0) {
+            res(result.data);
+          } else {
             rej();
-        });
+          }
+        },
+        error: () => {
+          rej();
+        },
+      });
     });
-}
-
-/** 获得i18n语言 */
-var getLang = (name, arg) => {
-    return (arg ? chrome.i18n.getMessage(name, arg) : chrome.i18n.getMessage(name)) || '';
-}
-
-/** 获取所有选项卡信息 */
-var getAllTabId = (cb) => {
-    var windowTabs = [];
-    chrome.windows.getAll((window) => {
-        window.forEach((win, i) => {
-            chrome.tabs.query({ windowId: win.id }, (tabs) => {
-                if (tabs.length > 0) {
-                    tabs.forEach(tab => {
-                        windowTabs.push({ id: tab.id, url: tab.url });
-                    });
-                }
-                if (i == window.length - 1) {
-                    cb(windowTabs);
-                }
-            });
-        });
-    });
-}
-
-/** 取得BadgeIcon */
-var getBadgeLogo = (login = false, tabId = false) => {
-    if (login) {
-        if (tabId) {
-            return CsiteInTHBLogo;
-        }
-        else {
-            return CsiteLoginLogo;
-        }
-    }
-    else {
-        return CsiteNoLoginLogo;
-    }
-}
-
-/** 设置Badge */
-var setBadge = (login, text = null) => {
-    if (text != null) {
-        chrome.browserAction.setBadgeText({ text: text });
-    }
-    chrome.browserAction.setTitle({ title: `${getLang("extName")}` });
-    chrome.browserAction.setIcon({ path: getBadgeLogo(login, false) });
-    getAllTabId((res) => {
-        var thbTabs = res.filter(v => v.url.indexOf("thwiki.cc") >= 0);
-        thbTabs.forEach(tab => {
-            chrome.browserAction.setTitle({ title: `${getLang("extName")} - ${getLang("currTHB")}`, tabId: tab.id });
-            chrome.browserAction.setIcon({ path: getBadgeLogo(login, true), tabId: tab.id });
-        });
-    })
-}
+  };

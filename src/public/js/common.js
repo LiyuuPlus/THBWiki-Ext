@@ -1,4 +1,4 @@
-const apiurl = "https://www.alicem.top/KamiAPI/THBExt/";
+const apiurl = "https://www.alicem.top/thbapi/";
 const CsiteUrl = "https://thwiki.cc";
 const CsiteApiUrl = "https://thwiki.cc/api.php";
 const CmusicApiUrl = "https://www.alicem.top/KamiAPI/Album/query.php";
@@ -59,21 +59,6 @@ var copyToClipboardText = (txt) => {
     document.body.removeChild(el);
     return res;
 }
-
-var getCustomerBanner = () => {
-    return new Promise((res, rej) => {
-        $.ajax({
-            url: `${apiurl}Banner.php`,
-            dataType: 'json',
-            success: (result) => {
-                res(result);
-            },
-            error: () => {
-                rej();
-            }
-        })
-    });
-};
 
 var insertText = (obj, str) => {
     if (obj) {
