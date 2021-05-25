@@ -1,9 +1,10 @@
 var checkLogin = (cb) => {
   getCookies(CsiteUrl, "thwikicc_wikiUserID")
-    .then(() => {
+    .then((res) => {
       getCookies(CsiteUrl, "thwikicc_wikiUserName")
         .then((res2) => {
           setBadge(true);
+          chrome.storage.local.set({ user: { wikiUserID: res, wikiUserName: res2} },null);
           cb(res2);
         })
         .catch((ex1) => {

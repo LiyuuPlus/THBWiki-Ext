@@ -488,7 +488,7 @@ $().ready(() => {
         if (curVer && newVer && curVer < newVer) {
           getVer({ ver: newVer }).then((ret) => {
             this.$alert(
-              res,
+              ret,
               `${getLang("extName")} ${newVer}${getLang("THBChangelog")}`,
               {
                 dangerouslyUseHTMLString: true,
@@ -635,12 +635,8 @@ $().ready(() => {
       //验证码自动获取
       if ($("label[for='wpCaptchaWord']").length > 0) {
         var question = $("label[for='wpCaptchaWord']").text();
-        getUserInfo(null).then((result) => {
-          getCaptcha({ q: question, uid: result.query.userinfo.id }).then(
-            (res) => {
-              $("input[name='wpCaptchaWord']").val(res);
-            }
-          );
+        getCaptcha(question).then((res) => {
+          $("input[name='wpCaptchaWord']").val(res);
         });
       }
     }, 1000);
@@ -720,7 +716,7 @@ $().ready(() => {
         getNetLyric(songname, groupname) {
           getNetSearch({ limit: 5, name: `${songname}+${groupname}` }).then(
             (res) => {
-                this.songs = res.songs;
+              this.songs = res.songs;
             }
           );
         },
@@ -933,7 +929,7 @@ $().ready(() => {
             methods: {
               getNetMusic() {
                 getNetAlbum({ name: album, ar: circle }).then((res) => {
-                    this.songs = res.songs;
+                  this.songs = res.songs;
                 });
               },
             },
