@@ -1,7 +1,6 @@
 const apiurl = "https://www.alicem.top/thbapi/";
 const CsiteUrl = "https://thwiki.cc";
 const CsiteApiUrl = "https://thwiki.cc/api.php";
-const CmusicApiUrl = "https://www.alicem.top/KamiAPI/Album/query.php";
 
 const CsiteNoLoginLogo = "/public/images/logo-32-bw.png";
 const CsiteLoginLogo = "/public/images/logo-32.png";

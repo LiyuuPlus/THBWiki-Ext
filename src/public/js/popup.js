@@ -398,7 +398,7 @@ var app = new Vue({
       createTab(item.url);
     },
     searchTrack() {
-      getAlbumData(this.Track).then((res) => {
+      getAlbumQuery(this.Track).then((res) => {
         this.TrackInfo.Items = res.results;
         if (res.count > 0) {
           this.TrackInfo.Selects = [0];

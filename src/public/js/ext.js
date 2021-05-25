@@ -720,9 +720,7 @@ $().ready(() => {
         getNetLyric(songname, groupname) {
           getNetSearch({ limit: 5, name: `${songname}+${groupname}` }).then(
             (res) => {
-              if (res.status == 0) {
-                this.songs = res.data.songs;
-              }
+                this.songs = res.songs;
             }
           );
         },
@@ -935,9 +933,7 @@ $().ready(() => {
             methods: {
               getNetMusic() {
                 getNetAlbum({ name: album, ar: circle }).then((res) => {
-                  if (res.status == 0) {
-                    this.songs = res.data.songs;
-                  }
+                    this.songs = res.songs;
                 });
               },
             },
