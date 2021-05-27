@@ -69,10 +69,10 @@ var app = new Vue({
     });
   },
   mounted() {
-    checkLogin((res) => {
-      this.loginStatus = res ? true : false;
+    checkLogin((ret) => {
+      this.loginStatus = ret ? true : false;
       if (this.loginStatus) {
-        this.UserInfo.fullname = decodeURIComponent(res).replace(/\+/g, " ");
+        this.UserInfo.fullname = decodeURIComponent(ret).replace(/\+/g, " ");
         setTimeout(() => {
           getUserInfo().then((res) => {
             res.groups = res.groups.filter((v) => v != "*");

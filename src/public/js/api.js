@@ -4,9 +4,13 @@
 var getCustomerBanner = () => {
   let wikiUserID = 0;
   let wikiUserName = "";
+  let extVer = "";
 
   return new Promise((res, rej) => {
-    chrome.storage.local.get(["user"], (ret) => {
+    chrome.storage.local.get(["user", "info"], (ret) => {
+      if (ret.info) {
+        extVer = ret.info.ver;
+      }
       if (ret.user) {
         wikiUserID = ret.user.wikiUserID || 0;
         wikiUserName = ret.user.wikiUserName || "";
@@ -18,6 +22,7 @@ var getCustomerBanner = () => {
         headers: {
           wikiUserID: wikiUserID,
           wikiUserName: wikiUserName,
+          extVer: extVer,
         },
         success: (result) => {
           if (result.status == 0) {
@@ -34,13 +39,60 @@ var getCustomerBanner = () => {
   });
 };
 
+/** 获得背景图片地址 */
+var getBackground = (char) => {
+  let wikiUserID = 0;
+  let wikiUserName = "";
+  let extVer = "";
+
+  return new Promise((res, rej) => {
+    chrome.storage.local.get(["user", "info"], (ret) => {
+      if (ret.info) {
+        extVer = ret.info.ver;
+      }
+      if (ret.user) {
+        wikiUserID = ret.user.wikiUserID || 0;
+        wikiUserName = ret.user.wikiUserName || "";
+      }
+
+      $.ajax({
+        url: `${apiurl}Background`,
+        data: {
+          char: char,
+          type: 1,
+        },
+        dataType: "json",
+        headers: {
+          wikiUserID: wikiUserID,
+          wikiUserName: wikiUserName,
+          extVer: extVer,
+        },
+        success: (result) => {
+          if (result.status == 0) {
+            res(result.data);
+          } else {
+            rej();
+          }
+        },
+        error: () => {
+          rej();
+        },
+      });
+    });
+  });
+};
+
 /** 获得版本更新日志/最新版本 */
 var getVer = ({ ver = null, curVer = null, upVer = null }) => {
   let wikiUserID = 0;
   let wikiUserName = "";
+  let extVer = "";
 
   return new Promise((res, rej) => {
-    chrome.storage.local.get(["user"], (ret) => {
+    chrome.storage.local.get(["user", "info"], (ret) => {
+      if (ret.info) {
+        extVer = ret.info.ver;
+      }
       if (ret.user) {
         wikiUserID = ret.user.wikiUserID || 0;
         wikiUserName = ret.user.wikiUserName || "";
@@ -56,6 +108,7 @@ var getVer = ({ ver = null, curVer = null, upVer = null }) => {
         headers: {
           wikiUserID: wikiUserID,
           wikiUserName: wikiUserName,
+          extVer: extVer,
         },
         success: (result) => {
           if (result.status == 0) {
@@ -76,9 +129,13 @@ var getVer = ({ ver = null, curVer = null, upVer = null }) => {
 var getCaptcha = (q) => {
   let wikiUserID = 0;
   let wikiUserName = "";
+  let extVer = "";
 
   return new Promise((res, rej) => {
-    chrome.storage.local.get(["user"], (ret) => {
+    chrome.storage.local.get(["user", "info"], (ret) => {
+      if (ret.info) {
+        extVer = ret.info.ver;
+      }
       if (ret.user) {
         wikiUserID = ret.user.wikiUserID || 0;
         wikiUserName = ret.user.wikiUserName || "";
@@ -93,6 +150,7 @@ var getCaptcha = (q) => {
         headers: {
           wikiUserID: wikiUserID,
           wikiUserName: wikiUserName,
+          extVer: extVer,
         },
         success: (result) => {
           if (result.status == 0) {
@@ -113,9 +171,13 @@ var getCaptcha = (q) => {
 var getNetSearch = ({ name, limit = 5 }) => {
   let wikiUserID = 0;
   let wikiUserName = "";
+  let extVer = "";
 
   return new Promise((res, rej) => {
-    chrome.storage.local.get(["user"], (ret) => {
+    chrome.storage.local.get(["user", "info"], (ret) => {
+      if (ret.info) {
+        extVer = ret.info.ver;
+      }
       if (ret.user) {
         wikiUserID = ret.user.wikiUserID || 0;
         wikiUserName = ret.user.wikiUserName || "";
@@ -131,6 +193,7 @@ var getNetSearch = ({ name, limit = 5 }) => {
         headers: {
           wikiUserID: wikiUserID,
           wikiUserName: wikiUserName,
+          extVer: extVer,
         },
         success: (result) => {
           if (result.status == 0) {
@@ -151,9 +214,13 @@ var getNetSearch = ({ name, limit = 5 }) => {
 var getNetAlbum = ({ name, ar }) => {
   let wikiUserID = 0;
   let wikiUserName = "";
+  let extVer = "";
 
   return new Promise((res, rej) => {
-    chrome.storage.local.get(["user"], (ret) => {
+    chrome.storage.local.get(["user", "info"], (ret) => {
+      if (ret.info) {
+        extVer = ret.info.ver;
+      }
       if (ret.user) {
         wikiUserID = ret.user.wikiUserID || 0;
         wikiUserName = ret.user.wikiUserName || "";
@@ -169,6 +236,7 @@ var getNetAlbum = ({ name, ar }) => {
         headers: {
           wikiUserID: wikiUserID,
           wikiUserName: wikiUserName,
+          extVer: extVer,
         },
         success: (result) => {
           if (result.status == 0) {
@@ -185,12 +253,17 @@ var getNetAlbum = ({ name, ar }) => {
   });
 };
 
+/** THB专辑搜索 */
 var getAlbumQuery = (searchKey) => {
   let wikiUserID = 0;
   let wikiUserName = "";
+  let extVer = "";
 
   return new Promise((res, rej) => {
-    chrome.storage.local.get(["user"], (ret) => {
+    chrome.storage.local.get(["user", "info"], (ret) => {
+      if (ret.info) {
+        extVer = ret.info.ver;
+      }
       if (ret.user) {
         wikiUserID = ret.user.wikiUserID || 0;
         wikiUserName = ret.user.wikiUserName || "";
@@ -219,6 +292,7 @@ var getAlbumQuery = (searchKey) => {
         headers: {
           wikiUserID: wikiUserID,
           wikiUserName: wikiUserName,
+          extVer: extVer,
         },
         success: (ret) => {
           if (ret.status == 0) {

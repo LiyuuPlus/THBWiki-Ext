@@ -521,11 +521,8 @@ $().ready(() => {
         } else {
           //根据词条判断背景
           var word = $("#firstHeading").text().replace(/ /g, "_");
-          var url = `${defurl}?char=${word}&type=1`;
-          $.get(url, {}, (res) => {
-            if (res.status == 0) {
-              img.src = res.data;
-            }
+          getBackground(word).then((res) => {
+            img.src = res;
           });
         }
       },
