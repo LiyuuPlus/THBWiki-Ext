@@ -57,6 +57,24 @@ chrome.storage.local.get(["options"], (res) => {
   }
 });
 
+var setDefaultBG = () => {
+  var css = `
+    html, body {
+        background-color: #f4f4f4!important;
+    }
+
+    #mw-page-base, #mw-head-base, #footer, #p-logo {
+        background-color: #f4f4f4!important;
+    }
+
+    #content {
+        background-color: #ffffffb3!important;
+    }
+    `;
+
+  loadCssCode(css);
+}
+
 var setBG = () => {
   var css = `
     body{
@@ -363,14 +381,6 @@ var setTHBExtBlurBG = (url) => {
 };
 
 $().ready(() => {
-  /*$("#p-namespaces").append($(`<ul id="thbext" class="vectorTabs" :data-lastVer="ver" :data-curVer="extVer">
-                           <li id="ca-nstab-changeLog" @click="showChangeLog"><span ><a>${getLang("extName")} ${getLang("THBChangelog")}</a></span></li>
-                           <li id="ca-nstab-update" v-if="update" @click="goToSite"><span><a>更新我的THBWiki</a></span></li>
-                           <li id="ca-nstab-saveBackground" @click="ViewPic" v-if="background"><span><a>${getLang("ViewBG")}</a></span></li>
-                           <template v-if="background">
-                               <el-image :src="bgsrc" :preview-src-list="bglist" style="width: 1px; height: 1px" ref="bg_preview"></el-image>
-                           </template>
-                       </ul>`));*/
   $("#left-navigation").append(
     $(`<div id="p-thbext" role="navigation" class="vectorMenu" aria-labelledby="p-thbext-label">
     <el-badge is-dot class="p-menu" :hidden="!update">
@@ -494,9 +504,7 @@ $().ready(() => {
                 dangerouslyUseHTMLString: true,
                 confirmButtonText: getLang("yes"),
                 callback: (action) => {
-                  if (action == "confirm") {
-                    chrome.storage.local.set({ info: { ver: newVer } });
-                  }
+                  chrome.storage.local.set({ info: { ver: newVer } });
                 },
               }
             );
@@ -504,6 +512,7 @@ $().ready(() => {
         }
       },
       showBackground() {
+        setDefaultBG();
         let defurl = `${apiurl}Background`;
         img.onload = () => {
           if (blurbackground) {

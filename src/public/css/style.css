@@ -1,11 +1,3 @@
-html, body {
-    background-color: #f4f4f4!important;
-}
-
-#mw-page-base, #mw-head-base, #footer, #p-logo {
-    background-color: #f4f4f4!important;
-}
-
 #mw-panel{
     padding-top: 0!important;
     top: 178px!important;
@@ -37,10 +29,6 @@ div.vectorTabs span>a, div.vectorMenu div.menu li a {
 div.vectorMenu h3 span {
     text-shadow: -1px 0 0.4rem #cf8300, 0 1px 0.4rem #cf8300, 1px 0 0.4rem #cf8300, 0 -1px 0.4rem #cf8300;
     color: #fff !important;
-}
-
-#content {
-    background-color: #ffffffb3!important;
 }
 
 .p-menu .el-badge__content.is-fixed.is-dot {
@@ -114,11 +102,13 @@ div.vectorMenu h3 span {
   max-height: calc(100vh - 7.625rem);
   background-color: #fff;
   padding: 1.5rem 0 1.5rem 1.5rem;
+  background-color: var(--foreground-color-high);
 }
 
 .tocfloat .tocfloatcontent .toctitle {
   text-align: center;
   padding: 0 1.5rem;
+  color: var(--text-color-high);
 }
 
 .tocfloat .tocfloatcontent .toctitle h2 {
