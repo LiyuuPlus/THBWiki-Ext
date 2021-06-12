@@ -1,6 +1,6 @@
 {
   "name": "__MSG_extName__",
-  "version": "2.0.0",
+  "version": "2.1.1",
   "default_locale": "zh_CN",
   "description": "__MSG_extDescription__",
   "manifest_version": 2,
@@ -43,9 +43,11 @@
         "public/libs/vue.min.js",
         "public/libs/element-ui/element-ui.js",
         "public/libs/APlayer/APlayer.min.js",
-        "public/js/api.js",
+        "public/js/browser/api.js",
         "public/js/common.js",
-        "public/js/content_scripts.js",
+        "public/js/api.js",
+        "public/js/thb.js",
+        "public/js/browser/content_scripts.js",
         "public/js/ext.js"
       ]
     }
