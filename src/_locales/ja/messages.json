@@ -179,6 +179,10 @@
         "message": "InPageEditの機能強化をオンにする",
         "description": "InPageEditをロードします"
     },
+    "SWUserJS": {
+        "message": "ユーザーJSを有効にする",
+        "description": "ユーザーJSサポート"
+    },
     "SaveOptions": {
         "message": "オプションの保存",
         "description": "オプションの保存"

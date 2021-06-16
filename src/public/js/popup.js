@@ -44,6 +44,7 @@ var app = new Vue({
         custombnurl: "",
         advanced: false,
         inpageedit: false,
+        userjs: false,
       },
     };
   },
@@ -56,7 +57,7 @@ var app = new Vue({
       },
       "json"
     );
-    getCharTemplInfo().then((res) => {
+    getWikiParseText("用户Wiki:Suika_Sakura/角色名").then((res) => {
       this.Chars = JSON.parse(res);
     });
     getCustomerBanner().then((res) => {
@@ -463,8 +464,9 @@ var app = new Vue({
           this.Options.custombnop = res.options.custombnop || "";
           this.Options.custombnurl = res.options.custombnurl || "";
           this.Options.custombanner = res.options.custombanner;
-          this.Options.inpageedit = res.options.inpageedit;
           this.Options.advanced = res.options.advanced;
+          this.Options.inpageedit = res.options.inpageedit;
+          this.Options.userjs = res.options.userjs;
         } else {
           this.Options.background = true;
           this.Options.custombackground = false;
@@ -478,6 +480,7 @@ var app = new Vue({
           this.Options.custombnurl = "";
           this.Options.advanced = false;
           this.Options.inpageedit = false;
+          this.Options.userjs = false;
         }
       });
     },

@@ -176,8 +176,12 @@
         "description": "Album Use APlayer Play Music From Netease"
     },
     "SWInPageEdit":{
-        "message": "Turn on advanced features of InPageEdit ",
+        "message": "Enabled advanced features of InPageEdit ",
         "description": "Load InPageEdit"
+    },
+    "SWUserJS": {
+        "message": "Enabled User JS",
+        "description": "User JS Support"
     },
     "SaveOptions": {
         "message": "Save Options",
