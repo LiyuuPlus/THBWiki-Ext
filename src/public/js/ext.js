@@ -36,12 +36,16 @@ var custombanner = false;
 var custombnop = "";
 var custombnurl = "";
 var inpageedit = false;
+var userjs = false;
+
+var wikiUserID = 0;
+var wikiUserName = "";
 
 // 临时变量
 var img = new Image();
 
 /** 设置获取 */
-chrome.storage.local.get(["options"], (res) => {
+chrome.storage.local.get(["options", "user"], (res) => {
   if (res.options) {
     background = res.options.background;
     custombackground = res.options.custombackground;
@@ -54,6 +58,14 @@ chrome.storage.local.get(["options"], (res) => {
     custombnop = res.options.custombnop || "";
     custombnurl = res.options.custombnurl || "";
     inpageedit = res.options.inpageedit;
+    userjs = res.options.userjs;
+  }
+  if (res.user) {
+    wikiUserID = res.user.wikiUserID || 0;
+    wikiUserName = res.user.wikiUserName || "";
+    if (wikiUserName) {
+      wikiUserName = decodeURIComponent(wikiUserName);
+    }
   }
 });
 
@@ -380,7 +392,62 @@ var setTHBExtBlurBG = (url) => {
   loadCssCode(css);
 };
 
+var mwFunctionPlus = () => {
+  var script = `var getWikiText = (page) => {
+    return new Promise((res, rej) => {
+      $.ajax({
+        url: "https://thwiki.cc/api.php",
+        data: {
+          action: "parse",
+          format: "json",
+          formatversion: 2,
+          page: page,
+          prop: "wikitext",
+          wrapoutputclass: "",
+          disablelimitreport: 1,
+          disableeditsection: 1,
+          preview: 1,
+          disabletoc: 1,
+          utf8: 1,
+        },
+        dataType: "json",
+        success: (result) => {
+          if(result.parse)
+          {
+            var nresult = result.parse.wikitext;
+            res(nresult);
+          }
+          rej("");
+          
+        },
+        error: () => {
+          rej("");
+        },
+      });
+    });
+  };
+  var importScript = (mwScriptUrl) => {
+      getWikiText(mwScriptUrl).then((res)=>{
+        var script = document.createElement("script");
+        script.innerHTML = res;
+        document.body.appendChild(script);
+      }).catch(()=>{});;
+  };
+  var importStylesheet = (mwCssUrl) => {
+    getWikiText(mwCssUrl).then((res)=>{
+      var style = document.createElement("style");
+      style.rel = "stylesheet";
+      style.appendChild(document.createTextNode(res));
+      var head = document.getElementsByTagName("head")[0];
+      head.appendChild(style);
+    }).catch(()=>{});
+  }
+  `;
+  loadScript(script);
+};
+
 $().ready(() => {
+  mwFunctionPlus();
   $("#left-navigation").append(
     $(`<div id="p-thbext" role="navigation" class="vectorMenu" aria-labelledby="p-thbext-label">
     <el-badge is-dot class="p-menu" :hidden="!update">
@@ -598,6 +665,32 @@ $().ready(() => {
     }, 200);
   });
 })();`;
+    loadScript(script);
+  }
+
+  if (userjs) {
+    var script = `!(function() {
+      // RLQ是MediaWiki保存异步执行函数的数组
+      window.RLQ = RLQ || [];
+      RLQ.push(() => {
+        // 等待jQuery加载完毕
+        var _count = 0;
+        var _interval = setInterval(() => {
+          _count++;
+          if (typeof jQuery !== "undefined") {
+            // jQuery加载完毕
+            clearInterval(_interval);
+            // 防止网站并不是MediaWiki时报错
+            try {
+              importScript('User:${wikiUserName}/common.js');
+            } catch (e) {}
+          } else if (_count > 30 * 5) {
+            // 加载超时
+            clearInterval(_interval);
+          }
+        }, 200);
+      });
+    })();`;
     loadScript(script);
   }
 

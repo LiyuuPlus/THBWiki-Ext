@@ -179,6 +179,10 @@
         "message": "开启InPageEdit增强功能",
         "description": "加载InPageEdit"
     },
+    "SWUserJS": {
+        "message": "开启个人JS",
+        "description": "个人JS支持"
+    },
     "SaveOptions": {
         "message": "保存设置",
         "description": "保存设置"

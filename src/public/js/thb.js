@@ -363,7 +363,7 @@ var getAchievementInfo = () => {
   });
 };
 
-var getCharTemplInfo = () => {
+var getWikiParseText = (page) => {
   return new Promise((res, rej) => {
     $.ajax({
       url: CsiteApiUrl,
@@ -371,7 +371,7 @@ var getCharTemplInfo = () => {
         action: "parse",
         format: "json",
         formatversion: 2,
-        page: "用户Wiki:Suika_Sakura/角色名",
+        page: page,
         prop: "text",
         wrapoutputclass: "",
         disablelimitreport: 1,
