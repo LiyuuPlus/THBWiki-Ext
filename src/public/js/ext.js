@@ -313,7 +313,7 @@ var setTHBExtBlurBG = (url) => {
     }
 
     .page-首页 #content{
-        background-color: #fff0!important;
+        /*background-color: #fff0!important;*/
         backdrop-filter: unset;
     }
     
