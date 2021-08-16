@@ -51,7 +51,7 @@ var app = new Vue({
   created() {
     this.loadOptions();
     $.get(
-      chrome.extension.getURL("manifest.json"),
+      chrome.runtime.getURL("manifest.json"),
       (info) => {
         this.Version = info.version;
       },
