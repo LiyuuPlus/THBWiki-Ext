@@ -148,11 +148,6 @@ var setBG = () => {
         padding-left: 0;
     }
     
-    #content
-    {
-        background-color: #ffffffb3!important
-    }
-    
     .portal ul>li
     {
         background-color: #ffffff00!important;
@@ -309,12 +304,7 @@ var setTHBExtBlurBG = (url) => {
     #content,
     #footer
     {
-        background-color: #ffffff80!important;
-    }
-
-    .page-首页 #content{
-        /*background-color: #fff0!important;*/
-        backdrop-filter: unset;
+        background-color: #ffffffa3!important;
     }
     
     #a-donate table{
@@ -342,7 +332,8 @@ var setTHBExtBlurBG = (url) => {
     div#ExtFixedHeader h2, 
     div#ExtFixedHeader h3{
         background-color: #f4f4f44a!important;
-        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(15px);
+        backdrop-filter: blur(15px);
         transform: translate3d(0px, 0px, 0px);
     }
 
@@ -371,7 +362,8 @@ var setTHBExtBlurBG = (url) => {
     #mw-panel,
     #content,
     #footer{
-        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
         transform: translate3d(0px, 0px, 0px);
     }
 
@@ -580,12 +572,26 @@ $().ready(() => {
       },
       showBackground() {
         setDefaultBG();
+        $("span[style='color:DarkGray;']").map((i,v)=>{$(v).attr('style',"color:#2b2b2b8a;");});
         let defurl = `${apiurl}Background`;
         img.onload = () => {
           if (blurbackground) {
             setTHBExtBlurBG(img.src);
+            if (action) {
+                loadCssCode(
+                    `.page-首页 div#content.mw-body{
+                        background-color:#ffffffad!important;
+                        -webkit-backdrop-filter: blur(10px);
+                        backdrop-filter:blur(10px);}`
+                );
+            }
           } else {
             setTHBExtBG(img.src);
+            if (action) {
+                loadCssCode(
+                    `.page-首页 div#content.mw-body{background-color:#ffffffc2!important;}`
+                );
+            }
           }
           this.bgsrc = img.src;
           this.bglist = [img.src];
