@@ -51,7 +51,7 @@ var app = new Vue({
   created() {
     this.loadOptions();
     $.get(
-      chrome.extension.getURL("manifest.json"),
+      chrome.runtime.getURL("manifest.json"),
       (info) => {
         this.Version = info.version;
       },
@@ -88,9 +88,9 @@ var app = new Vue({
               "autoconfirmed",
               "user",
             ];
-            for (var i = 0; i < rights.length; i++) {
-              var right = rights[i];
-              var group = res.groups.filter((v) => v == right);
+            for (let i = 0; i < rights.length; i++) {
+              let right = rights[i];
+              let group = res.groups.filter((v) => v == right);
               if (group.length > 0) {
                 res.group = this.T(`right_${right}`);
                 break;
@@ -118,7 +118,7 @@ var app = new Vue({
       .unbind("click")
       .on("click", (e) => {
         console.log(e);
-        var href = e.target.href;
+        let href = e.target.href;
         if (href) {
           createTab(href);
         }
