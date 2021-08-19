@@ -4,7 +4,10 @@ var checkLogin = (cb) => {
       getCookies(CsiteUrl, "thwikicc_wikiUserName")
         .then((res2) => {
           setBadge(true);
-          chrome.storage.local.set({ user: { wikiUserID: res, wikiUserName: res2} },null);
+          setLocalStorage(
+            { user: { wikiUserID: res, wikiUserName: res2 } },
+            null
+          );
           cb(res2);
         })
         .catch((ex1) => {
@@ -42,7 +45,7 @@ var checkUnreadNotificationNum = (username) => {
           if (ncount == 0) {
             setBadge(true, "");
           } else {
-            chrome.browserAction.getBadgeText({}, (res) => {
+            getBadgeText({}).then((res) => {
               let count = res || 0;
               if (count < ncount) {
                 var msg = result.query.notifications.list[0][

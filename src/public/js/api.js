@@ -7,7 +7,7 @@ var getCustomerBanner = () => {
   let extVer = "";
 
   return new Promise((res, rej) => {
-    chrome.storage.local.get(["user", "info"], (ret) => {
+    getLocalStorage(["user", "info"]).then((ret) => {
       if (ret.info) {
         extVer = ret.info.ver;
       }
@@ -46,7 +46,7 @@ var getBackground = (char) => {
   let extVer = "";
 
   return new Promise((res, rej) => {
-    chrome.storage.local.get(["user", "info"], (ret) => {
+    getLocalStorage(["user", "info"]).then((ret) => {
       if (ret.info) {
         extVer = ret.info.ver;
       }
@@ -89,7 +89,7 @@ var getVer = ({ ver = null, curVer = null, upVer = null }) => {
   let extVer = "";
 
   return new Promise((res, rej) => {
-    chrome.storage.local.get(["user", "info"], (ret) => {
+    getLocalStorage(["user", "info"]).then((ret) => {
       if (ret.info) {
         extVer = ret.info.ver;
       }
@@ -132,7 +132,7 @@ var getCaptcha = (q) => {
   let extVer = "";
 
   return new Promise((res, rej) => {
-    chrome.storage.local.get(["user", "info"], (ret) => {
+    getLocalStorage(["user", "info"]).then((ret) => {
       if (ret.info) {
         extVer = ret.info.ver;
       }
@@ -174,7 +174,7 @@ var getNetSearch = ({ name, limit = 5 }) => {
   let extVer = "";
 
   return new Promise((res, rej) => {
-    chrome.storage.local.get(["user", "info"], (ret) => {
+    getLocalStorage(["user", "info"]).then((ret) => {
       if (ret.info) {
         extVer = ret.info.ver;
       }
@@ -217,7 +217,7 @@ var getNetAlbum = ({ name, ar }) => {
   let extVer = "";
 
   return new Promise((res, rej) => {
-    chrome.storage.local.get(["user", "info"], (ret) => {
+    getLocalStorage(["user", "info"]).then((ret) => {
       if (ret.info) {
         extVer = ret.info.ver;
       }
@@ -260,7 +260,7 @@ var getAlbumQuery = (searchKey) => {
   let extVer = "";
 
   return new Promise((res, rej) => {
-    chrome.storage.local.get(["user", "info"], (ret) => {
+    getLocalStorage(["user", "info"]).then((ret) => {
       if (ret.info) {
         extVer = ret.info.ver;
       }

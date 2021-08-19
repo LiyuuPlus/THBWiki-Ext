@@ -45,7 +45,7 @@ var wikiUserName = "";
 var img = new Image();
 
 /** 设置获取 */
-chrome.storage.local.get(["options", "user"], (res) => {
+getLocalStorage(["options", "user"]).then((res) => {
   if (res.options) {
     background = res.options.background;
     custombackground = res.options.custombackground;
@@ -85,7 +85,7 @@ var setDefaultBG = () => {
     `;
 
   loadCssCode(css);
-}
+};
 
 var setBG = () => {
   var css = `
@@ -481,9 +481,9 @@ $().ready(() => {
     },
     created() {
       $.get(
-        chrome.extension.getURL("manifest.json"),
+        getExtURL("manifest.json"),
         (info) => {
-          chrome.storage.local.get(["info"], (res) => {
+          getLocalStorage(["info"]).then((res) => {
             if (res.info) {
               this.ver = res.info.ver;
             } else {
@@ -563,7 +563,7 @@ $().ready(() => {
                 dangerouslyUseHTMLString: true,
                 confirmButtonText: getLang("yes"),
                 callback: (action) => {
-                  chrome.storage.local.set({ info: { ver: newVer } });
+                  setLocalStorage({ info: { ver: newVer } });
                 },
               }
             );
@@ -572,25 +572,27 @@ $().ready(() => {
       },
       showBackground() {
         setDefaultBG();
-        $("span[style='color:DarkGray;']").map((i,v)=>{$(v).attr('style',"color:#2b2b2b8a;");});
+        $("span[style='color:DarkGray;']").map((i, v) => {
+          $(v).attr("style", "color:#2b2b2b8a;");
+        });
         let defurl = `${apiurl}Background`;
         img.onload = () => {
           if (blurbackground) {
             setTHBExtBlurBG(img.src);
             if (action) {
-                loadCssCode(
-                    `.page-首页 div#content.mw-body{
+              loadCssCode(
+                `.page-首页 div#content.mw-body{
                         background-color:#ffffffad!important;
                         -webkit-backdrop-filter: blur(10px);
                         backdrop-filter:blur(10px);}`
-                );
+              );
             }
           } else {
             setTHBExtBG(img.src);
             if (action) {
-                loadCssCode(
-                    `.page-首页 div#content.mw-body{background-color:#ffffffc2!important;}`
-                );
+              loadCssCode(
+                `.page-首页 div#content.mw-body{background-color:#ffffffc2!important;}`
+              );
             }
           }
           this.bgsrc = img.src;
@@ -648,57 +650,34 @@ $().ready(() => {
     }
   }
 
-  if (inpageedit) {
-    var script = `!(function() {
-  // RLQ是MediaWiki保存异步执行函数的数组
-  window.RLQ = RLQ || [];
-  RLQ.push(() => {
-    // 等待jQuery加载完毕
-    var _count = 0;
-    var _interval = setInterval(() => {
-      _count++;
-      if (typeof jQuery !== "undefined") {
-        // jQuery加载完毕
-        clearInterval(_interval);
-        // 防止网站并不是MediaWiki时报错
-        try {
-          mw.loader.load("https://cdn.jsdelivr.net/npm/mediawiki-inpageedit@latest/dist/InPageEdit.min.js");
-        } catch (e) {}
-      } else if (_count > 30 * 5) {
-        // 加载超时
-        clearInterval(_interval);
-      }
-    }, 200);
-  });
-})();`;
-    loadScript(script);
-  }
-
-  if (userjs) {
-    var script = `!(function() {
-      // RLQ是MediaWiki保存异步执行函数的数组
-      window.RLQ = RLQ || [];
-      RLQ.push(() => {
-        // 等待jQuery加载完毕
-        var _count = 0;
-        var _interval = setInterval(() => {
-          _count++;
-          if (typeof jQuery !== "undefined") {
-            // jQuery加载完毕
-            clearInterval(_interval);
-            // 防止网站并不是MediaWiki时报错
-            try {
-              importScript('User:${wikiUserName}/common.js');
-            } catch (e) {}
-          } else if (_count > 30 * 5) {
-            // 加载超时
-            clearInterval(_interval);
-          }
-        }, 200);
-      });
-    })();`;
-    loadScript(script);
-  }
+  var script = `!(function() {
+    // RLQ是MediaWiki保存异步执行函数的数组
+    window.RLQ = RLQ || [];
+    RLQ.push(() => {
+      // 等待jQuery加载完毕
+      var _count = 0;
+      var _interval = setInterval(() => {
+        _count++;
+        if (typeof jQuery !== "undefined") {
+          // jQuery加载完毕
+          clearInterval(_interval);
+          // 防止网站并不是MediaWiki时报错
+          try {
+            ${userjs ? `importScript('Special:Mypage/common.js');` : ``}
+            ${
+              inpageedit
+                ? `mw.loader.load("https://cdn.jsdelivr.net/npm/mediawiki-inpageedit@latest/dist/InPageEdit.min.js");`
+                : ``
+            }
+          } catch (e) {}
+        } else if (_count > 30 * 5) {
+          // 加载超时
+          clearInterval(_interval);
+        }
+      }, 200);
+    });
+  })();`;
+  loadScript(script);
 
   // //替换底部标签
   // if ($("#mw-normal-catlinks ul").length > 0) {
@@ -734,8 +713,8 @@ $().ready(() => {
     $("body").append(toc);
   }
 
-  //提交页面
-  if (submitstatus) {
+  //提交/修改页面
+  if (editstatus || submitstatus) {
     setTimeout(() => {
       //验证码自动获取
       if ($("label[for='wpCaptchaWord']").length > 0) {
@@ -745,9 +724,7 @@ $().ready(() => {
         });
       }
     }, 1000);
-  }
-  //修改页面
-  else if (editstatus) {
+
     var toolbarReady = null;
     toolbarReady = setInterval(() => {
       if ($(".wikiEditor-ui-toolbar .tabs").length > 0) {

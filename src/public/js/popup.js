@@ -51,7 +51,7 @@ var app = new Vue({
   created() {
     this.loadOptions();
     $.get(
-      chrome.runtime.getURL("manifest.json"),
+      getExtURL("manifest.json"),
       (info) => {
         this.Version = info.version;
       },
@@ -408,7 +408,7 @@ var app = new Vue({
     },
     saveOptions(showMsg = true) {
       var that = this;
-      chrome.storage.local.set({ options: that.Options }, () => {
+      setLocalStorage({ options: that.Options }).then(() => {
         if (showMsg) {
           this.$message({
             message: this.T("SaveYes"),
@@ -418,7 +418,7 @@ var app = new Vue({
       });
     },
     resetOptions() {
-      chrome.storage.local.set({ options: null, info: null }, () => {
+      setLocalStorage({ options: null, info: null }).then(() => {
         this.$message({
           message: this.T("ResetYes"),
           type: "success",
@@ -452,7 +452,7 @@ var app = new Vue({
       return str;
     },
     loadOptions() {
-      chrome.storage.local.get(["options"], (res) => {
+      getLocalStorage(["options"]).then((res) => {
         if (res.options) {
           this.Options.background = res.options.background;
           this.Options.custombgurl = res.options.custombgurl || "";
