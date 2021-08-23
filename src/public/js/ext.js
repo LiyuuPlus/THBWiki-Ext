@@ -250,6 +250,43 @@ var setBG = () => {
         }
     }
 
+    @keyframes shrink {
+      from {
+        transform: scale(1.15);
+      }
+    }
+    @keyframes clear {
+      from {
+        filter: blur(5px);
+      }
+    }
+    @keyframes appear {
+      from {
+        opacity: 0;
+        transform: scale(1.3);
+      }
+    }
+    @keyframes look-top {
+      from {
+        width: 150%;
+        height: 150%;
+        object-position: center bottom;
+      }
+      50% {
+        object-position: center top;
+      }
+    }
+    @keyframes look-bottom {
+      from {
+        width: 150%;
+        height: 150%;
+        object-position: center top;
+      }
+      50% {
+        object-position: center bottom;
+      }
+    }
+
     .comment-body textarea, .comment-preview{
         background: #ffffff7d;
     }
@@ -262,7 +299,7 @@ var setBG = () => {
   loadCssCode(css);
 };
 
-var setTHBExtBG = (url) => {
+var setTHBExtBG = (url, action = "show", time = "2", pos = "center") => {
   setBG();
   var bgcss = `
     .THBExtBG {
@@ -283,8 +320,8 @@ var setTHBExtBG = (url) => {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        object-position: center center;
-        animation: 2s ease 0s 1 normal none running show;
+        object-position: center ${pos};
+        animation: ${time}s ease 0s 1 normal none running ${action};
     }
     `;
 
@@ -294,7 +331,7 @@ var setTHBExtBG = (url) => {
   );
 };
 
-var setTHBExtBlurBG = (url) => {
+var setTHBExtBlurBG = (url, action = "show", time = "2", pos = "center") => {
   var css = `
     #mw-panel{
         --foreground-color-high:#ffffff94!important;
@@ -380,7 +417,7 @@ var setTHBExtBlurBG = (url) => {
     }
     `;
 
-  setTHBExtBG(url);
+  setTHBExtBG(url, action, time, pos);
   loadCssCode(css);
 };
 
@@ -577,8 +614,14 @@ $().ready(() => {
         });
         let defurl = `${apiurl}Background`;
         img.onload = () => {
+          var scale = img.height / img.width;
           if (blurbackground) {
-            setTHBExtBlurBG(img.src);
+            setTHBExtBlurBG(
+              img.src,
+              scale <= 1 ? "show" : "look-top",
+              scale <= 1 ? "2" : "5",
+              scale <= 1 ? "center" : "top"
+            );
             if (action) {
               loadCssCode(
                 `.page-首页 div#content.mw-body{
@@ -588,7 +631,12 @@ $().ready(() => {
               );
             }
           } else {
-            setTHBExtBG(img.src);
+            setTHBExtBG(
+              img.src,
+              scale <= 1 ? "show" : "look-top",
+              scale <= 1 ? "2" : "5",
+              scale <= 1 ? "center" : "top"
+            );
             if (action) {
               loadCssCode(
                 `.page-首页 div#content.mw-body{background-color:#ffffffc2!important;}`
@@ -663,7 +711,7 @@ $().ready(() => {
           clearInterval(_interval);
           // 防止网站并不是MediaWiki时报错
           try {
-            ${userjs ? `importScript('Special:Mypage/common.js');` : ``}
+            ${userjs ? `importScript('User:${wikiUserName}/common.js');` : ``}
             ${
               inpageedit
                 ? `mw.loader.load("https://cdn.jsdelivr.net/npm/mediawiki-inpageedit@latest/dist/InPageEdit.min.js");`
