@@ -320,6 +320,47 @@ var getProjectRelaseDate = () => {
   });
 };
 
+var getEventDate = (startDate, EndDate) => {
+  return new Promise((res, rej) => {
+    $.ajax({
+      url: CsiteApiUrl,
+      data: {
+        action: "ask",
+        format: "json",
+        formatversion: 2,
+        uselang: Vlang,
+        query: `[[事件开始::+]][[事件开始::>${startDate}]][[事件开始::<${EndDate}]]|?事件开始|?事件结束|?事件描述|sort=事件开始|order=asc`,
+      },
+      dataType: "json",
+      success: (result) => {
+        let nresult = [];
+        if (result.error) {
+          return rej();
+        }
+        if (typeof result.query.results == "object") {
+          var keys = Object.keys(result.query.results);
+          for (var i = 0; i < keys.length; i++) {
+            var item = result.query.results[keys[i]];
+            var name = item.printouts.事件描述[0];
+            var startDate = item.printouts.事件开始[0]
+              ? timestampFormat(item.printouts.事件开始[0].timestamp)
+              : "";
+            var endDate = item.printouts.事件结束[0]
+              ? timestampFormat(item.printouts.事件结束[0].timestamp)
+              : "";
+            var url = item.fullurl;
+            nresult.push({ name, startDate, endDate, url });
+          }
+        }
+        res(nresult);
+      },
+      error: () => {
+        rej();
+      },
+    });
+  });
+};
+
 var getUserInfo = (uiprop = "editcount|registrationdate|realname|groups") => {
   return new Promise((res, rej) => {
     $.ajax({
@@ -328,36 +369,14 @@ var getUserInfo = (uiprop = "editcount|registrationdate|realname|groups") => {
         action: "query",
         format: "json",
         formatversion: 2,
-        meta: "userinfo",
+        meta: "userinfo|achievementinfo",
         uselang: Vlang,
         uiprop: uiprop,
-      },
-      dataType: "json",
-      success: (result) => {
-        res(result.query.userinfo);
-      },
-      error: () => {
-        rej([]);
-      },
-    });
-  });
-};
-
-var getAchievementInfo = () => {
-  return new Promise((res, rej) => {
-    $.ajax({
-      url: CsiteApiUrl,
-      data: {
-        action: "query",
-        format: "json",
-        formatversion: 2,
-        meta: "achievementinfo",
         aiprop: "titlename|titledesc",
-        uselang: Vlang,
       },
       dataType: "json",
       success: (result) => {
-        res(result.query.achievementinfo);
+        res(result.query);
       },
       error: () => {
         rej([]);

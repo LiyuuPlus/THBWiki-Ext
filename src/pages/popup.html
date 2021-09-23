@@ -90,31 +90,32 @@
                         <el-col :span="8">
                             <div class="grid-content" id="userinfo">
                                 <div id="username">
-                                    <template v-if="UserInfo.name">
+                                    <template v-if="UserInfo.userinfo.name">
 
                                         <div @Click="Temp.advancedCount++">
-                                            <el-avatar size="large" :src="UserInfo.avatar">
+                                            <el-avatar size="large" :src="UserInfo.userinfo.avatar">
                                             </el-avatar>
                                         </div>
                                     </template>
                                     <el-link @Click="enterTHB(true)" v-html="UserInfo.name"
                                         style="margin-top: -3.7rem;margin-left: 3rem;"></el-link>
                                 </div>
-                                <template v-if="AchievementInfo.titlename">
+                                <template v-if="UserInfo.achievementinfo.titlename">
                                     <p style="margin-top: -1rem;margin-bottom: 0rem;">
-                                        <a :title="AchievementInfo.titledesc" v-text="AchievementInfo.titlename"
-                                            style="color: #409eff;"></a>
+                                        <a :title="UserInfo.achievementinfo.titledesc"
+                                            v-text="UserInfo.achievementinfo.titlename" style="color: #409eff;"></a>
                                     </p>
                                 </template>
-                                <p style="margin-top: 0rem;margin-bottom: 0rem;" v-html="UserInfo.htmlrealname">
+                                <p style="margin-top: 0rem;margin-bottom: 0rem;"
+                                    v-html="UserInfo.userinfo.htmlrealname">
                                 </p>
                             </div>
                         </el-col>
                         <el-col :span="10">
                             <div class="grid-content" id="userextinfo" style="margin-top: -0.6rem;">
-                                <p>{{T('RegTime')}}<b>{{UserInfo.registrationdate}}</b></p>
-                                <p>{{T('Group')}}<b>{{UserInfo.group}}</b></p>
-                                <p>{{T('EditCount')}}<b>{{UserInfo.editcount}}</b></p>
+                                <p>{{T('RegTime')}}<b>{{UserInfo.userinfo.registrationdate}}</b></p>
+                                <p>{{T('Group')}}<b>{{UserInfo.userinfo.group}}</b></p>
+                                <p>{{T('EditCount')}}<b>{{UserInfo.userinfo.editcount}}</b></p>
                             </div>
                         </el-col>
                     </template>
@@ -278,17 +279,19 @@
                     </el-tab-pane>
                     <!-- 事件日历 -->
                     <el-tab-pane :label="T('Calendar')" name="3">
-                        <el-calendar>
+                        <el-calendar v-model="currentDate">
                             <template slot="dateCell" slot-scope="{date, data}">
                                 <div>
                                     <div class="calendar-day" style="text-align: center">
                                         <template v-if="getStarDay(data.day).length>0">
-                                            <el-tooltip class="item" effect="dark" placement="right">
-                                                <span class="everyDay">{{ data.day.split('-').slice(2).join('-')
+                                            <el-popover width="400" trigger="hover">
+                                                <template v-for="eventData in eventListFromDay(data.day)">
+                                                    <el-link @click="Read(eventData.url)">{{eventData.startDate}} {{eventData.name}}</el-link>
+                                                </template>
+                                                <span class="everyDay" slot="reference">{{
+                                                    data.day.split('-').slice(2).join('-')
                                                     }}</span>
-                                                <div slot="content" v-html="dateContent(getStarDay(data.day),data.day)">
-                                                </div>
-                                            </el-tooltip>
+                                            </el-popover>
                                         </template>
                                         <span v-else>
                                             {{ data.day.split('-').slice(2).join('-') }}
@@ -319,10 +322,12 @@
                                 <div class="text item">
                                     <span style="font-size:14px;vertical-align: middle;">{{T('TrackArtist')}}：</span>
                                     <template v-for="artist,index in track.artist">
-                                        <el-link type="primary" :href="artist.fullurl" target="_blank" v-if="artist.exists">
+                                        <el-link type="primary" :href="artist.fullurl" target="_blank"
+                                            v-if="artist.exists">
                                             {{artist.fulltext}}
                                         </el-link>
-                                        <el-link type="danger" target="_blank" :title="artist.fulltext + ' (词条不存在)'" v-else>
+                                        <el-link type="danger" target="_blank" :title="artist.fulltext + ' (词条不存在)'"
+                                            v-else>
                                             {{artist.fulltext}}
                                         </el-link>
                                         <span v-if="index < track.artist.length-1">/</span>

@@ -3,10 +3,16 @@ var app = new Vue({
   data() {
     return {
       UserInfo: {
-        name: "",
-        realname: "",
-        htmlrealname: "",
-        avatar: "https://thwiki.cc/favicon.ico",
+        userinfo: {
+          name: "",
+          realname: "",
+          htmlrealname: "",
+          avatar: "https://thwiki.cc/favicon.ico",
+        },
+        achievementinfo: {
+          titlename: "",
+          titledesc: "",
+        },
       },
       AchievementInfo: {},
       Version: "",
@@ -17,6 +23,7 @@ var app = new Vue({
       UnreadNotificationList: [],
       RemindNotificationList: [],
       MsgNotificationList: [],
+      currentDate: new Date(),
       DateList: [],
       Track: "",
       TrackInfo: {
@@ -65,7 +72,7 @@ var app = new Vue({
       nres = nres.concat(res);
       this.Banners = nres;
     });
-    getProjectRelaseDate().then((res) => {
+    getEventDate(this.currentDate.getMonthFirstDay().Format("yyyy-MM-dd"), this.currentDate.getMonthLastDay().Format("yyyy-MM-dd")).then((res) => {
       this.DateList = res;
     });
   },
@@ -73,10 +80,14 @@ var app = new Vue({
     checkLogin((ret) => {
       this.loginStatus = ret ? true : false;
       if (this.loginStatus) {
-        this.UserInfo.fullname = decodeURIComponent(ret).replace(/\+/g, " ");
+        this.UserInfo.userinfo.fullname = decodeURIComponent(ret).replace(
+          /\+/g,
+          " "
+        );
         setTimeout(() => {
           getUserInfo().then((res) => {
-            res.groups = res.groups.filter((v) => v != "*");
+            console.log;
+            res.userinfo.groups = res.userinfo.groups.filter((v) => v != "*");
             //取得最高权限用户组
             var rights = [
               "bot",
@@ -90,23 +101,19 @@ var app = new Vue({
             ];
             for (let i = 0; i < rights.length; i++) {
               let right = rights[i];
-              let group = res.groups.filter((v) => v == right);
+              let group = res.userinfo.groups.filter((v) => v == right);
               if (group.length > 0) {
-                res.group = this.T(`right_${right}`);
+                res.userinfo.group = this.T(`right_${right}`);
                 break;
               }
             }
-            res.registrationdate = new Date(res.registrationdate).Format(
-              "yyyy-MM-dd"
-            );
-            res.avatar = `https://upload.thwiki.cc/avatars/thwikicc_wiki_${
-              res.id
-            }_l.jpg?r=${Math.round(new Date().getTime() / 1000)}`;
-            res.htmlrealname = this.ParseWiki(res.realname);
+            res.userinfo.registrationdate = new Date(
+              res.userinfo.registrationdate
+            ).Format("yyyy-MM-dd");
+            res.userinfo.avatar = `https://upload.thwiki.cc/avatars/thwikicc_wiki_${res.userinfo.id
+              }_l.jpg?r=${Math.round(new Date().getTime() / 1000)}`;
+            res.userinfo.htmlrealname = this.ParseWiki(res.userinfo.realname);
             this.UserInfo = res;
-          });
-          getAchievementInfo().then((res) => {
-            this.AchievementInfo = res;
           });
         }, 200);
       }
@@ -125,6 +132,11 @@ var app = new Vue({
       });
   },
   watch: {
+    currentDate(nVal) {
+      getEventDate(nVal.getMonthFirstDay().Format("yyyy-MM-dd"), nVal.getMonthLastDay().Format("yyyy-MM-dd")).then((res) => {
+        this.DateList = res;
+      });
+    },
     Temp: {
       handler(val) {
         if (!this.Options.advanced) {
@@ -362,8 +374,8 @@ var app = new Vue({
             type: topic[v.category]
               ? this.T("topic")
               : msg[v.category]
-              ? this.T("msg")
-              : "",
+                ? this.T("msg")
+                : "",
             categoryname: topic[v.category] || msg[v.category] || "",
             agentname: isUser.indexOf(v.category) >= 0 ? v.agent.name : "",
             icon: v["*"].icon,
@@ -428,28 +440,11 @@ var app = new Vue({
     },
     getStarDay(day) {
       return this.DateList.filter((v) => {
-        var nday = day.split("-").slice(1).join("-");
-        var nv = v.date.split("-").slice(1).join("-");
-        return v.date == day || (v.date <= day && nday == nv);
+        return v.startDate >= day && v.endDate <= day;
       });
     },
-    dateContent(daylist, day) {
-      var str = "";
-      var firstdaylist = daylist.filter((v) => v.date == day);
-      var samedaylist = daylist.filter((v) => v.date != day);
-      if (firstdaylist.length > 0) {
-        firstdaylist.forEach((v) => {
-          str += `${v.name} ${this.T("CalendarRelease")}<br>`;
-        });
-      }
-      if (samedaylist.length > 0) {
-        samedaylist.forEach((v) => {
-          str += `${v.name} ${
-            new Date(day).getFullYear() - new Date(v.date).getFullYear()
-          } ${this.T("CalendarYear")}<br>`;
-        });
-      }
-      return str;
+    eventListFromDay( day) {
+      return this.DateList.filter((v) => v.startDate >= day && v.endDate <= day);
     },
     loadOptions() {
       getLocalStorage(["options"]).then((res) => {
