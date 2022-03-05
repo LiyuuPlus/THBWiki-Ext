@@ -1,22 +1,23 @@
 # 我的THBWiki 扩展隐私政策
 
-"我的THBWiki"扩展（以下称本扩展）为THBWiki（htttp://thwiki.cc）辅助扩展，用于扩展多元化功能。
+"我的THBWiki"扩展（以下称本扩展）为[THBWiki (thwiki.cc)](https://thwiki.cc)(以下简称THB) 辅助扩展，用于扩展多元化功能。
 
 ## 涉及到以下隐私内容
 
 * 网站内容：文字、图片、音效、影片或超链接
-* 使用您的WikiID（用于识别您的身份）
-* 使用您的用户名（用于扩展Wiki的个人CSS/JS功能）
-* 使用您的cookie（用于与WIKI的API系统进行通信）
-* 您的使用情况将被记录（仅记录使用本扩展提供的相对应功能，WIKI自带功能将不被记录
+* 使用您的THBID（用于识别您的身份）
+* 使用您的用户名（用于扩展THB的个人CSS/JS功能）
+* 使用您的cookie（用于与THB的API系统进行通信）
+* 您的使用情况将被记录（仅记录使用本扩展提供的相对应功能，THB自带功能将不被记录
 
 ### 详细内容：
-* ContextMenu：提供thwiki.cc的右键快捷搜索
-* Cookies：仅获取thwiki.cc的登录用户名用于显示在popup页上，不获取其他关于账号的隐私信息
-* notifications：获取thwiki.cc的通知并使用notifications通知推送给用户
-* alarms：定时检查THBWiki的通知，若有通知则使用notifications通知用户
+
+* ContextMenu：提供THB的右键快捷搜索
+* Cookies：仅获取THB的登录用户名用于显示在popup页上，不获取其他关于账号的隐私信息
+* notifications：获取THB的通知并使用notifications通知推送给用户
+* alarms：定时检查THB的通知，若有通知则使用notifications通知用户
 * storage：保存扩展的自定义设置，以便用户下次使用可无需重新配置扩展的设置。增强用户的可选性体验，将功能启用的选择权交给用户。
-* permissions、content_scripts：针对thwiki.cc页面增强功能性，仅涉及界面上的改动美化，增强网站体验，不会对用户内容进行监听。
+* permissions、content_scripts：针对THB页面增强功能性，仅涉及界面上的改动美化，增强网站体验，不会对用户内容进行监听。
 * unsafe-eval：使用vue.js渲染页面可以比使用jquery渲染更加方便便捷，但由于vue.js采用了eval()等类似方法，所以需要调整CSP策略。一些外部资源（如壁纸图片）若封装在扩展内，可能会造成体积庞大，影响浏览器加载，也会因为更新需要每次提交扩展而不方便，因此调整为请求云端数据。
 
 ## 隐私保证
