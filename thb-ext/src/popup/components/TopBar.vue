@@ -9,54 +9,93 @@
           </div>
         </el-col>
         <template v-if="User.isLogin">
-          <el-col :span="8">
-            <div class="grid-content" id="userinfo">
-              <div id="username">
-                <template v-if="User.userinfo.name">
-                  <!-- todo -->
-                  <div>
-                    <el-avatar size="large" :src="User.userinfo.avatar">
-                    </el-avatar>
+          <el-skeleton :loading="isLoading" animated>
+            <template slot="template">
+              <el-col :span="8">
+                <div id="user-info">
+                  <div id="user-base-info">
+                    <div>
+                      <el-skeleton-item
+                        variant="circle"
+                        style="width: 40px; height: 40px; line-height: 40px"
+                      />
+                    </div>
+                    <div>
+                      <el-skeleton-item style="width: 8em" />
+                    </div>
                   </div>
-                </template>
-                <el-link
-                  @click.native="enterTHB"
-                  v-text="User.userinfo.name"
-                  style="margin-top: -3.7rem; margin-left: 3rem"
-                ></el-link>
-              </div>
-              <template v-if="User.achievementinfo.titlename">
-                <p style="margin-top: -1rem; margin-bottom: 0rem">
-                  <a
-                    :title="User.achievementinfo.titledesc"
-                    v-text="User.achievementinfo.titlename"
-                    style="color: #409eff"
-                  ></a>
-                </p>
-              </template>
-              <p
-                style="margin-top: 0rem; margin-bottom: 0rem"
-                v-html="UserRealName"
-              ></p>
-            </div>
-          </el-col>
-          <el-col :span="10">
-            <div
-              class="grid-content"
-              id="userextinfo"
-              style="margin-top: -0.6rem"
-            >
-              <p>
-                {{ Str_RegTime }}<b>{{ User.userinfo.registrationdate }}</b>
-              </p>
-              <p>
-                {{ Str_Group }}<b>{{ User.userinfo.group }}</b>
-              </p>
-              <p>
-                {{ Str_EditCount }}<b>{{ User.userinfo.editcount }}</b>
-              </p>
-            </div>
-          </el-col>
+                  <div id="user-ext-info">
+                    <div>
+                      <p>
+                        <el-skeleton-item style="width: 6em" />
+                      </p>
+                    </div>
+                    <div>
+                      <p><el-skeleton-item style="width: 6em" /></p>
+                    </div>
+                  </div>
+                </div>
+              </el-col>
+              <el-col :span="10">
+                <div id="account-info">
+                  <p>
+                    <el-skeleton-item style="width: 4em;" /><el-skeleton-item style="margin-left:1em;width: 8em" />
+                  </p>
+                  <p>
+                    <el-skeleton-item style="width: 4em" /><el-skeleton-item style="margin-left:1em;width: 8em" />
+                  </p>
+                  <p>
+                    <el-skeleton-item style="width: 4em" /><el-skeleton-item style="margin-left:1em;width: 8em" />
+                  </p>
+                </div>
+              </el-col>
+            </template>
+            <template>
+              <el-col :span="8">
+                <div id="user-info">
+                  <div id="user-base-info">
+                    <div>
+                      <el-avatar size="large" :src="User.userinfo.avatar">
+                      </el-avatar>
+                    </div>
+                    <div>
+                      <el-link
+                        @click.native="enterTHB('user')"
+                        v-text="User.userinfo.name"
+                      ></el-link>
+                    </div>
+                  </div>
+                  <div id="user-ext-info">
+                    <div>
+                      <p>
+                        <a
+                          :title="User.achievementinfo.titledesc"
+                          v-text="User.achievementinfo.titlename"
+                          style="color: #409eff"
+                        ></a>
+                      </p>
+                    </div>
+                    <div>
+                      <p v-html="UserRealName"></p>
+                    </div>
+                  </div>
+                </div>
+              </el-col>
+              <el-col :span="10">
+                <div id="account-info">
+                  <p>
+                    {{ Str_RegTime }}<b>{{ User.userinfo.registrationdate }}</b>
+                  </p>
+                  <p>
+                    {{ Str_Group }}<b>{{ User.userinfo.group }}</b>
+                  </p>
+                  <p>
+                    {{ Str_EditCount }}<b>{{ User.userinfo.editcount }}</b>
+                  </p>
+                </div>
+              </el-col>
+            </template>
+          </el-skeleton>
         </template>
         <template v-else>
           <el-col :span="8">
@@ -74,8 +113,8 @@
   </el-row>
 </template>
 <script>
-import { createTab, getLang } from "../js/browser/api";
-import { getWikiParseText } from "../js/utils/thb";
+import { createTab, getLang } from "../../js/browser/api";
+import { getWikiParseText } from "../../js/utils/thb";
 
 export default {
   name: "TopBar",
@@ -93,6 +132,7 @@ export default {
     return {
       Chars: [],
       count: 0,
+      isLoading: true,
     };
   },
   created() {
@@ -139,6 +179,13 @@ export default {
     },
     Str_EditCount() {
       return getLang("EditCount");
+    },
+  },
+  watch: {
+    User(newVal) {
+      if (newVal && newVal.userinfo.id) {
+        this.isLoading = false;
+      }
     },
   },
   methods: {
@@ -219,6 +266,36 @@ export default {
 };
 </script>
 <style>
+/** 个人信息（头像、名字） */
+#user-base-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  column-gap: 5px;
+  flex: 1;
+}
+
+/** 个人信息（成就、真名） */
+/* #user-ext-info {
+} */
+
+#user-ext-info > div {
+  height: 1rem;
+}
+
+#user-ext-info > div p {
+  margin: 0;
+  padding-left: 0.8em;
+}
+
+/** 账号信息（注册时间、用户组、编辑数） */
+#account-info {
+  margin-top: -0.6rem;
+}
+
+/** 黑幕 */
 .mask {
   background-color: #252525;
   color: #252525;

@@ -231,7 +231,7 @@
     },
     "CurrTHB": {
         "message": "正在访问THBWiki",
-        "description": "Current Page Title"
+        "description": "当前页面标题"
     },
     "userrights": {
         "message": "权限变更",

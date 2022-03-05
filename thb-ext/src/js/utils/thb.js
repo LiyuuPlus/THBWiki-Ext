@@ -28,6 +28,7 @@ const checkLogin = (cb) => {
         });
 };
 
+/** 获得用户信息 */
 const getUserInfo = (uiprop = "editcount|registrationdate|realname|groups") => {
     return new Promise((res, rej) => {
         http.get(CsiteApiUrl, {
@@ -46,6 +47,7 @@ const getUserInfo = (uiprop = "editcount|registrationdate|realname|groups") => {
     });
 };
 
+/** 解析WIKI文本 */
 const getWikiParseText = (page) => {
     return new Promise((res, rej) => {
         http.get(CsiteApiUrl, {
@@ -69,6 +71,7 @@ const getWikiParseText = (page) => {
     });
 };
 
+/** 获得原始WIKI文本 */
 const getWikiRawText = (page) => {
     return new Promise((res, rej) => {
         http.get(`${CsiteUrl}/${page}`, {
@@ -82,4 +85,37 @@ const getWikiRawText = (page) => {
     });
 };
 
-export { checkLogin, getUserInfo, getWikiParseText, getWikiRawText }
+var searchSuggest = (key) => {
+    return new Promise((res, rej) => {
+        http.get(CsiteApiUrl, {
+            action: "opensearch",
+            format: "json",
+            formatversion: 2,
+            redirects: "display",
+            search: key,
+            namespace: "0|2|4|8|10|12|102|108|200|506|508|512",
+            limit: 12,
+            suggest: true,
+            uselang: vLang,
+        }).then((ret) => {
+            let newResult = [];
+            let resultKey = ret[0];
+            let resultName = ret[1];
+            let resultContent = ret[2];
+            let resultUrl = ret[3];
+            resultName.map((v, i) => {
+                var info = {
+                    name: resultName[i],
+                    content: resultContent[i],
+                    url: resultUrl[i],
+                };
+                newResult.push(info);
+            });
+            res(newResult);
+        }).catch(() => {
+            rej([]);
+        });
+    });
+};
+
+export { checkLogin, getUserInfo, getWikiParseText, getWikiRawText, searchSuggest }

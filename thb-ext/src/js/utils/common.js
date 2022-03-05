@@ -15,6 +15,7 @@ const localMap = {
   "zh-cn": "zh",
   "zh-tw": "zh",
   "zh-hk": "zh",
+  "ja": "ja",
 };
 
 /** 查询参数类 */
@@ -130,7 +131,6 @@ const insertText = (obj, str) => {
     let tmp1 = oldStr.substring(0, curPos);
     let tmp2 = oldStr.substring(curPos, oldStr.length);
     obj.value = tmp1 + str + tmp2;
-    console.log(tmp1 + str + tmp2);
   }
   return false;
 };

@@ -1,11 +1,15 @@
 <template>
   <div>
     <TopBar :paraVersion="Version" :paraUser="User" />
+    <SearchBar />
+    <FunctionTab />
   </div>
 </template>
 
 <script>
-import TopBar from "@/components/TopBar.vue";
+import TopBar from "./components/TopBar";
+import SearchBar from "./components/SearchBar";
+import FunctionTab from "./components/FunctionTab";
 import { Format } from "../js/utils/common";
 import { checkLogin, getUserInfo } from "../js/utils/thb";
 import { getExtURL, getLang } from "../js/browser/api";
@@ -14,7 +18,7 @@ Date.prototype.Format = Format;
 
 export default {
   name: "App",
-  components: { TopBar },
+  components: { TopBar,SearchBar,FunctionTab },
   data() {
     return {
       User: {
@@ -78,7 +82,6 @@ export default {
             res.userinfo.avatar = `https://upload.thwiki.cc/avatars/thwikicc_wiki_${
               res.userinfo.id
             }_l.jpg?r=${Math.round(new Date().getTime() / 1000)}`;
-            // res.userinfo.htmlrealname = this.ParseWiki(res.userinfo.realname);
             this.User = Object.assign(this.User, res);
           });
         }, 200);
@@ -98,6 +101,7 @@ export default {
 <style>
 html {
   width: 500px;
-  height: 400px;
+  height: 450px;
+  overflow: hidden;
 }
 </style>
