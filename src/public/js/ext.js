@@ -25,17 +25,9 @@ var loadScript = (code) => {
 };
 
 /** 变量定义 */
-var background = true;
-var custombackground = false;
-var custombgurl = "";
-var blurbackground = false;
 var tag = true;
 var netease = false;
 var aplayer = false;
-var custombanner = false;
-var custombnop = "";
-var custombnurl = "";
-var inpageedit = false;
 var userjs = false;
 
 var wikiUserID = 0;
@@ -47,17 +39,9 @@ var img = new Image();
 /** 设置获取 */
 getLocalStorage(["options", "user"]).then((res) => {
   if (res.options) {
-    background = res.options.background;
-    custombackground = res.options.custombackground;
-    custombgurl = res.options.custombgurl || "";
-    blurbackground = res.options.blurbackground;
     tag = res.options.tag;
     netease = res.options.netease;
     aplayer = res.options.aplayer;
-    custombanner = res.options.custombanner;
-    custombnop = res.options.custombnop || "";
-    custombnurl = res.options.custombnurl || "";
-    inpageedit = res.options.inpageedit;
     userjs = res.options.userjs;
   }
   if (res.user) {
@@ -68,358 +52,6 @@ getLocalStorage(["options", "user"]).then((res) => {
     }
   }
 });
-
-var setDefaultBG = () => {
-  var css = `
-    html, body {
-        background-color: #f4f4f4!important;
-    }
-
-    #mw-page-base, #mw-head-base, #footer, #p-logo {
-        background-color: #f4f4f4!important;
-    }
-
-    #content {
-        background-color: #ffffffb3!important;
-    }
-    `;
-
-  loadCssCode(css);
-};
-
-var setBG = () => {
-  var css = `
-    body{
-        background-color:#ffffff00!important;
-    }
-    
-    #mw-page-base,
-    #mw-head-base,
-    #mw-panel{
-        --foreground-color-high:auto!important;
-        background-color: var(--foreground-color-high)!important;
-    }
-
-    #mw-page-base{
-        -webkit-box-shadow: unset;
-        -moz-box-shadow: unset;
-        box-shadow: unset;
-    }
-    
-    #mw-panel{
-        --foreground-color-high:#ffffffcc!important;
-        background-color: var(--foreground-color-high)!important;
-        padding-top: 0;
-        top: 178px;
-    }
-
-    #p-logo{
-        background-color: transparent!important;
-        top: -178px;
-    }
-
-    .mw-wiki-logo{
-        filter: drop-shadow(0px 0px 0.4rem #000);
-    }
-
-    #p-personal,
-    #simpleSearch{
-        background-color: #ffffff94!important;
-    }
-
-    #simpleSearch #searchButton,
-    #simpleSearch #mw-searchButton{
-        background-color: #e8e8e869;
-    }
-    
-    #mw-panel .portal{
-        background-color:#ffffff00!important;
-    }
-    
-    #footer{
-        background-color: #ffffffcc!important;
-    }
-    
-    #p-personal{
-        padding-right: 1rem;
-    }
-    
-    #p-personal ul{
-        padding-left: 0;
-    }
-    
-    .portal ul>li
-    {
-        background-color: #ffffff00!important;
-    }
-    
-    .portal li ul li,
-    div.vectorMenu div.menu
-    {
-        background-color: #ffffff45!important
-    }
-    
-    
-    .mw-body #toc, .mw-body .toc,
-    div.thumbinner,
-    .disambig-box,
-    .page-content-header,
-    .catlinks,
-    .ambox,
-    pre,
-    .mw-code,
-    .template-documentation,
-    #a-garakuta,
-    #a-game,
-    #a-music,
-    #a-series,
-    #a-doujin,
-    #a-news,
-    #a-other,
-    #a-link,
-    #a-about,
-    .thumbimage{
-        border-radius: 10px;
-    }
-    
-    .mw-body #toc, .mw-body .toc,
-    .mw-body table.wikitable,
-    div.thumbinner,
-    .disambig-box,
-    .page-content-header,
-    #mw-hidesidebar,
-    .catlinks,
-    .ambox,
-    pre,
-    .mw-code{
-        background-color: #ffffff6b!important;
-    }
-    
-    table.tt-type-dialogue tr.tt-header>td.tt-ja,
-    table.tt-type-dialogue tr.tt-header>td.tt-zh,
-    td.tt-char, td.tt-status,
-    table.tt-type-omake tr.tt-header>td,
-    table.tt-type-omake tr.tt-content-header>td,
-    table.tt-type-omake tr.tt-manual-header>td,
-    table.tt-type-omake td.tt-pic,
-    table.tt-type-omaketxt tr.tt-header>td,
-    table.tt-type-omaketxt tr.tt-content-header>td,
-    table.tt-type-omaketxt tr.tt-manual-header>td,
-    table.tt-type-omaketxt td.tt-pic,
-    table.tt-type-setting tr.tt-header>td,
-    table.tt-type-setting tr.tt-content-header>td,
-    tr.tt-lyrics-header>td{
-        background-color: #e8e8e87a !important;
-    }
-
-    #footer
-    {
-        background-color: #ffffffc9!important;
-    }
-    
-    .mw-body table.wikitable th{
-        background-color: #fffbfb69!important;
-    }
-    
-    #a-donate,
-    .user-relationship-container img,
-    #profile-image img{
-        border-radius: 5px;
-    }
-    
-    #p-personal{
-        border-radius: 1rem;
-    }
-    
-    .page-首页 #content{
-        background-color: #ffffff6e!important;
-    }
-    
-    .bg-g2{
-        background-color: #d2ecd594!important;
-    }
-    
-    div#ExtFixedHeader h2, 
-    div#ExtFixedHeader h3{
-        background-color: rgba(244, 244, 244, 0.78)!important;
-    }
-
-    @keyframes show{
-        from{
-          opacity: 0;
-        }
-    }
-
-    @keyframes shrink {
-      from {
-        transform: scale(1.15);
-      }
-    }
-    @keyframes clear {
-      from {
-        filter: blur(5px);
-      }
-    }
-    @keyframes appear {
-      from {
-        opacity: 0;
-        transform: scale(1.3);
-      }
-    }
-    @keyframes look-top {
-      from {
-        width: 150%;
-        height: 150%;
-        object-position: center bottom;
-      }
-      50% {
-        object-position: center top;
-      }
-    }
-    @keyframes look-bottom {
-      from {
-        width: 150%;
-        height: 150%;
-        object-position: center top;
-      }
-      50% {
-        object-position: center bottom;
-      }
-    }
-
-    .comment-body textarea, .comment-preview{
-        background: #ffffff7d;
-    }
-
-    .tocfloat .tocfloatcontent {
-        background-color: #ffffffd6;
-    }
-    `;
-
-  loadCssCode(css);
-};
-
-var setTHBExtBG = (url, action = "show", time = "2", pos = "center") => {
-  setBG();
-  var bgcss = `
-    .THBExtBG {
-        width: 100%;
-        height: 100%;
-        top: 0px;
-        left: 0px;
-        z-index: -3;
-        display: block;
-        user-select: none;
-        bottom: 0;
-        position: fixed;
-    }
-    
-    .THBExtBG img {
-        position: fixed;
-        top: 0px;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center ${pos};
-        animation: ${time}s ease 0s 1 normal none running ${action};
-    }
-    `;
-
-  loadCssCode(bgcss);
-  $("body").append(
-    $(`<div class="THBExtBG"><img id="THBG" src="${url}"></img></div>`)
-  );
-};
-
-var setTHBExtBlurBG = (url, action = "show", time = "2", pos = "center") => {
-  var css = `
-    #mw-panel{
-        --foreground-color-high:#ffffff94!important;
-    }
-    
-    #mw-panel,
-    #content,
-    #footer
-    {
-        background-color: #ffffffa3!important;
-    }
-    
-    #a-donate table{
-        background-color: #fff0!important;
-    }
-
-    #p-personal,
-    #simpleSearch,
-    #a-garakuta::before,
-    #a-game::before,
-    #a-music::before,
-    #a-series::before,
-    #a-doujin::before,
-    #a-news::before,
-    #a-other::before,
-    #a-link::before,
-    #a-about::before{
-        background-color: #ffffff85!important;
-    }
-
-    .bg-g2{
-        background-color: #d2ecd594!important;
-    }
-
-    div#ExtFixedHeader h2, 
-    div#ExtFixedHeader h3{
-        background-color: #f4f4f44a!important;
-        -webkit-backdrop-filter: blur(15px);
-        backdrop-filter: blur(15px);
-        transform: translate3d(0px, 0px, 0px);
-    }
-
-    .portal li ul li {
-        background-color: #ffffff94!important;
-    }
-
-    .mw-body table.wikitable th{
-        background-color: #fffbfb52!important;
-    }
-    
-    .tocfloat .tocfloatcontent,
-    div.vectorMenu div.menu,
-    #p-personal,
-    #simpleSearch,
-    #a-donate table,
-    #a-garakuta,
-    #a-game,
-    #a-music,
-    #a-series,
-    #a-doujin,
-    #a-news,
-    #a-other,
-    #a-link,
-    #a-about,
-    #mw-panel,
-    #content,
-    #footer{
-        -webkit-backdrop-filter: blur(10px);
-        backdrop-filter: blur(10px);
-        transform: translate3d(0px, 0px, 0px);
-    }
-
-    .comment-user, .comment-user a {
-        color: #616161;
-    }
-
-    .comment-time{
-        color: #6f6e6e;
-    }
-
-    .tocfloat .tocfloatcontent {
-        background-color: #ffffffa6!important;
-    }
-    `;
-
-  setTHBExtBG(url, action, time, pos);
-  loadCssCode(css);
-};
 
 var mwFunctionPlus = () => {
   var script = `var getWikiText = (page) => {
@@ -478,29 +110,23 @@ var mwFunctionPlus = () => {
 $().ready(() => {
   mwFunctionPlus();
   $("#left-navigation").append(
-    $(`<div id="p-thbext" role="navigation" class="vectorMenu" aria-labelledby="p-thbext-label">
-    <el-badge is-dot class="p-menu" :hidden="!update">
-        <h3 id="p-thbext-label" tabindex="0" :data-lastVer="ver" :data-curVer="extVer"> 
-            <span>${getLang("extName")}</span><a href="#" tabindex="-1"></a>
-        </h3>
-    </el-badge>
-    <div class="menu">
-        <ul>
-            <li id="ca-changeLog" @click="showChangeLog"><span ><a>${getLang(
-              "extName"
-            )} ${getLang("THBChangelog")}</a></span></li>
-            <li id="ca-update" v-if="update" @click="goToSite"><span><a>更新${getLang(
-              "extName"
-            )}</a></span></li>
-            <li id="ca-saveBackground" @click="ViewPic" v-if="background"><span><a>${getLang(
-              "ViewBG"
-            )}</a></span></li>
-        </ul>
-    </div>
-    <template v-if="background">
-        <el-image :src="bgsrc" :preview-src-list="bglist" style="width: 1px; height: 1px" ref="bg_preview"></el-image>
-    </template>
-</div>`)
+    $(`<nav id="p-thbext" class="unicorn-menu unicorn-menu-dropdown unicornMenu" aria-labelledby="p-thbext-label" role="navigation">
+    <h3 id="p-thbext-label" tabindex="0" :data-lastVer="ver" :data-curVer="extVer">
+      <span>${getLang("extName")}</span>
+    </h3>
+  <!-- Please do not use the .body class, it is deprecated. -->
+  <div class="body unicorn-menu-content">
+    <!-- Please do not use the .menu class, it is deprecated. -->
+    <ul class="unicorn-menu-content-list">
+      <li id="ca-changeLog" @click="showChangeLog">
+        <a>${getLang("THBChangelog")}</a>
+      </li>
+      <li id="ca-update" v-if="update" @click="goToSite">
+        <a>更新${getLang("extName")}</a>
+      </li>
+    </ul>
+  </div>
+</nav>`)
   );
   new Vue({
     el: "#p-thbext",
@@ -511,7 +137,6 @@ $().ready(() => {
         ver: "",
         check: false,
         update: false,
-        background: false,
         bgsrc: "",
         bglist: [],
       };
@@ -532,10 +157,6 @@ $().ready(() => {
         },
         "json"
       );
-      // 仅unicorn皮肤生效
-      if (background && $("body").hasClass("skin-unicorn")) {
-        this.showBackground();
-      }
     },
     updated() {
       if (!this.check) {
@@ -607,96 +228,8 @@ $().ready(() => {
           });
         }
       },
-      showBackground() {
-        setDefaultBG();
-        $("span[style='color:DarkGray;']").map((i, v) => {
-          $(v).attr("style", "color:#2b2b2b8a;");
-        });
-        let defurl = `${apiurl}Background`;
-        img.onload = () => {
-          var scale = img.height / img.width;
-          if (blurbackground) {
-            setTHBExtBlurBG(
-              img.src,
-              scale <= 1 ? "show" : "look-top",
-              scale <= 1 ? "2" : "5",
-              scale <= 1 ? "center" : "top"
-            );
-            if (action) {
-              loadCssCode(
-                `.page-首页 div#content.mw-body{
-                        background-color:#ffffffad!important;
-                        -webkit-backdrop-filter: blur(10px);
-                        backdrop-filter:blur(10px);}`
-              );
-            }
-          } else {
-            setTHBExtBG(
-              img.src,
-              scale <= 1 ? "show" : "look-top",
-              scale <= 1 ? "2" : "5",
-              scale <= 1 ? "center" : "top"
-            );
-            if (action) {
-              loadCssCode(
-                `.page-首页 div#content.mw-body{background-color:#ffffffc2!important;}`
-              );
-            }
-          }
-          this.bgsrc = img.src;
-          this.bglist = [img.src];
-          this.background = true;
-        };
-        if (custombackground) {
-          var url = custombgurl || defurl;
-          img.src = url;
-        } else {
-          //根据词条判断背景
-          var word = $("#firstHeading").text().replace(/ /g, "_");
-          getBackground(word).then((res) => {
-            img.src = res;
-          });
-        }
-      },
-      ViewPic() {
-        this.$refs.bg_preview.showViewer = true;
-      },
     },
   });
-
-  if (custombanner) {
-    let url = "";
-    if (custombnop == "customer") {
-      url = custombnurl;
-    } else {
-      url = custombnop;
-    }
-    if (url) {
-      if ($("#ca-nstab-main").text() == "首页") {
-        // 仅unicorn和vampire皮肤生效
-        var skins = ["skin-unicorn", "skin-vampire"];
-        var hasSkin = false;
-        for (var index in skins) {
-          hasSkin = $(`.${skins[index]}`).length > 0;
-          if (hasSkin) break;
-        }
-        if (hasSkin) {
-          loadCssCode(
-            "#siteNotice{text-shadow: #252525 -1px -1px 1px, #252525 1px -1px 1px, #252525 -1px 1px 1px, #252525 1px 1px 1px;color: #CBA461;}"
-          );
-          loadCssCode(
-            `.page-首页 div#content.mw-body{background-image:url(${url})!important;}`
-          );
-        }
-        // 如果不是在首页而是在首页的编辑页或者历史页的时候，不显示banner
-        if (action) {
-          loadCssCode(
-            `.page-首页 div#content.mw-body{background-image:none!important;}`
-          );
-        }
-      }
-    }
-  }
 
   var script = `!(function() {
     // RLQ是MediaWiki保存异步执行函数的数组
@@ -712,11 +245,6 @@ $().ready(() => {
           // 防止网站并不是MediaWiki时报错
           try {
             ${userjs ? `importScript('User:${wikiUserName}/common.js');` : ``}
-            ${
-              inpageedit
-                ? `mw.loader.load("https://cdn.jsdelivr.net/npm/mediawiki-inpageedit@latest/dist/InPageEdit.min.js");`
-                : ``
-            }
           } catch (e) {}
         } else if (_count > 30 * 5) {
           // 加载超时

@@ -34,23 +34,11 @@ var app = new Vue({
         advancedCount: 0,
       },
       Chars: {},
-      Banners: [
-        { name: this.T("DefaultBanner"), value: "" },
-        { name: this.T("CustomBanner"), value: "customer" },
-      ],
       Options: {
-        background: true,
-        custombackground: false,
-        custombgurl: "",
-        blurbackground: false,
         tag: true,
         netease: false,
         aplayer: false,
-        custombanner: false,
-        custombnop: "",
-        custombnurl: "",
         advanced: false,
-        inpageedit: false,
         userjs: false,
       },
     };
@@ -449,32 +437,16 @@ var app = new Vue({
     loadOptions() {
       getLocalStorage(["options"]).then((res) => {
         if (res.options) {
-          this.Options.background = res.options.background;
-          this.Options.custombgurl = res.options.custombgurl || "";
-          this.Options.custombackground = res.options.custombackground;
           this.Options.tag = res.options.tag;
-          this.Options.blurbackground = res.options.blurbackground;
           this.Options.netease = res.options.netease;
           this.Options.aplayer = res.options.aplayer;
-          this.Options.custombnop = res.options.custombnop || "";
-          this.Options.custombnurl = res.options.custombnurl || "";
-          this.Options.custombanner = res.options.custombanner;
           this.Options.advanced = res.options.advanced;
-          this.Options.inpageedit = res.options.inpageedit;
           this.Options.userjs = res.options.userjs;
         } else {
-          this.Options.background = true;
-          this.Options.custombackground = false;
-          this.Options.custombgurl = "";
-          this.Options.blurbackground = false;
           this.Options.tag = true;
           this.Options.netease = false;
           this.Options.aplayer = false;
-          this.Options.custombanner = false;
-          this.Options.custombnop = "";
-          this.Options.custombnurl = "";
           this.Options.advanced = false;
-          this.Options.inpageedit = false;
           this.Options.userjs = false;
         }
       });

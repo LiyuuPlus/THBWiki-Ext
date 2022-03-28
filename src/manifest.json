@@ -35,7 +35,6 @@
       ],
       "css": [
         "public/libs/element-ui/element-ui.css",
-        "public/css/style.css",
         "public/libs/APlayer/APlayer.min.css"
       ],
       "js": [
