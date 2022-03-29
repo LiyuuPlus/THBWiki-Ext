@@ -1,0 +1,116 @@
+.tocfloat {
+  position: fixed;
+  top: 5rem;
+  width: 20rem;
+  right: -20rem;
+  transition: right 0.37s ease-in-out;
+  max-height: calc(100vh - 7.625rem);
+  z-index: 72;
+  display: flex;
+  align-items: flex-start;
+  align-content: flex-start;
+  background: #fff;
+}
+
+@media print {
+  .tocfloat {
+    display: none !important;
+  }
+}
+
+.tocfloat:hover {
+  right: 0;
+}
+
+.tocfloat .toctogglespan{
+  display: none;
+}
+
+.tocfloatlabel {
+  width: 22px;
+  font-size: 12px;
+  cursor: pointer;
+  color: #252525;
+  border-style: solid;
+  border-width: 1px 0 1px 1px;
+  border-color: #ccc;
+  text-align: center;
+  background-color: #fff;
+  box-sizing: border-box;
+  user-select: none;
+  padding: 5px 1px 5px 0;
+  position: absolute;
+  top: 3rem;
+  left: -21px;
+  z-index: 2;
+  background-color: #0009;
+  color: #fff;
+  transition-duration: 0.37s;
+  transition-timing-function: ease-in-out;
+  transition-property: color, background-color;
+}
+
+.tocfloat:hover .tocfloatlabel {
+  background-color: #ffff;
+  color: #000;
+}
+
+.tocfloat .tocfloatcontent {
+  border-top-left-radius: 0.25rem;
+  border-bottom-left-radius: 0.25rem;
+  width: 20rem;
+  box-sizing: border-box;
+  border-style: solid;
+  border-width: 1px 0 1px 1px;
+  border-color: #ccc;
+  max-height: calc(100vh - 7.625rem);
+  background-color: #fff;
+  padding: 1.5rem 0 1.5rem 1.5rem;
+  background-color: var(--foreground-color-high);
+}
+
+.tocfloat .tocfloatcontent .toctitle {
+  text-align: center;
+  padding: 0 1.5rem;
+  color: var(--text-color-high);
+}
+
+.tocfloat .tocfloatcontent .toctitle h2 {
+  display: inline;
+  border: 0;
+  padding: 0;
+  font-size: 100%;
+  font-weight: 700;
+  font-family: sans-serif;
+}
+
+.tocfloat .tocfloatcontent > ul {
+  margin: 0 20px 0 0 !important;
+  width: calc(18.5rem - 20px);
+  max-height: calc(100vh - 11.9125rem);
+  overflow: auto;
+  padding: 0;
+  text-align: left;
+}
+
+.tocfloat .tocfloatcontent ul {
+  list-style-type: none;
+  list-style-image: none;
+}
+
+.tocfloat .tocfloatcontent .tocnumber {
+  word-break: keep-all;
+}
+
+.tocfloat .tocfloatcontent .toctext {
+  word-break: break-all;
+}
+
+.tocfloat .toclimit-2 .toclevel-1 ul,
+.tocfloat .toclimit-3 .toclevel-2 ul,
+.tocfloat .toclimit-4 .toclevel-3 ul,
+.tocfloat .toclimit-5 .toclevel-4 ul,
+.tocfloat .toclimit-6 .toclevel-5 ul,
+.tocfloat .toclimit-7 .toclevel-6 ul {
+    display: none;
+}
