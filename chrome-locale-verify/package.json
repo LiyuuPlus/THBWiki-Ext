@@ -21,7 +21,7 @@
   "homepage": "https://github.com/calibr/chrome-locale-verify",
   "dependencies": {
     "colors": "^1.1.2",
-    "glob": "^5.0.14",
+    "glob": "^13.0.6",
     "lodash": "^4.17.21",
     "minimist": "^1.2.5"
   }
