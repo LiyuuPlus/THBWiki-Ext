@@ -1,0 +1,37 @@
+{
+    "manifest_version": 3,
+    "name": "__MSG_extension_name__",
+    "version": "3.0.0",
+    "description": "__MSG_extension_description__",
+    "homepage_url": "https://github.com/whuihuan/THBWiki-Ext",
+    "default_locale": "zh_CN",
+    "action": {
+        "default_popup": "index.html"
+    },
+    "background": {
+        "service_worker": "src/background.js"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "*://thwiki.cc/*",
+                "http://localhost:5173/*"
+            ],
+            "js": [
+                "src/content-script.js"
+            ]
+        }
+    ],
+    "permissions": [
+        "contextMenus",
+        "tabs",
+        "cookies",
+        "notifications",
+        "alarms",
+        "storage"
+    ],
+    "host_permissions": [
+        "*://thwiki.cc/*",
+        "http://localhost:5173/*"
+    ]
+}

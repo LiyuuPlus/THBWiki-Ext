@@ -1,0 +1,24 @@
+{
+  "name": "my-thbwiki",
+  "productName": "My THBWiki",
+  "description": "我的THBWiki：THBWiki浏览器扩展",
+  "private": true,
+  "version": "3.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@ant-design/icons-vue": "^7.0.1",
+    "ant-design-vue": "^4.2.6",
+    "vue": "^3.5.32"
+  },
+  "devDependencies": {
+    "@crxjs/vite-plugin": "^2.4.0",
+    "@vitejs/plugin-vue": "^6.0.5",
+    "sass": "^1.99.0",
+    "vite": "^8.0.4"
+  }
+}
